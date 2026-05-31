@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { CheckCircle, CreditCard, Landmark, Truck, ShoppingBag, ArrowLeft } from "lucide-react";
+import { CreditCard, Landmark, Truck, ShoppingBag, ArrowLeft } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
@@ -20,8 +20,6 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [paySender, setPaySender] = useState("");
   const [payTxid, setPayTxid] = useState("");
-  const [orderPlaced, setOrderPlaced] = useState(false);
-  const [generatedOrderId, setGeneratedOrderId] = useState("");
 
   // Calculate order weight
   const totalWeight = useMemo(() => {
@@ -63,52 +61,27 @@ export default function CheckoutPage() {
 
     // Simulate placing order
     const orderNum = `SRT-${Math.floor(100000 + Math.random() * 900000)}`;
-    setGeneratedOrderId(orderNum);
-    setOrderPlaced(true);
-    // Note: clearCart will clear items, so we'll keep variables in success state by rendering local states
+    
+    // Capture state values before clearing cart
+    const orderDetails = {
+      orderId: orderNum,
+      name,
+      phone,
+      address,
+      city,
+      totalWeight,
+      shippingCharge,
+      paymentMethod,
+      paySender,
+      payTxid,
+      estimatedTotal
+    };
+
+    clearCart();
+    
+    // Redirect to OrderSuccessPage
+    navigate("/order-success", { state: orderDetails });
   };
-
-  // If order is placed successfully, render success state
-  if (orderPlaced) {
-    return (
-      <PageFrame title="Order Placed" eyebrow="Success">
-        <SEO title="Order Success" description="Your streetwear order has been received successfully." />
-        <Panel className="shop-empty-state" style={{ padding: "4rem 2rem", textAlign: "center", maxWidth: "600px", margin: "0 auto" }}>
-          <CheckCircle size={56} style={{ color: "#10B981", margin: "0 auto 1.5rem" }} />
-          <h2>Thank you for your order!</h2>
-          <p className="page-section__text" style={{ margin: "0.5rem auto 1.5rem" }}>
-            Your order has been received and is being processed. 
-          </p>
-
-          <div style={{ background: "var(--sirat-bg)", border: "1px solid var(--sirat-border)", padding: "1.25rem", borderRadius: "12px", marginBottom: "2rem", textAlign: "left" }}>
-            <div style={{ textAlign: "center", marginBottom: "1rem" }}>
-              <span style={{ fontSize: "0.85rem", color: "var(--sirat-muted)", display: "block" }}>Order Tracking Number:</span>
-              <strong style={{ fontSize: "1.25rem", color: "var(--sirat-gold-soft)", letterSpacing: "0.05em" }}>{generatedOrderId}</strong>
-            </div>
-            
-            <div style={{ fontSize: "0.85rem", display: "grid", gap: "0.55rem", borderTop: "1px dashed var(--sirat-border)", paddingTop: "0.85rem" }}>
-              <div>📦 <strong>Recipient Name:</strong> {name}</div>
-              <div>📞 <strong>Contact Phone:</strong> {phone}</div>
-              <div>📍 <strong>Address:</strong> {address}, {city}</div>
-              <div>⚖️ <strong>Total Package Weight:</strong> {totalWeight.toFixed(2)} kg</div>
-              <div>🚚 <strong>Shipping Fee:</strong> ৳{shippingCharge}</div>
-              <div>💵 <strong>Payment Method:</strong> {paymentMethod.toUpperCase() === "COD" ? "Cash on Delivery (COD)" : `${paymentMethod.toUpperCase()} Mobile Money`}</div>
-              {paySender && <div>📱 <strong>Sender Number:</strong> {paySender}</div>}
-              {payTxid && <div>🔑 <strong>Transaction ID:</strong> {payTxid}</div>}
-              <div style={{ borderTop: "1px solid var(--sirat-border)", paddingTop: "0.55rem", marginTop: "0.2rem", fontSize: "0.95rem" }}>
-                💰 <strong>Amount Paid/Due:</strong> <strong style={{ color: "var(--sirat-gold-soft)" }}>৳{estimatedTotal}</strong>
-              </div>
-            </div>
-          </div>
-
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-            <Button onClick={() => { clearCart(); navigate("/"); }}>Go to Home</Button>
-            <Button variant="outline" onClick={() => { clearCart(); navigate(`/track?id=${generatedOrderId}`); }}>Track Shipment</Button>
-          </div>
-        </Panel>
-      </PageFrame>
-    );
-  }
 
   return (
     <PageFrame title="Checkout" eyebrow="Secure Checkout">
