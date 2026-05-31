@@ -496,10 +496,9 @@ section:not(.page-section) {
 
 /* Editorial Split Hero Layout */
 .homepage-hero {
-  max-width: 1200px !important;
-  margin: 0 auto !important;
+  margin: 0;
   overflow: hidden;
-  width: 100% !important;
+  width: 100%;
 }
 
 .hero-split-container {
@@ -3888,12 +3887,7 @@ section:not(.page-section) {
   .old-price {
     font-size: 0.72rem !important;
   }
-  .product-card-modern__copy,
-  .product-card-modern__colors,
-  .product-card-modern__sizes,
-  .product-card-modern__rating,
-  .product-card-modern__weight-badge,
-  .product-card-modern__divider {
+  .product-card-modern__copy {
     display: none !important;
   }
   .card-actions-group .action-circle-btn {
