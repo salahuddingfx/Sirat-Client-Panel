@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Star, Heart, ShoppingBag, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles } from "lucide-react";
+import { Star, Heart, ShoppingBag, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, Zap } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { products } from "../data/mockData";
 import ProductCard from "../components/ProductCard";
@@ -209,7 +209,7 @@ export default function ProductDetailPage() {
     setNewReviewName("");
     setNewReviewComment("");
     setNewReviewRating(5.0);
-    triggerToast("রিভিউটি সফলভাবে যুক্ত করা হয়েছে! ✍️", "success");
+    triggerToast("রিভিউটি সফলভাবে যুক্ত করা হয়েছে!", "success");
   };
 
   return (
@@ -357,11 +357,11 @@ export default function ProductDetailPage() {
               </Button>
 
               <Button
-                style={{ flex: 1, minHeight: "48px" }}
+                style={{ flex: 1, minHeight: "48px", display: "flex", alignItems: "center", justifyContent: "center" }}
                 onClick={handleBuyNow}
                 disabled={activeVariant && !activeVariant.inStock}
               >
-                ⚡ Order Now
+                <Zap size={16} style={{ marginRight: "8px" }} /> Order Now
               </Button>
 
               <button
