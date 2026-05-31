@@ -61,78 +61,90 @@ export default function HeroSection() {
 
   return (
     <section className="homepage-hero hero-animate" ref={heroRef}>
-      <div className="hero-slider">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeSlide}
-            className="hero-slide"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            {sliderSlides[activeSlide].type === "video" ? (
-              <video
-                src={sliderSlides[activeSlide].mediaUrl}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="hero-slide__video"
-              />
-            ) : (
-              <div
-                className="hero-slide__image"
-                style={{ backgroundImage: `url(${sliderSlides[activeSlide].mediaUrl})` }}
-              />
-            )}
-            <div className="hero-slide__overlay" />
-            <div className="hero-slide__content">
-              <div className="hero-slide__inner">
-                <span className="storefront__badge">
-                  <Sparkles size={12} /> {sliderSlides[activeSlide].subtitle}
-                </span>
-                <h1 className="hero-slide__title">{sliderSlides[activeSlide].title}</h1>
-                <p className="hero-slide__desc">{sliderSlides[activeSlide].description}</p>
-                <div className="hero-slide__actions">
-                  <Link to={sliderSlides[activeSlide].link}>
-                    <Button>{sliderSlides[activeSlide].actionText}</Button>
-                  </Link>
-                  <Link to="/shop">
-                    <Button variant="outline">Browse drop</Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+      <div className="hero-split-container">
+        <div className="hero-split-media">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSlide}
+              className="hero-media-wrapper"
+              initial={{ opacity: 0, scale: 1.02 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.55, ease: "easeInOut" }}
+            >
+              {sliderSlides[activeSlide].type === "video" ? (
+                <video
+                  src={sliderSlides[activeSlide].mediaUrl}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="hero-slide__video"
+                />
+              ) : (
+                <div
+                  className="hero-slide__image"
+                  style={{ backgroundImage: `url(${sliderSlides[activeSlide].mediaUrl})` }}
+                />
+              )}
+              <div className="hero-media-overlay" />
+            </motion.div>
+          </AnimatePresence>
 
-        <div className="slider-ctrls-group">
-          <button
-            className="slider-ctrl prev"
-            onClick={() => setActiveSlide((prev) => (prev - 1 + sliderSlides.length) % sliderSlides.length)}
-            aria-label="Prev"
-          >
-            <ChevronLeft size={18} />
-          </button>
-          <button
-            className="slider-ctrl next"
-            onClick={() => setActiveSlide((prev) => (prev + 1) % sliderSlides.length)}
-            aria-label="Next"
-          >
-            <ChevronRight size={18} />
-          </button>
+          <div className="slider-ctrls-group">
+            <button
+              className="slider-ctrl prev"
+              onClick={() => setActiveSlide((prev) => (prev - 1 + sliderSlides.length) % sliderSlides.length)}
+              aria-label="Prev"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              className="slider-ctrl next"
+              onClick={() => setActiveSlide((prev) => (prev + 1) % sliderSlides.length)}
+              aria-label="Next"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
         </div>
 
-        <div className="slider-indicators">
-          {sliderSlides.map((_, idx) => (
-            <button
-              key={idx}
-              className={["indicator", idx === activeSlide ? "active" : ""].filter(Boolean).join(" ")}
-              onClick={() => setActiveSlide(idx)}
-              aria-label={`Slide ${idx}`}
-            />
-          ))}
+        <div className="hero-split-info">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSlide}
+              className="hero-info-wrapper"
+              initial={{ opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -12 }}
+              transition={{ duration: 0.45 }}
+            >
+              <span className="storefront__badge">
+                <Sparkles size={12} /> {sliderSlides[activeSlide].subtitle}
+              </span>
+              <h1 className="hero-slide__title">{sliderSlides[activeSlide].title}</h1>
+              <p className="hero-slide__desc">{sliderSlides[activeSlide].description}</p>
+              <div className="hero-slide__actions">
+                <Link to={sliderSlides[activeSlide].link}>
+                  <Button>{sliderSlides[activeSlide].actionText}</Button>
+                </Link>
+                <Link to="/shop">
+                  <Button variant="outline">Browse drop</Button>
+                </Link>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="slider-indicators">
+            {sliderSlides.map((_, idx) => (
+              <button
+                key={idx}
+                className={["indicator", idx === activeSlide ? "active" : ""].filter(Boolean).join(" ")}
+                onClick={() => setActiveSlide(idx)}
+                aria-label={`Slide ${idx}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
