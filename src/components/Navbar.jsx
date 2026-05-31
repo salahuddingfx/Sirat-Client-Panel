@@ -56,12 +56,31 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
 
       <header className="storefront__header">
         <div className="storefront__header-inner">
-          <div className="storefront__brand-group">
-            <Link to="/" className="sirat-brand">
-              SIRAT
+          <div className="storefront__brand-group" style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+            <Link to="/" style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}>
+              <img 
+                src="/logo.png" 
+                alt="SIRAT Logo" 
+                style={{ height: "32px", width: "auto", objectFit: "contain" }}
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }} 
+              />
+              <span className="sirat-brand" style={{ display: "inline-block" }}>SIRAT</span>
             </Link>
-            <span className="storefront__badge">
-              <Compass size={12} /> Purity in Every Step
+            <span style={{ 
+              fontSize: "0.68rem", 
+              color: "var(--sirat-gold)", 
+              opacity: 0.9, 
+              letterSpacing: "0.1em", 
+              textTransform: "uppercase", 
+              fontWeight: "600", 
+              display: "flex", 
+              alignItems: "center", 
+              gap: "0.3rem", 
+              marginTop: "0.1rem" 
+            }}>
+              <Compass size={11} /> Purity in Every Step
             </span>
           </div>
 
