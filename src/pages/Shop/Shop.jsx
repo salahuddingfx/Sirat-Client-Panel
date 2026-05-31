@@ -1,11 +1,11 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, SlidersHorizontal, ArrowUpDown, RefreshCw } from "lucide-react";
-import PageFrame from "../../components/layout/PageFrame";
-import ProductCard from "../../features/products/components/ProductCard";
-import { Button, Panel } from "../../components/ui";
-import { products } from "../../data/mockData";
-import SEO from "../../components/layout/SEO";
+import PageFrame from "@components/layout/PageFrame";
+import ProductCard from "@features/products/components/ProductCard";
+import { Button, Panel } from "@components/ui";
+import { products } from "@data/mockData";
+import SEO from "@components/layout/SEO";
 
 const categories = ["All", "Oversized", "Custom Prints", "Screen Prints", "Essentials"];
 const sizes = ["XS", "S", "M", "L", "XL"];
