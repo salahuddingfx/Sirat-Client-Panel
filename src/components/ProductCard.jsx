@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Heart, ShoppingCart, ShoppingBag, Star } from "lucide-react";
+import { Heart, ShoppingCart, Star } from "lucide-react";
 import { useCart } from "../context/CartContext";
 
 export default function ProductCard({ product }) {
@@ -25,7 +25,7 @@ export default function ProductCard({ product }) {
   const handleBuyNow = (e) => {
     e.stopPropagation();
     const selectedVariant = product.variants?.find((v) => v.label === selectedSize) || product.variants?.[0] || { id: "default", label: "M", priceDelta: 0, inStock: true };
-    addToCart(product, selectedVariant, 1);
+    addToCart(product, selectedVariant, 1, false);
     navigate("/checkout");
   };
 
@@ -145,7 +145,7 @@ export default function ProductCard({ product }) {
               onClick={handleBuyNow}
               title="Buy Now"
             >
-              <ShoppingBag size={14} />
+              <ShoppingCart size={14} />
             </button>
           </div>
         </div>
