@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { CreditCard, Landmark, Truck, ShoppingBag, ArrowLeft } from "lucide-react";
+import { CreditCard, Landmark, Truck, ShoppingCart, ArrowLeft } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
@@ -89,7 +89,7 @@ export default function CheckoutPage() {
 
       {cartItems.length === 0 ? (
         <Panel className="shop-empty-state" style={{ padding: "4rem 2rem", textAlign: "center" }}>
-          <ShoppingBag size={48} className="muted" style={{ margin: "0 auto 1.5rem", color: "var(--sirat-gold)" }} />
+          <ShoppingCart size={48} className="muted" style={{ margin: "0 auto 1.5rem", color: "var(--sirat-gold)" }} />
           <h3>Your bag is empty</h3>
           <p className="page-section__text" style={{ maxWidth: "450px", margin: "0.5rem auto 1.5rem" }}>
             You cannot checkout with an empty shopping cart. Add items to bag first.
