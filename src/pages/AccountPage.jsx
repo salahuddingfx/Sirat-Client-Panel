@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LogOut, User, Mail, Phone, MapPin, Package, ArrowRight, ShieldCheck, KeyRound } from "lucide-react";
+import { LogOut, User, Mail, Phone, MapPin, Package, ArrowRight, ShieldCheck, KeyRound, Eye, EyeOff } from "lucide-react";
 import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
 import SEO from "../components/SEO";
@@ -21,6 +21,12 @@ export default function AccountPage() {
   const [regEmail, setRegEmail] = useState("");
   const [regPhone, setRegPhone] = useState("");
   const [regPass, setRegPass] = useState("");
+  
+  // Password visibility states
+  const [showLoginPass, setShowLoginPass] = useState(false);
+  const [showRegPass, setShowRegPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
   
   // Simulated orders
   const simulatedOrders = [
@@ -186,15 +192,37 @@ export default function AccountPage() {
                 </div>
                 <div className="form-group">
                   <label htmlFor="auth-pass">Password</label>
-                  <input
-                    id="auth-pass"
-                    type="password"
-                    required
-                    className="form-input"
-                    value={loginPass}
-                    onChange={(e) => setLoginPass(e.target.value)}
-                    placeholder="••••••••"
-                  />
+                  <div style={{ position: "relative" }}>
+                    <input
+                      id="auth-pass"
+                      type={showLoginPass ? "text" : "password"}
+                      required
+                      className="form-input"
+                      style={{ width: "100%", paddingRight: "3rem" }}
+                      value={loginPass}
+                      onChange={(e) => setLoginPass(e.target.value)}
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowLoginPass(!showLoginPass)}
+                      style={{
+                        position: "absolute",
+                        right: "1.2rem",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        color: "var(--sirat-muted)",
+                        display: "flex",
+                        alignItems: "center"
+                      }}
+                      aria-label={showLoginPass ? "Hide password" : "Show password"}
+                    >
+                      {showLoginPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
                 </div>
 
                 <div className="auth-links">
@@ -263,15 +291,37 @@ export default function AccountPage() {
                 </div>
                 <div className="form-group">
                   <label htmlFor="reg-pass">Secure Password *</label>
-                  <input
-                    id="reg-pass"
-                    type="password"
-                    required
-                    className="form-input"
-                    value={regPass}
-                    onChange={(e) => setRegPass(e.target.value)}
-                    placeholder="••••••••"
-                  />
+                  <div style={{ position: "relative" }}>
+                    <input
+                      id="reg-pass"
+                      type={showRegPass ? "text" : "password"}
+                      required
+                      className="form-input"
+                      style={{ width: "100%", paddingRight: "3rem" }}
+                      value={regPass}
+                      onChange={(e) => setRegPass(e.target.value)}
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowRegPass(!showRegPass)}
+                      style={{
+                        position: "absolute",
+                        right: "1.2rem",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        color: "var(--sirat-muted)",
+                        display: "flex",
+                        alignItems: "center"
+                      }}
+                      aria-label={showRegPass ? "Hide password" : "Show password"}
+                    >
+                      {showRegPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
                 </div>
 
                 <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }}>
@@ -378,23 +428,67 @@ export default function AccountPage() {
               <form onSubmit={handleResetPassword} className="auth-form">
                 <div className="form-group">
                   <label htmlFor="new-pass"><ShieldCheck size={13} style={{ marginRight: "4px" }} /> New Password</label>
-                  <input
-                    id="new-pass"
-                    type="password"
-                    required
-                    className="form-input"
-                    placeholder="••••••••"
-                  />
+                  <div style={{ position: "relative" }}>
+                    <input
+                      id="new-pass"
+                      type={showNewPass ? "text" : "password"}
+                      required
+                      className="form-input"
+                      style={{ width: "100%", paddingRight: "3rem" }}
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPass(!showNewPass)}
+                      style={{
+                        position: "absolute",
+                        right: "1.2rem",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        color: "var(--sirat-muted)",
+                        display: "flex",
+                        alignItems: "center"
+                      }}
+                      aria-label={showNewPass ? "Hide password" : "Show password"}
+                    >
+                      {showNewPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="confirm-new-pass"><KeyRound size={13} style={{ marginRight: "4px" }} /> Confirm New Password</label>
-                  <input
-                    id="confirm-new-pass"
-                    type="password"
-                    required
-                    className="form-input"
-                    placeholder="••••••••"
-                  />
+                  <div style={{ position: "relative" }}>
+                    <input
+                      id="confirm-new-pass"
+                      type={showConfirmPass ? "text" : "password"}
+                      required
+                      className="form-input"
+                      style={{ width: "100%", paddingRight: "3rem" }}
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPass(!showConfirmPass)}
+                      style={{
+                        position: "absolute",
+                        right: "1.2rem",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        color: "var(--sirat-muted)",
+                        display: "flex",
+                        alignItems: "center"
+                      }}
+                      aria-label={showConfirmPass ? "Hide password" : "Show password"}
+                    >
+                      {showConfirmPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
                 </div>
 
                 <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }}>
