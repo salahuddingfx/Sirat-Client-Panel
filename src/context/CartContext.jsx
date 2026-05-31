@@ -1,18 +1,46 @@
-import { createContext, useContext, useState, useMemo } from "react";
+import { createContext, useContext, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart as addToCartAction,
+  removeFromCart as removeFromCartAction,
+  updateQuantity as updateQuantityAction,
+  applyPromoCode as applyPromoCodeAction,
+  clearCart as clearCartAction,
+  setCartDrawerOpen as setCartDrawerOpenAction,
+  showToast as showToastAction,
+  hideToast as hideToastAction,
+  selectCartItems,
+  selectPromoCode,
+  selectPromoError,
+  selectDiscountPercent,
+  selectCartDrawerOpen,
+  selectToast,
+  selectCartSubtotal,
+  selectDiscountAmount,
+  selectCartTotal,
+  selectCartCount
+} from "../redux/cartSlice";
 
 const CartContext = createContext(null);
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
-  const [promoCode, setPromoCode] = useState("");
-  const [promoError, setPromoError] = useState("");
-  const [discountPercent, setDiscountPercent] = useState(0);
-  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
-  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+  const dispatch = useDispatch();
   const [toastTimeout, setToastTimeout] = useState(null);
 
+  // Redux Selectors
+  const cartItems = useSelector(selectCartItems);
+  const promoCode = useSelector(selectPromoCode);
+  const promoError = useSelector(selectPromoError);
+  const discountPercent = useSelector(selectDiscountPercent);
+  const cartDrawerOpen = useSelector(selectCartDrawerOpen);
+  const toast = useSelector(selectToast);
+  const cartSubtotal = useSelector(selectCartSubtotal);
+  const discountAmount = useSelector(selectDiscountAmount);
+  const cartTotal = useSelector(selectCartTotal);
+  const cartCount = useSelector(selectCartCount);
+
+  // Sound play and toast scheduling side effect
   const triggerToast = (message, type = "success") => {
-    // Clear any previous timeout
     if (toastTimeout) {
       clearTimeout(toastTimeout);
     }
@@ -48,39 +76,21 @@ export function CartProvider({ children }) {
       console.warn("Sound play failed", e);
     }
 
-    setToast({ show: true, message, type });
+    dispatch(showToastAction({ message, type }));
     const timeout = setTimeout(() => {
-      setToast({ show: false, message: "", type: "success" });
+      dispatch(hideToastAction());
     }, 2500);
     setToastTimeout(timeout);
   };
 
   const addToCart = (product, variant, quantity = 1, openDrawer = true) => {
-    setCartItems((prevItems) => {
-      const existingItemIndex = prevItems.findIndex(
-        (item) => item.product.id === product.id && item.variant.id === variant.id
-      );
-
-      if (existingItemIndex > -1) {
-        const newItems = [...prevItems];
-        newItems[existingItemIndex].quantity += quantity;
-        return newItems;
-      }
-
-      return [...prevItems, { product, variant, quantity }];
-    });
-    // Auto-open drawer when item is added only on desktop (width >= 768px) and if openDrawer is true
-    if (openDrawer && window.innerWidth >= 768) {
-      setCartDrawerOpen(true);
-    }
+    dispatch(addToCartAction({ product, variant, quantity, openDrawer }));
     triggerToast(`"${product.name}" (Size: ${variant.label}) ব্যাগ-এ যোগ করা হয়েছে!`, "success");
   };
 
   const removeFromCart = (productId, variantId) => {
     const item = cartItems.find((i) => i.product.id === productId && i.variant.id === variantId);
-    setCartItems((prevItems) =>
-      prevItems.filter((item) => !(item.product.id === productId && item.variant.id === variantId))
-    );
+    dispatch(removeFromCartAction({ productId, variantId }));
     if (item) {
       triggerToast(`"${item.product.name}" ব্যাগ থেকে সরানো হয়েছে!`, "info");
     }
@@ -91,60 +101,22 @@ export function CartProvider({ children }) {
       removeFromCart(productId, variantId);
       return;
     }
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.product.id === productId && item.variant.id === variantId
-          ? { ...item, quantity }
-          : item
-      )
-    );
+    dispatch(updateQuantityAction({ productId, variantId, quantity }));
   };
 
   const applyPromoCode = (code) => {
+    dispatch(applyPromoCodeAction(code));
     const cleanCode = code.trim().toUpperCase();
-    if (cleanCode === "SIRAT10") {
-      setPromoCode(cleanCode);
-      setDiscountPercent(10);
-      setPromoError("");
-      return true;
-    } else if (cleanCode === "LAUNCH15") {
-      setPromoCode(cleanCode);
-      setDiscountPercent(15);
-      setPromoError("");
-      return true;
-    } else if (cleanCode === "") {
-      setPromoCode("");
-      setDiscountPercent(0);
-      setPromoError("");
-      return true;
-    } else {
-      setPromoError("Invalid code. Try SIRAT10 or LAUNCH15.");
-      return false;
-    }
+    return cleanCode === "SIRAT10" || cleanCode === "LAUNCH15" || cleanCode === "";
   };
 
   const clearCart = () => {
-    setCartItems([]);
-    setPromoCode("");
-    setDiscountPercent(0);
-    setPromoError("");
+    dispatch(clearCartAction());
   };
 
-  const cartSubtotal = useMemo(() => {
-    return cartItems.reduce((sum, item) => sum + (item.product.price + item.variant.priceDelta) * item.quantity, 0);
-  }, [cartItems]);
-
-  const discountAmount = useMemo(() => {
-    return (cartSubtotal * discountPercent) / 100;
-  }, [cartSubtotal, discountPercent]);
-
-  const cartTotal = useMemo(() => {
-    return Math.max(0, cartSubtotal - discountAmount);
-  }, [cartSubtotal, discountAmount]);
-
-  const cartCount = useMemo(() => {
-    return cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  }, [cartItems]);
+  const setCartDrawerOpen = (isOpen) => {
+    dispatch(setCartDrawerOpenAction(isOpen));
+  };
 
   return (
     <CartContext.Provider
