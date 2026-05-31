@@ -71,7 +71,7 @@ export function CartProvider({ children }) {
     });
     // Auto-open drawer when item is added
     setCartDrawerOpen(true);
-    triggerToast(`${product.name} (${variant.label}) added to bag!`, "success");
+    triggerToast(`🛍️ "${product.name}" (Size: ${variant.label}) ব্যাগ-এ যোগ করা হয়েছে!`, "success");
   };
 
   const removeFromCart = (productId, variantId) => {
@@ -80,7 +80,7 @@ export function CartProvider({ children }) {
       prevItems.filter((item) => !(item.product.id === productId && item.variant.id === variantId))
     );
     if (item) {
-      triggerToast(`${item.product.name} removed from bag.`, "info");
+      triggerToast(`🗑️ "${item.product.name}" ব্যাগ থেকে সরানো হয়েছে!`, "info");
     }
   };
 
