@@ -3520,10 +3520,6 @@
   .hero-slide__title {
     font-size: 1.8rem !important;
   }
-  .hero-slide__desc {
-    font-size: 0.85rem !important;
-    line-height: 1.4 !important;
-  }
   .bestseller-title {
     font-size: 1.5rem !important;
   }
@@ -3659,10 +3655,14 @@
     width: 100% !important;
   }
   .hero-slide__content {
-    padding: 0 1.25rem !important;
+    padding: 2.5rem 1.25rem 0 !important;
+    align-items: flex-start !important;
   }
   .hero-slide__title {
     font-size: 2.2rem !important;
+  }
+  .hero-slide__desc {
+    display: none !important;
   }
 }
 
