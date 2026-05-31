@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ShieldCheck, KeyRound, Eye, EyeOff } from "lucide-react";
-import { Button } from "./lib/ui";
+import { Button } from "../lib/ui";
 
 export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin }) {
   const [activeSubForm, setActiveSubForm] = useState("forgot"); // forgot, otp, reset
