@@ -3511,6 +3511,47 @@
   .product-card-modern__footer {
     padding-top: 0.1rem !important;
   }
+  .hero-slider {
+    height: 440px !important;
+  }
+  .hero-slide__inner {
+    gap: 0.85rem !important;
+  }
+  .hero-slide__title {
+    font-size: 1.8rem !important;
+  }
+  .hero-slide__desc {
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+  }
+  .bestseller-title {
+    font-size: 1.5rem !important;
+  }
+  .bestseller-price h3 {
+    font-size: 1.6rem !important;
+  }
+  .bestseller-section {
+    padding: 1.25rem 0.85rem !important;
+  }
+  .review-display-card {
+    padding: 1.25rem !important;
+  }
+  .review-quote-text {
+    font-size: 1.05rem !important;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 400px !important;
+  }
+  .faq-question {
+    padding: 1rem 1.15rem !important;
+    font-size: 0.95rem !important;
+  }
+  .faq-answer {
+    padding: 0 1.15rem !important;
+  }
+  .faq-item.open .faq-answer {
+    padding: 0 1.15rem 1rem !important;
+  }
 }
 
 /* Quote Grid responsive display */
