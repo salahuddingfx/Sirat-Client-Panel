@@ -13,7 +13,7 @@ export default function CtaSection() {
           </span>
           <h2 className="cta-title">UPGRADE YOUR SILHOUETTE</h2>
           <p className="cta-desc">
-            Secure 15% off your initial order and join our release registry queue. Experience structured luxury tailoring shipped with express fulfillment.
+            Secure 15% off your first order with code LAUNCH15. Experience premium combed cotton and high-density custom prints shipped directly to your doorstep.
           </p>
           <div className="cta-buttons">
             <Link to="/shop">
