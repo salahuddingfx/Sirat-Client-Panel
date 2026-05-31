@@ -467,6 +467,7 @@
 }
 
 .hero-slide__inner {
+  width: 100%;
   max-width: 60ch;
   display: grid;
   gap: 1.25rem;
@@ -2188,7 +2189,7 @@
   }
 
   .footer-grid {
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
     gap: 1.5rem;
   }
 
@@ -3547,6 +3548,19 @@
   }
   .faq-item.open .faq-answer {
     padding: 0 1.15rem 1rem !important;
+  }
+  .storefront__header-inner {
+    padding: 0.65rem 0.85rem !important;
+    gap: 0.5rem !important;
+  }
+  .storefront__toolbar {
+    gap: 0.25rem !important;
+  }
+  .storefront__toolbar .sirat-button {
+    padding: 0.5rem 0.65rem !important;
+  }
+  .mobile-menu-button {
+    padding: 0.45rem !important;
   }
 }
 
