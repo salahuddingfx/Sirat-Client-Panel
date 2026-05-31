@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import "./Button.css";
 
 export const Button = ({ 
   children, 

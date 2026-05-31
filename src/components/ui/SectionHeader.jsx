@@ -1,5 +1,4 @@
 import { cn } from "../../lib/utils";
-import "./SectionHeader.css";
 
 export function SectionHeader({ eyebrow, title, description, children, className }) {
   return (
