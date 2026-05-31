@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;850&display=swap');
+
+:root {
+  color-scheme: light;
+  --sirat-bg: #F8F3EB; /* Luxury Cream */
+  --sirat-surface: #FFFFFF; /* Pure white card surface */
+  --sirat-surface-strong: #FFFDF9; /* Secondary Background */
+  --sirat-border: rgba(212, 175, 55, 0.20); /* Soft gold border */
+  --sirat-border-strong: rgba(212, 175, 55, 0.40);
+  --sirat-text: #1A1A1A; /* Primary black text */
+  --sirat-muted: #666666; /* Secondary grey text */
+  --sirat-gold: #D4AF37; /* Primary Accent: Luxury Gold */
+  --sirat-gold-soft: #C9A227; /* Secondary Accent */
+  --sirat-star: #D4AF37; /* Gold rating stars */
+  --sirat-shadow: 0 12px 36px rgba(212, 175, 55, 0.06); /* Subtle gold shadow glow */
+  --sirat-radius-xl: 28px;
+  --sirat-radius-lg: 20px;
+  --sirat-radius-md: 16px;
+  --sirat-radius-sm: 12px;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* Rest of the original lib/ui/styles.css content restored */
+.sirat-button {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.9rem 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.sirat-button:hover {
+  transform: translateY(-1px);
+}
+
+.sirat-button--primary {
+  background: var(--sirat-gold);
+  color: #1A1A1A;
+  border: 1px solid var(--sirat-gold);
+}
+
+.sirat-panel {
+  border: 1px solid var(--sirat-border);
+  background: var(--sirat-surface);
+  backdrop-filter: blur(16px);
+  border-radius: var(--sirat-radius-lg);
+  box-shadow: var(--sirat-shadow);
+}
+
+.section-header {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.section-header__eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--sirat-gold);
+  font-size: 0.75rem;
+}
+
+/* Adding back more layout classes that might be used across the app */
+.page-card {
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.page-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  background: var(--sirat-surface);
+  border: 1px solid var(--sirat-border);
+  border-radius: var(--sirat-radius-md);
+  transition: all 0.2s ease;
+}
+
+.order-row:hover {
+  border-color: var(--sirat-border-strong);
+  box-shadow: var(--sirat-shadow);
+}
+
+/* Custom WebKit Scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sirat-bg);
+  border-left: 1px solid var(--sirat-border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sirat-border-strong);
+  border-radius: 99px;
+  border: 2.5px solid var(--sirat-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sirat-gold);
+}
