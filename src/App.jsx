@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "lenis";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -36,7 +36,7 @@ const navItems = [
 
 export function App() {
   const brandNote = useMemo(() => "Cox's Bazar", []);
-  const { cartDrawerOpen, setCartDrawerOpen } = useCart();
+  const { cartDrawerOpen, setCartDrawerOpen, toast } = useCart();
   const location = useLocation();
   const [loaderActive, setLoaderActive] = useState(true);
 
@@ -65,6 +65,56 @@ export function App() {
       {loaderActive && <IntroLoader onComplete={() => setLoaderActive(false)} />}
       <Navbar navItems={navItems} brandNote={brandNote} onCartToggle={() => setCartDrawerOpen(true)} />
       <CartDrawer isOpen={cartDrawerOpen} onClose={() => setCartDrawerOpen(false)} />
+
+      {/* Global Centered Toast Alert Overlay */}
+      <AnimatePresence>
+        {toast.show && (
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 99999,
+              pointerEvents: "none",
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              style={{
+                background: "rgba(26, 24, 22, 0.95)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid var(--sirat-gold)",
+                padding: "1.2rem 2.2rem",
+                borderRadius: "16px",
+                boxShadow: "0 10px 40px rgba(0, 0, 0, 0.4)",
+                color: "#FFFDFB",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.85rem",
+                fontSize: "0.95rem",
+                fontWeight: "600",
+                textAlign: "center",
+                width: "max-content",
+                maxWidth: "90vw",
+              }}
+            >
+              <div
+                style={{
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "50%",
+                  background: toast.type === "success" ? "#10B981" : "var(--sirat-gold)",
+                  boxShadow: `0 0 10px ${toast.type === "success" ? "#10B981" : "var(--sirat-gold)"}`,
+                }}
+              />
+              {toast.message}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
