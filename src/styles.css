@@ -3273,3 +3273,290 @@
   font-size: 0.78rem;
   color: var(--sirat-muted);
 }
+
+/* Navbar Profile Dropdown Styles */
+.navbar-profile-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.navbar-profile-trigger-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--sirat-gold);
+  color: #1A1A1A;
+  font-weight: 800;
+  font-size: 0.9rem;
+  border: 1px solid var(--sirat-border-strong);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 180ms ease;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.15);
+}
+
+.navbar-profile-trigger-btn:hover {
+  background: var(--sirat-gold-soft);
+  transform: scale(1.05);
+}
+
+.navbar-profile-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 220px;
+  background: var(--sirat-surface);
+  border: 1px solid var(--sirat-border);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.1);
+  padding: 0.95rem;
+  z-index: 100;
+  display: none;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+.navbar-profile-dropdown-container:hover .navbar-profile-dropdown-menu {
+  display: block;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.25rem 0.5rem 0.45rem;
+}
+
+.dropdown-user-info strong {
+  font-size: 0.9rem;
+  color: var(--sirat-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-user-info span {
+  font-size: 0.75rem;
+  color: var(--sirat-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--sirat-text);
+  border-radius: 8px;
+  transition: all 180ms ease;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  border: none;
+  background: transparent;
+}
+
+.dropdown-item:hover {
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--sirat-gold-soft);
+}
+
+.dropdown-item.logout-btn {
+  color: #EF4444;
+}
+
+.dropdown-item.logout-btn:hover {
+  background: #FEF2F2;
+  color: #DC2626;
+}
+
+/* ==========================================================================
+   Responsive Grid & Media Query Overrides for Mobile/Tablet Compatibility
+   ========================================================================== */
+
+/* Header & Navbar mobile/tablet adjustments */
+@media (max-width: 860px) {
+  .storefront-nav {
+    display: none !important; /* Hide desktop nav links */
+  }
+  .mobile-menu-button {
+    display: flex !important; /* Show hamburger button */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .storefront__badge {
+    display: none !important; /* Hide tagline badge on mobile header to save space */
+  }
+}
+
+/* Top bar mobile wrap */
+@media (max-width: 600px) {
+  .storefront__top-bar-inner {
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+    text-align: center;
+  }
+  .top-bar-selectors {
+    width: 100%;
+    justify-content: center;
+  }
+  .top-bar-ticker {
+    max-width: 100%;
+  }
+}
+
+/* Product Catalog Grid responsive layout mapping */
+@media (max-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 960px) {
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.85rem !important;
+  }
+  .product-card-modern__body {
+    padding: 0.6rem !important;
+  }
+  .product-card-modern__title {
+    font-size: 0.85rem !important;
+  }
+  .current-price {
+    font-size: 1rem !important;
+  }
+  .old-price {
+    font-size: 0.72rem !important;
+  }
+}
+
+/* Quote Grid responsive display */
+@media (max-width: 768px) {
+  .quote-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+}
+
+/* Support and Panel Grids */
+@media (max-width: 768px) {
+  .support-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .panel-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Best Seller visual section adjustments */
+@media (max-width: 768px) {
+  .bestseller-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .bestseller-section {
+    padding: 1.5rem 1rem !important;
+  }
+  .bestseller-media-frame {
+    aspect-ratio: 1.2 / 1 !important; /* Make image wider and less tall when stacked */
+  }
+}
+
+/* FAQ layout adjustments */
+@media (max-width: 768px) {
+  .faq-layout {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* Countdown Section Timer block styling */
+@media (max-width: 768px) {
+  .countdown-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+    text-align: center !important;
+  }
+  .countdown-display {
+    justify-content: center !important;
+  }
+}
+
+/* Newsletter layout adjustments */
+@media (max-width: 768px) {
+  .newsletter-inner {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    text-align: center !important;
+  }
+  .newsletter-form {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+  .newsletter-form input {
+    border-radius: 99px !important;
+    width: 100% !important;
+  }
+  .newsletter-panel {
+    padding: 2rem 1.25rem !important;
+  }
+}
+
+/* Hero Slider mobile dimensions */
+@media (max-width: 768px) {
+  .homepage-hero {
+    margin: 0 !important;
+    border-radius: 12px !important;
+  }
+  .hero-slider {
+    height: 380px !important;
+  }
+  .hero-slide__actions {
+    flex-direction: column !important;
+    gap: 0.6rem !important;
+  }
+  .hero-slide__actions button {
+    width: 100% !important;
+  }
+  .hero-slide__content {
+    padding: 0 1.25rem !important;
+  }
+  .hero-slide__title {
+    font-size: 2.2rem !important;
+  }
+}
+
+/* Value Props / Story Highlights Row */
+@media (max-width: 768px) {
+  .story-section {
+    padding: 1.5rem 0 !important;
+  }
+}
