@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;850&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;850&display=swap');
 
 :root {
   color-scheme: light;
@@ -314,4 +314,26 @@ select {
   border-radius: var(--sirat-radius-md);
   border: 1px solid var(--sirat-border);
   background: var(--sirat-surface);
+}
+
+/* Custom WebKit Scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sirat-bg);
+  border-left: 1px solid var(--sirat-border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sirat-border-strong);
+  border-radius: 99px;
+  border: 2.5px solid var(--sirat-bg);
+  transition: background 180ms ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sirat-gold);
 }
