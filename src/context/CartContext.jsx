@@ -55,7 +55,7 @@ export function CartProvider({ children }) {
     setToastTimeout(timeout);
   };
 
-  const addToCart = (product, variant, quantity = 1) => {
+  const addToCart = (product, variant, quantity = 1, openDrawer = true) => {
     setCartItems((prevItems) => {
       const existingItemIndex = prevItems.findIndex(
         (item) => item.product.id === product.id && item.variant.id === variant.id
@@ -69,9 +69,11 @@ export function CartProvider({ children }) {
 
       return [...prevItems, { product, variant, quantity }];
     });
-    // Auto-open drawer when item is added
-    setCartDrawerOpen(true);
-    triggerToast(`🛍️ "${product.name}" (Size: ${variant.label}) ব্যাগ-এ যোগ করা হয়েছে!`, "success");
+    // Auto-open drawer when item is added only on desktop (width >= 768px) and if openDrawer is true
+    if (openDrawer && window.innerWidth >= 768) {
+      setCartDrawerOpen(true);
+    }
+    triggerToast(`"${product.name}" (Size: ${variant.label}) ব্যাগ-এ যোগ করা হয়েছে!`, "success");
   };
 
   const removeFromCart = (productId, variantId) => {
@@ -80,7 +82,7 @@ export function CartProvider({ children }) {
       prevItems.filter((item) => !(item.product.id === productId && item.variant.id === variantId))
     );
     if (item) {
-      triggerToast(`🗑️ "${item.product.name}" ব্যাগ থেকে সরানো হয়েছে!`, "info");
+      triggerToast(`"${item.product.name}" ব্যাগ থেকে সরানো হয়েছে!`, "info");
     }
   };
 
