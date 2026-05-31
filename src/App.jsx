@@ -27,6 +27,7 @@ import CartDrawer from "./components/CartDrawer";
 import IntroLoader from "./components/IntroLoader";
 import { products } from "./data/mockData";
 import { useCart } from "./context/CartContext";
+import BottomNav from "./components/BottomNav";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -145,6 +146,9 @@ export function App() {
 
       {/* Floating Support Contact Widget */}
       <FloatingSupport />
+
+      {/* Mobile Bottom Navigation Bar */}
+      <BottomNav />
     </div>
   );
 }
