@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Search, Sparkles, Menu, X, ShoppingBag, Phone, Mail, Zap, Truck, Shirt, Compass, User } from "lucide-react";
+import { Search, Sparkles, Menu, X, ShoppingCart, Phone, Mail, Zap, Truck, Shirt, Compass, User } from "lucide-react";
 import { Button } from "../lib/ui";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
@@ -142,7 +142,7 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
             </div>
 
             <Button variant="ghost" aria-label="Cart" onClick={onCartToggle} className="navbar-cart-btn">
-              <ShoppingBag size={16} />
+              <ShoppingCart size={16} />
               {cartCount > 0 && <span className="navbar-cart-badge">{cartCount}</span>}
             </Button>
           </div>
