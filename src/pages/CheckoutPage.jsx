@@ -1,7 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { CreditCard, Landmark, Truck, ShoppingCart, ArrowLeft } from "lucide-react";
+import { CreditCard, Landmark, Truck, ShoppingCart, ArrowLeft, UserCheck } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
 import SEO from "../components/SEO";
@@ -9,6 +10,7 @@ import SEO from "../components/SEO";
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { cartItems, cartSubtotal, discountAmount, clearCart } = useCart();
+  const { isLoggedIn, user } = useAuth();
 
   // State controls
   const [email, setEmail] = useState("");
@@ -20,6 +22,15 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [paySender, setPaySender] = useState("");
   const [payTxid, setPayTxid] = useState("");
+
+  // Auto-fill user info if logged in
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      setEmail(user.email || "");
+      setName(user.name || "");
+      setPhone(user.phone || "");
+    }
+  }, [isLoggedIn, user]);
 
   // Calculate order weight
   const totalWeight = useMemo(() => {
@@ -122,7 +133,24 @@ export default function CheckoutPage() {
             
             {/* Customer & Shipping info */}
             <Panel className="checkout-section">
-              <h3 style={{ margin: "0 0 1.25rem" }}>1. Shipping Details</h3>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
+                <h3 style={{ margin: 0 }}>1. Shipping Details</h3>
+                {isLoggedIn && (
+                  <span style={{ 
+                    fontSize: "0.75rem", 
+                    color: "var(--sirat-success)", 
+                    background: "rgba(22, 101, 52, 0.08)", 
+                    padding: "0.25rem 0.6rem", 
+                    borderRadius: "99px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.35rem",
+                    fontWeight: "600"
+                  }}>
+                    <UserCheck size={12} /> Linked to Account
+                  </span>
+                )}
+              </div>
               
               <div className="checkout-form-grid">
                 <div className="form-group">
