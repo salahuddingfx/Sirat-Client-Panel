@@ -26,7 +26,7 @@ export default function FloatingSupport() {
           borderRadius: "50%",
           display: "flex",
           alignItems: "center",
-          justify-content: "center",
+          justifyContent: "center",
           color: "#FFFFFF",
           cursor: "pointer",
           transition: "all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
