@@ -1006,9 +1006,22 @@ section:not(.page-section) {
   font-weight: 700;
   color: var(--sirat-muted);
   border: 1px solid var(--sirat-border);
-  padding: 0.1rem 0.3rem;
+  padding: 0.15rem 0.4rem;
   border-radius: 4px;
   background: rgba(28, 26, 23, 0.02);
+  cursor: pointer;
+  outline: none;
+  transition: all 150ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.size-pill:hover,
+.size-pill.active {
+  background: var(--sirat-gold-soft);
+  color: var(--sirat-surface) !important;
+  border-color: var(--sirat-gold-soft);
 }
 
 .product-card-modern__divider {
