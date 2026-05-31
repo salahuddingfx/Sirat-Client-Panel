@@ -2262,6 +2262,7 @@
   .bestseller-action-row {
     grid-template-columns: 1fr;
     display: grid;
+    gap: 0.75rem;
   }
 
   .homepage-cta-card {
@@ -3600,6 +3601,10 @@
   .hero-slide__actions {
     flex-direction: column !important;
     gap: 0.6rem !important;
+  }
+  .hero-slide__actions a {
+    width: 100% !important;
+    display: block !important;
   }
   .hero-slide__actions button {
     width: 100% !important;
