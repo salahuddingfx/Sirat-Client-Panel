@@ -3458,7 +3458,8 @@
     gap: 0.85rem !important;
   }
   .product-card-modern__body {
-    padding: 0.6rem !important;
+    padding: 0.55rem !important;
+    gap: 0.25rem !important;
   }
   .product-card-modern__title {
     font-size: 0.85rem !important;
@@ -3468,6 +3469,23 @@
   }
   .old-price {
     font-size: 0.72rem !important;
+  }
+  .product-card-modern__copy,
+  .product-card-modern__colors,
+  .product-card-modern__sizes,
+  .product-card-modern__rating,
+  .product-card-modern__weight-badge,
+  .product-card-modern__divider {
+    display: none !important;
+  }
+  .card-actions-group .action-circle-btn {
+    display: none !important;
+  }
+  .card-actions-group {
+    gap: 0 !important;
+  }
+  .product-card-modern__footer {
+    padding-top: 0.1rem !important;
   }
 }
 
