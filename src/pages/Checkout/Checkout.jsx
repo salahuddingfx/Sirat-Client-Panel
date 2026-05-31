@@ -1,13 +1,12 @@
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { CreditCard, Landmark, Truck, ShoppingCart, ArrowLeft, UserCheck } from "lucide-react";
-import { useCart } from "../../app/providers/CartContext";
-import { useAuth } from "../../app/providers/AuthContext";
-import PageFrame from "../../components/layout/PageFrame";
-import { Button, Panel } from "../../components/ui";
-import SEO from "../../components/layout/SEO";
-
-import { placeOrder } from "../../api/queries";
+import { useCart } from "@app/providers/CartContext";
+import { useAuth } from "@app/providers/AuthContext";
+import PageFrame from "@components/layout/PageFrame";
+import { Button, Panel } from "@components/ui";
+import SEO from "@components/layout/SEO";
+import { placeOrder } from "@api/queries";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
