@@ -15,7 +15,7 @@ export default function VisualsSection() {
         title="Product Visuals"
         description="Highlighting signature garments crafted in structured textures and futuristic silhouettes."
       />
-      <div className="product-grid" style={{ marginTop: "1.5rem" }}>
+      <div className="product-grid-editorial" style={{ marginTop: "1.5rem" }}>
         {highlightedProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
