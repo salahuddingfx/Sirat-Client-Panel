@@ -119,12 +119,12 @@ export default function HeroSection() {
               exit={{ opacity: 0, x: -12 }}
               transition={{ duration: 0.45 }}
             >
-              <span className="storefront__badge">
+              <span className="storefront__badge hero-animate">
                 <Sparkles size={12} /> {sliderSlides[activeSlide].subtitle}
               </span>
-              <h1 className="hero-slide__title">{sliderSlides[activeSlide].title}</h1>
-              <p className="hero-slide__desc">{sliderSlides[activeSlide].description}</p>
-              <div className="hero-slide__actions">
+              <h1 className="hero-slide__title hero-animate">{sliderSlides[activeSlide].title}</h1>
+              <p className="hero-slide__desc hero-animate">{sliderSlides[activeSlide].description}</p>
+              <div className="hero-slide__actions hero-animate">
                 <Link to={sliderSlides[activeSlide].link}>
                   <Button>{sliderSlides[activeSlide].actionText}</Button>
                 </Link>
