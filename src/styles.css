@@ -4168,9 +4168,13 @@ section:not(.page-section) {
    ========================================================== */
 
 /* OVERRIDE LEGACY BEHAVIOR */
-html, body, .storefront {
+html, body {
   max-width: 100vw;
   overflow-x: hidden;
+}
+
+.storefront {
+  max-width: 100vw;
 }
 
 /* 1. CONTAINER SYSTEM (Mobile First) */
