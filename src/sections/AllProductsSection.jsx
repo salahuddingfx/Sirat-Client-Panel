@@ -7,7 +7,7 @@ export default function AllProductsSection() {
     <section className="all-products-section">
       <SectionHeader
         eyebrow="Storefront Inventory"
-        title="All Garments"
+        title="All Products"
         description="Browse our complete launch queue. Click on any product spec sheet for detailed quick view add-to-cart operations."
       />
       <div className="product-grid" style={{ marginTop: "1.5rem" }}>
