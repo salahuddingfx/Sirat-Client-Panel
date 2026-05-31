@@ -43,6 +43,7 @@ const navItems = [
 
 export function App() {
   const location = useLocation();
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -56,8 +57,8 @@ export function App() {
   return (
     <div className="app-container">
       <IntroLoader />
-      <Navbar navItems={navItems || []} onCartToggle={() => {}} />
-      <CartDrawer />
+      <Navbar navItems={navItems || []} onCartToggle={() => setIsCartOpen(true)} />
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       
       <AnimatePresence mode="wait">
         <motion.main
