@@ -74,8 +74,27 @@ export default function CheckoutPage() {
       paymentMethod,
       paySender,
       payTxid,
-      estimatedTotal
+      estimatedTotal,
+      items: cartItems.map((item) => ({
+        id: item.product.id,
+        name: item.product.name,
+        category: item.product.category,
+        price: item.product.price + item.variant.priceDelta,
+        quantity: item.quantity,
+        variantLabel: item.variant.label,
+      })),
+      date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) + " " + new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
+      status: "received"
     };
+
+    // Save order to localStorage for tracking querying
+    try {
+      const existingOrders = JSON.parse(localStorage.getItem("sirat_orders") || "[]");
+      existingOrders.push(orderDetails);
+      localStorage.setItem("sirat_orders", JSON.stringify(existingOrders));
+    } catch (err) {
+      console.error("Failed to save order to localStorage", err);
+    }
 
     clearCart();
     
