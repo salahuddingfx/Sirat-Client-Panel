@@ -56,7 +56,7 @@ export function App() {
   return (
     <div className="app-container">
       <IntroLoader />
-      <Navbar items={navItems} />
+      <Navbar navItems={navItems || []} onCartToggle={() => {}} />
       <CartDrawer />
       
       <AnimatePresence mode="wait">
