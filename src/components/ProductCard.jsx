@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Heart, ShoppingCart, Star, Zap } from "lucide-react";
+import { Heart, ShoppingCart, Star, Truck } from "lucide-react";
 import { useCart } from "../context/CartContext";
 
 export default function ProductCard({ product }) {
@@ -145,7 +145,7 @@ export default function ProductCard({ product }) {
               onClick={handleBuyNow}
               title="Buy Now"
             >
-              <Zap size={14} />
+              <Truck size={14} />
             </button>
           </div>
         </div>
