@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, Zap } from "lucide-react";
+import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { products } from "../data/mockData";
 import ProductCard from "../components/ProductCard";
@@ -360,7 +360,7 @@ export default function ProductDetailPage() {
                 onClick={handleBuyNow}
                 disabled={activeVariant && !activeVariant.inStock}
               >
-                <Zap size={16} style={{ marginRight: "8px" }} /> Order Now
+                <Truck size={16} style={{ marginRight: "8px" }} /> Order Now
               </Button>
 
               <button
