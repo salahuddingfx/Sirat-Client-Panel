@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Trash2, Plus, Minus, ArrowLeft, ShoppingBag, Tag } from "lucide-react";
+import { Trash2, Plus, Minus, ArrowLeft, ShoppingCart, Tag } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
@@ -53,7 +53,7 @@ export default function CartPage() {
 
       {cartItems.length === 0 ? (
         <Panel className="shop-empty-state" style={{ padding: "4rem 2rem", textAlign: "center" }}>
-          <ShoppingBag size={48} className="muted" style={{ margin: "0 auto 1.5rem", color: "var(--sirat-gold)" }} />
+          <ShoppingCart size={48} className="muted" style={{ margin: "0 auto 1.5rem", color: "var(--sirat-gold)" }} />
           <h3>Your bag is currently empty</h3>
           <p className="page-section__text" style={{ maxWidth: "450px", margin: "0.5rem auto 1.5rem" }}>
             Add some custom high-density print garments from our streetwear catalog to get started.
