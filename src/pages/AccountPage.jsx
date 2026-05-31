@@ -1,32 +1,19 @@
 import { useState } from "react";
-import { LogOut, User, Mail, Phone, MapPin, Package, ArrowRight, ShieldCheck, KeyRound, Eye, EyeOff } from "lucide-react";
+import { LogOut, User, Mail, Phone, MapPin, Package } from "lucide-react";
 import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
 import SEO from "../components/SEO";
 import { useAuth } from "../context/AuthContext";
+import LoginForm from "../components/LoginForm";
+import RegisterForm from "../components/RegisterForm";
+import ForgotPasswordForm from "../components/ForgotPasswordForm";
 
 export default function AccountPage() {
   const { isLoggedIn, user, login, register, logout } = useAuth();
   
   // Local form states
-  const [activeForm, setActiveForm] = useState("login"); // login, register, forgot, otp, reset
+  const [activeForm, setActiveForm] = useState("login"); // login, register, forgot
   const [userEmail, setUserEmail] = useState(""); // For forgot password form email tracking
-  const [otpSentEmail, setOtpSentEmail] = useState("");
-  const [otpCode, setOtpCode] = useState(["", "", "", "", "", ""]);
-  
-  // Dummy inputs
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPass, setLoginPass] = useState("");
-  const [regName, setRegName] = useState("");
-  const [regEmail, setRegEmail] = useState("");
-  const [regPhone, setRegPhone] = useState("");
-  const [regPass, setRegPass] = useState("");
-  
-  // Password visibility states
-  const [showLoginPass, setShowLoginPass] = useState(false);
-  const [showRegPass, setShowRegPass] = useState(false);
-  const [showNewPass, setShowNewPass] = useState(false);
-  const [showConfirmPass, setShowConfirmPass] = useState(false);
   
   // Simulated orders
   const simulatedOrders = [
@@ -35,62 +22,9 @@ export default function AccountPage() {
     { id: "SRT-321568", date: "April 10, 2026", status: "delivered", total: 950 }
   ];
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (!loginEmail || !loginPass) return;
-    login(loginEmail, loginPass);
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    if (!regName || !regEmail || !regPhone || !regPass) return;
-    register(regName, regEmail, regPhone, regPass);
-  };
-
-  const handleForgot = (e) => {
-    e.preventDefault();
-    if (!userEmail) {
-      alert("Please enter your registered email address.");
-      return;
-    }
-    setOtpSentEmail(userEmail);
-    setActiveForm("otp");
-  };
-
-  const handleOtpVerify = (e) => {
-    e.preventDefault();
-    const fullOtp = otpCode.join("");
-    if (fullOtp.length < 6) {
-      alert("Please enter the complete 6-digit verification code.");
-      return;
-    }
-    setActiveForm("reset");
-  };
-
-  const handleOtpChange = (index, value) => {
-    if (value.length > 1) return;
-    const newOtp = [...otpCode];
-    newOtp[index] = value;
-    setOtpCode(newOtp);
-
-    // Auto-focus next input
-    if (value && index < 5) {
-      const nextInput = document.getElementById(`otp-char-${index + 1}`);
-      nextInput?.focus();
-    }
-  };
-
-  const handleResetPassword = (e) => {
-    e.preventDefault();
-    alert("Your password has been successfully reset. Please log in with your new credentials.");
-    setActiveForm("login");
-    setOtpCode(["", "", "", "", "", ""]);
-  };
-
   const handleLogout = () => {
     logout();
-    setLoginEmail("");
-    setLoginPass("");
+    setUserEmail("");
     setActiveForm("login");
   };
 
@@ -169,335 +103,30 @@ export default function AccountPage() {
       ) : (
         /* AUTHENTICATION FORMS VIEW */
         <div className="auth-container">
-          
-          {/* LOGIN FORM */}
           {activeForm === "login" && (
-            <>
-              <div className="auth-header">
-                <h2>Sign In</h2>
-                <p className="page-section__text" style={{ fontSize: "0.85rem" }}>Access order logs and details.</p>
-              </div>
-              <form onSubmit={handleLogin} className="auth-form">
-                <div className="form-group">
-                  <label htmlFor="auth-email">Email Address</label>
-                  <input
-                    id="auth-email"
-                    type="email"
-                    required
-                    className="form-input"
-                    value={loginEmail}
-                    onChange={(e) => setLoginEmail(e.target.value)}
-                    placeholder="email@example.com"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="auth-pass">Password</label>
-                  <div style={{ position: "relative" }}>
-                    <input
-                      id="auth-pass"
-                      type={showLoginPass ? "text" : "password"}
-                      required
-                      className="form-input"
-                      style={{ width: "100%", paddingRight: "3rem" }}
-                      value={loginPass}
-                      onChange={(e) => setLoginPass(e.target.value)}
-                      placeholder="••••••••"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowLoginPass(!showLoginPass)}
-                      style={{
-                        position: "absolute",
-                        right: "1.2rem",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        color: "var(--sirat-muted)",
-                        display: "flex",
-                        alignItems: "center"
-                      }}
-                      aria-label={showLoginPass ? "Hide password" : "Show password"}
-                    >
-                      {showLoginPass ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="auth-links">
-                  <button type="button" style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }} onClick={() => { setUserEmail(loginEmail); setActiveForm("forgot"); }}>
-                    Forgot Password?
-                  </button>
-                </div>
-
-                <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }}>
-                  Sign In <ArrowRight size={14} style={{ marginLeft: "4px" }} />
-                </Button>
-              </form>
-
-              <div style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--sirat-muted)", marginTop: "0.5rem" }}>
-                Don't have an account?{" "}
-                <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--sirat-gold-soft)", fontWeight: "700" }} onClick={() => setActiveForm("register")}>
-                  Register Here
-                </button>
-              </div>
-            </>
+            <LoginForm 
+              onLogin={login} 
+              onForgotPassword={(email) => { 
+                setUserEmail(email); 
+                setActiveForm("forgot"); 
+              }} 
+              onToggleRegister={() => setActiveForm("register")} 
+            />
           )}
 
-          {/* REGISTRATION FORM */}
           {activeForm === "register" && (
-            <>
-              <div className="auth-header">
-                <h2>Create Account</h2>
-                <p className="page-section__text" style={{ fontSize: "0.85rem" }}>Join for premium member perks.</p>
-              </div>
-              <form onSubmit={handleRegister} className="auth-form">
-                <div className="form-group">
-                  <label htmlFor="reg-name">Full Name *</label>
-                  <input
-                    id="reg-name"
-                    type="text"
-                    required
-                    className="form-input"
-                    value={regName}
-                    onChange={(e) => setRegName(e.target.value)}
-                    placeholder="Salahuddin Ahmed"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="reg-email">Email Address *</label>
-                  <input
-                    id="reg-email"
-                    type="email"
-                    required
-                    className="form-input"
-                    value={regEmail}
-                    onChange={(e) => setRegEmail(e.target.value)}
-                    placeholder="salahuddin@example.com"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="reg-phone">Contact Phone *</label>
-                  <input
-                    id="reg-phone"
-                    type="tel"
-                    required
-                    className="form-input"
-                    value={regPhone}
-                    onChange={(e) => setRegPhone(e.target.value)}
-                    placeholder="+880 1711-223344"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="reg-pass">Secure Password *</label>
-                  <div style={{ position: "relative" }}>
-                    <input
-                      id="reg-pass"
-                      type={showRegPass ? "text" : "password"}
-                      required
-                      className="form-input"
-                      style={{ width: "100%", paddingRight: "3rem" }}
-                      value={regPass}
-                      onChange={(e) => setRegPass(e.target.value)}
-                      placeholder="••••••••"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowRegPass(!showRegPass)}
-                      style={{
-                        position: "absolute",
-                        right: "1.2rem",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        color: "var(--sirat-muted)",
-                        display: "flex",
-                        alignItems: "center"
-                      }}
-                      aria-label={showRegPass ? "Hide password" : "Show password"}
-                    >
-                      {showRegPass ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-
-                <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }}>
-                  Create Profile <ArrowRight size={14} style={{ marginLeft: "4px" }} />
-                </Button>
-              </form>
-
-              <div style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--sirat-muted)", marginTop: "0.5rem" }}>
-                Already have an account?{" "}
-                <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--sirat-gold-soft)", fontWeight: "700" }} onClick={() => setActiveForm("login")}>
-                  Sign In
-                </button>
-              </div>
-            </>
+            <RegisterForm 
+              onRegister={register} 
+              onToggleLogin={() => setActiveForm("login")} 
+            />
           )}
 
-          {/* FORGOT PASSWORD FORM */}
           {activeForm === "forgot" && (
-            <>
-              <div className="auth-header">
-                <h2>Forgot Password</h2>
-                <p className="page-section__text" style={{ fontSize: "0.85rem" }}>We will send a 6-digit OTP code to verify your profile.</p>
-              </div>
-              <form onSubmit={handleForgot} className="auth-form">
-                <div className="form-group">
-                  <label htmlFor="forgot-email">Account Email Address</label>
-                  <input
-                    id="forgot-email"
-                    type="email"
-                    required
-                    className="form-input"
-                    value={userEmail}
-                    onChange={(e) => setUserEmail(e.target.value)}
-                    placeholder="salahuddin@example.com"
-                  />
-                </div>
-
-                <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }}>
-                  Request Verification Code
-                </Button>
-              </form>
-
-              <div style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--sirat-muted)", marginTop: "0.5rem" }}>
-                Remember your password?{" "}
-                <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--sirat-gold-soft)", fontWeight: "700" }} onClick={() => setActiveForm("login")}>
-                  Go Back
-                </button>
-              </div>
-            </>
+            <ForgotPasswordForm 
+              initialEmail={userEmail} 
+              onToggleLogin={() => setActiveForm("login")} 
+            />
           )}
-
-          {/* OTP VERIFICATION FORM */}
-          {activeForm === "otp" && (
-            <>
-              <div className="auth-header">
-                <h2>Verify Code</h2>
-                <p className="page-section__text" style={{ fontSize: "0.85rem" }}>
-                  Enter the 6-digit OTP code sent to <strong>{otpSentEmail}</strong>. (Simulated code: <strong>123456</strong>)
-                </p>
-              </div>
-              <form onSubmit={handleOtpVerify} className="auth-form">
-                <div className="otp-box-container">
-                  {otpCode.map((val, idx) => (
-                    <input
-                      key={idx}
-                      id={`otp-char-${idx}`}
-                      type="text"
-                      maxLength={1}
-                      className="otp-input"
-                      value={val}
-                      onChange={(e) => handleOtpChange(idx, e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Backspace" && !val && idx > 0) {
-                          const prevInput = document.getElementById(`otp-char-${idx - 1}`);
-                          prevInput?.focus();
-                        }
-                      }}
-                      required
-                    />
-                  ))}
-                </div>
-
-                <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }}>
-                  Confirm Verification Code
-                </Button>
-              </form>
-
-              <div style={{ textAlign: "center", fontSize: "0.85rem", color: "var(--sirat-muted)", marginTop: "0.5rem" }}>
-                Didn't receive the email?{" "}
-                <button type="button" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--sirat-gold-soft)", fontWeight: "700" }} onClick={() => setActiveForm("forgot")}>
-                  Resend OTP
-                </button>
-              </div>
-            </>
-          )}
-
-          {/* RESET PASSWORD FORM */}
-          {activeForm === "reset" && (
-            <>
-              <div className="auth-header">
-                <h2>Reset Password</h2>
-                <p className="page-section__text" style={{ fontSize: "0.85rem" }}>Choose a strong password for your profile.</p>
-              </div>
-              <form onSubmit={handleResetPassword} className="auth-form">
-                <div className="form-group">
-                  <label htmlFor="new-pass"><ShieldCheck size={13} style={{ marginRight: "4px" }} /> New Password</label>
-                  <div style={{ position: "relative" }}>
-                    <input
-                      id="new-pass"
-                      type={showNewPass ? "text" : "password"}
-                      required
-                      className="form-input"
-                      style={{ width: "100%", paddingRight: "3rem" }}
-                      placeholder="••••••••"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowNewPass(!showNewPass)}
-                      style={{
-                        position: "absolute",
-                        right: "1.2rem",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        color: "var(--sirat-muted)",
-                        display: "flex",
-                        alignItems: "center"
-                      }}
-                      aria-label={showNewPass ? "Hide password" : "Show password"}
-                    >
-                      {showNewPass ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="confirm-new-pass"><KeyRound size={13} style={{ marginRight: "4px" }} /> Confirm New Password</label>
-                  <div style={{ position: "relative" }}>
-                    <input
-                      id="confirm-new-pass"
-                      type={showConfirmPass ? "text" : "password"}
-                      required
-                      className="form-input"
-                      style={{ width: "100%", paddingRight: "3rem" }}
-                      placeholder="••••••••"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPass(!showConfirmPass)}
-                      style={{
-                        position: "absolute",
-                        right: "1.2rem",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                        color: "var(--sirat-muted)",
-                        display: "flex",
-                        alignItems: "center"
-                      }}
-                      aria-label={showConfirmPass ? "Hide password" : "Show password"}
-                    >
-                      {showConfirmPass ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-
-                <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }}>
-                  Save New Password
-                </Button>
-              </form>
-            </>
-          )}
-
         </div>
       )}
     </PageFrame>
