@@ -162,8 +162,10 @@
 .mobile-nav {
   position: fixed;
   inset: 0;
+  height: 100vh;
+  height: 100dvh;
   z-index: 100;
-  background: rgba(28, 26, 23, 0.4);
+  background: rgba(28, 26, 23, 0.45); /* Slight dark overlay */
   backdrop-filter: blur(8px);
   display: flex;
   justify-content: flex-end;
@@ -173,12 +175,13 @@
   width: 100%;
   max-width: 320px;
   background: var(--sirat-bg);
-  height: 100%;
+  height: 100vh;
+  height: 100dvh;
   padding: 4.5rem 2rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  box-shadow: -8px 0 32px rgba(28, 26, 23, 0.1);
+  box-shadow: -8px 0 32px rgba(28, 26, 23, 0.15);
   position: relative;
   border-left: 1px solid var(--sirat-border);
 }
