@@ -96,13 +96,18 @@ export default function TrackPage() {
 
     const allOrders = getMergedOrders();
     const matches = allOrders.filter((order) => {
-      const cleanOrderId = order.orderId.toLowerCase().replace("srt-", "");
+      const orderIdStr = order.orderId || "";
+      const phoneStr = order.phone || "";
+      const emailStr = order.email || "";
+      const nameStr = order.name || "";
+
+      const cleanOrderId = orderIdStr.toLowerCase().replace("srt-", "");
       const cleanSearch = val.replace("srt-", "").replace("#", "");
       
-      const idMatch = cleanOrderId === cleanSearch || order.orderId.toLowerCase() === val;
-      const phoneMatch = order.phone.toLowerCase().includes(val);
-      const emailMatch = order.email.toLowerCase().includes(val);
-      const nameMatch = order.name.toLowerCase().includes(val);
+      const idMatch = cleanOrderId === cleanSearch || orderIdStr.toLowerCase() === val;
+      const phoneMatch = phoneStr.toLowerCase().includes(val);
+      const emailMatch = emailStr.toLowerCase().includes(val);
+      const nameMatch = nameStr.toLowerCase().includes(val);
       
       return idMatch || phoneMatch || emailMatch || nameMatch;
     });
