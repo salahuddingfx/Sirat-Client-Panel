@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+::selection {
+  background-color: var(--sirat-gold-soft);
+  color: var(--sirat-surface);
+}
 
 :root {
   --sirat-bg: #FAF9F5; /* Luxury Warm Eggshell */
@@ -12,13 +17,13 @@
   --sirat-muted: #5A5650; /* Richer warm grey */
   --sirat-star: #C5A059;
   --sirat-shadow: 0 16px 48px rgba(197, 160, 89, 0.04);
-  font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6, .sirat-brand, .page-card__title, .section-header h2, .bestseller-title, .hero-slide__title {
-  font-family: 'Syne', sans-serif !important;
-  letter-spacing: -0.03em !important;
-  font-weight: 800 !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  letter-spacing: -0.02em !important;
+  font-weight: 700 !important;
 }
 
 .storefront {
@@ -4002,3 +4007,186 @@ h1, h2, h3, h4, h5, h6, .sirat-brand, .page-card__title, .section-header h2, .be
     display: none !important;
   }
 }
+
+/* ==========================================================
+   STRICT MOBILE-FIRST RESPONSIVE ARCHITECTURE
+   ========================================================== */
+
+/* OVERRIDE LEGACY BEHAVIOR */
+html, body, .storefront {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* 1. CONTAINER SYSTEM (Mobile First) */
+.page-section, .storefront__content {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+@media (min-width: 480px) { .page-section, .storefront__content { padding-left: 20px !important; padding-right: 20px !important; } }
+@media (min-width: 640px) { .page-section, .storefront__content { padding-left: 24px !important; padding-right: 24px !important; } }
+@media (min-width: 768px) { .page-section, .storefront__content { padding-left: 32px !important; padding-right: 32px !important; } }
+@media (min-width: 1024px) { .page-section, .storefront__content { max-width: 1280px !important; } }
+@media (min-width: 1440px) { .page-section, .storefront__content { max-width: 1440px !important; } }
+@media (min-width: 1920px) { .page-section, .storefront__content { max-width: 1600px !important; } }
+
+/* 2. RESPONSIVE TYPOGRAPHY (Mobile First) */
+.hero-slide__title, h1.hero-title, h1 {
+  font-size: 32px !important;
+}
+@media (min-width: 480px) { .hero-slide__title, h1.hero-title, h1 { font-size: 38px !important; } }
+@media (min-width: 640px) { .hero-slide__title, h1.hero-title, h1 { font-size: 44px !important; } }
+@media (min-width: 768px) { .hero-slide__title, h1.hero-title, h1 { font-size: 52px !important; } }
+@media (min-width: 1024px) { .hero-slide__title, h1.hero-title, h1 { font-size: 60px !important; } }
+@media (min-width: 1440px) { .hero-slide__title, h1.hero-title, h1 { font-size: 68px !important; } }
+@media (min-width: 1920px) { .hero-slide__title, h1.hero-title, h1 { font-size: 72px !important; } }
+
+.page-section__title, .section-header h2, h2 {
+  font-size: 24px !important;
+}
+@media (min-width: 480px) { .page-section__title, .section-header h2, h2 { font-size: 28px !important; } }
+@media (min-width: 640px) { .page-section__title, .section-header h2, h2 { font-size: 32px !important; } }
+@media (min-width: 768px) { .page-section__title, .section-header h2, h2 { font-size: 36px !important; } }
+@media (min-width: 1024px) { .page-section__title, .section-header h2, h2 { font-size: 40px !important; } }
+
+p, .page-section__text, body {
+  font-size: 14px !important;
+}
+@media (min-width: 480px) { p, .page-section__text, body { font-size: 15px !important; } }
+@media (min-width: 640px) { p, .page-section__text, body { font-size: 16px !important; } }
+@media (min-width: 1024px) { p, .page-section__text, body { font-size: 18px !important; } }
+
+/* 3. FLUID GRID SYSTEM (Mobile First overrides) */
+.product-grid, .related-products-section .product-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 16px !important;
+}
+@media (min-width: 480px) { .product-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; } }
+@media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 32px !important; } }
+@media (min-width: 1440px) { .product-grid { grid-template-columns: repeat(5, 1fr) !important; } }
+@media (min-width: 1920px) { .product-grid { grid-template-columns: repeat(6, 1fr) !important; } }
+
+.category-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 16px !important;
+}
+@media (min-width: 480px) { .category-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (min-width: 768px) { .category-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; } }
+@media (min-width: 1024px) { .category-grid { grid-template-columns: repeat(4, 1fr) !important; } }
+
+.quote-grid, .reviews-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 16px;
+}
+@media (min-width: 640px) { .quote-grid, .reviews-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (min-width: 1024px) { .quote-grid, .reviews-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+
+.footer-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 32px !important;
+}
+@media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (min-width: 1024px) { .footer-grid { grid-template-columns: repeat(4, 1fr) !important; } }
+
+.form-grid, .support-grid, .about-grid, .bestseller-grid, .product-layout, .details-grid, .visuals-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 24px !important;
+}
+@media (min-width: 768px) { 
+  .form-grid, .support-grid, .about-grid, .bestseller-grid, .product-layout, .details-grid, .visuals-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+.form-grid .full {
+  grid-column: span 1 !important;
+}
+@media (min-width: 768px) {
+  .form-grid .full {
+    grid-column: span 2 !important;
+  }
+}
+
+/* 4. RESPONSIVE COMPONENT SIZING (Mobile First) */
+.sirat-button, select {
+  min-height: 48px !important;
+}
+@media (max-width: 767px) {
+  .sirat-button, .hero-slide__actions a {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+  .form-grid input, .form-grid textarea, .field input, .newsletter-form input {
+    min-height: 48px !important;
+  }
+}
+
+/* Images */
+img, video {
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: cover;
+}
+
+/* 5. RESPONSIVE HERO SECTION */
+@media (max-width: 767px) {
+  .hero-split-container {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .hero-split-media {
+    height: 60vh !important;
+    min-height: 400px !important;
+    order: 2 !important;
+  }
+  .hero-split-info {
+    order: 1 !important;
+    text-align: center !important;
+    align-items: center !important;
+  }
+}
+@media (min-width: 768px) {
+  .hero-split-container {
+    display: grid !important;
+    grid-template-columns: 1fr 1.15fr !important;
+  }
+}
+
+/* 6. RESPONSIVE NAVBAR (Mobile handling) */
+@media (max-width: 1023px) {
+  .storefront-nav {
+    display: none !important;
+  }
+  .mobile-menu-button {
+    display: block !important;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+@media (min-width: 1024px) {
+  .storefront__header-inner {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  .storefront-nav {
+    display: flex !important;
+  }
+  .mobile-menu-button {
+    display: none !important;
+  }
+}
+
+/* Additional safety */
+.storefront { padding: 0 !important; }
+
