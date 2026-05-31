@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Star, ShoppingBag, Plus, Minus, Sparkles } from "lucide-react";
+import { Star, ShoppingCart, Plus, Minus, Sparkles } from "lucide-react";
 import { Button } from "../lib/ui";
 import { products } from "../data/mockData";
 import { useCart } from "../context/CartContext";
@@ -82,7 +82,7 @@ export default function BestSellerSection() {
             </div>
 
             <Button style={{ flex: 1 }} onClick={handleBestSellerAddToCart}>
-              <ShoppingBag size={16} style={{ marginRight: "8px" }} /> Add Best Seller to Cart
+              <ShoppingCart size={16} style={{ marginRight: "8px" }} /> Add Best Seller to Cart
             </Button>
           </div>
         </div>
