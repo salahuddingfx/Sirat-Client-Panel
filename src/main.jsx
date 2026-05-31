@@ -5,19 +5,22 @@ import { Provider } from "react-redux";
 import { store } from "@app/store/store";
 import { AuthProvider } from "@app/providers/AuthContext";
 import { CartProvider } from "@app/providers/CartContext";
+import { ErrorBoundary } from "@app/ErrorBoundary";
 import "@styles/global.css";
 import { App } from "@app/App";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <AuthProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </AuthProvider>
-      </BrowserRouter>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <BrowserRouter>
+          <AuthProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </Provider>
+    </ErrorBoundary>
   </StrictMode>
 );
