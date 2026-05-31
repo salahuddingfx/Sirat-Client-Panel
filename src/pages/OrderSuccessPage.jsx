@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { CheckCircle, ShoppingBag } from "lucide-react";
+import { CheckCircle, ShoppingBag, User, Phone, MapPin, Scale, Truck, CreditCard, Smartphone, Key, Coins } from "lucide-react";
 import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
 import SEO from "../components/SEO";
@@ -56,16 +56,16 @@ export default function OrderSuccessPage() {
           </div>
           
           <div style={{ fontSize: "0.88rem", display: "grid", gap: "0.65rem", borderTop: "1px dashed var(--sirat-border)", paddingTop: "1rem" }}>
-            <div>📦 <strong>Recipient Name:</strong> {name}</div>
-            <div>📞 <strong>Contact Phone:</strong> {phone}</div>
-            <div>📍 <strong>Address:</strong> {address}, {city}</div>
-            <div>⚖️ <strong>Total Weight:</strong> {totalWeight.toFixed(2)} kg</div>
-            <div>🚚 <strong>Shipping Fee:</strong> ৳{shippingCharge}</div>
-            <div>💵 <strong>Payment Method:</strong> {paymentMethod.toUpperCase() === "COD" ? "Cash on Delivery (COD)" : `${paymentMethod.toUpperCase().replace("MFS", "bKash/Nagad")} Wallet`}</div>
-            {paySender && <div>📱 <strong>Sender Number:</strong> {paySender}</div>}
-            {payTxid && <div>🔑 <strong>Transaction ID:</strong> {payTxid}</div>}
-            <div style={{ borderTop: "1px solid var(--sirat-border)", paddingTop: "0.75rem", marginTop: "0.3rem", fontSize: "1rem" }}>
-              💰 <strong>Total Amount Confirmed:</strong> <strong style={{ color: "var(--sirat-gold-soft)" }}>৳{estimatedTotal}</strong>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><User size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Recipient Name:</strong> {name}</span></div>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Phone size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Contact Phone:</strong> {phone}</span></div>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><MapPin size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Address:</strong> {address}, {city}</span></div>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Scale size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Total Weight:</strong> {totalWeight.toFixed(2)} kg</span></div>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Truck size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Shipping Fee:</strong> ৳{shippingCharge}</span></div>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><CreditCard size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Payment Method:</strong> {paymentMethod.toUpperCase() === "COD" ? "Cash on Delivery (COD)" : `${paymentMethod.toUpperCase().replace("MFS", "bKash/Nagad")} Wallet`}</span></div>
+            {paySender && <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Smartphone size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Sender Number:</strong> {paySender}</span></div>}
+            {payTxid && <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Key size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Transaction ID:</strong> {payTxid}</span></div>}
+            <div style={{ borderTop: "1px solid var(--sirat-border)", paddingTop: "0.75rem", marginTop: "0.3rem", fontSize: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <Coins size={16} style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Total Amount Confirmed:</strong> <strong style={{ color: "var(--sirat-gold-soft)" }}>৳{estimatedTotal}</strong></span>
             </div>
           </div>
         </div>
