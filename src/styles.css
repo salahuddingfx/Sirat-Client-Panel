@@ -584,6 +584,8 @@
   color: var(--sirat-text);
   font-weight: 700;
   transition: all 200ms ease;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .hp-category-tab__preview {
@@ -1707,10 +1709,31 @@
   padding: 0.25rem 0.5rem;
 }
 
-.quickview-qty-selector span {
+.quickview-qty-selector span,
+.quickview-qty-selector input {
   font-weight: 700;
   min-width: 24px;
   text-align: center;
+}
+
+.quickview-qty-selector input {
+  width: 32px;
+  border: none;
+  background: transparent;
+  color: var(--sirat-text);
+  font-size: 0.95rem;
+  outline: none;
+  padding: 0;
+}
+
+.quickview-qty-selector input::-webkit-outer-spin-button,
+.quickview-qty-selector input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quickview-qty-selector input[type=number] {
+  -moz-appearance: textfield;
 }
 
 /* Shop Catalog Toolbar */
