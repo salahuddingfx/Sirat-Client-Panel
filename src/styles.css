@@ -3959,8 +3959,9 @@ section:not(.page-section) {
     gap: 2.5rem !important;
   }
   .footer-links-container {
-    flex-direction: column !important;
-    gap: 2rem !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2rem 1.5rem !important;
   }
   .storefront__footer-inner {
     flex-direction: column !important;
