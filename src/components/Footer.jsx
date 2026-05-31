@@ -27,37 +27,40 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Collections links */}
-          <div className="footer-col">
-            <h4>Collections</h4>
-            <ul className="footer-links">
-              <li><Link to="/shop">Oversized T-Shirts</Link></li>
-              <li><Link to="/shop">Custom Prints</Link></li>
-              <li><Link to="/shop">Puff Print Collection</Link></li>
-              <li><Link to="/shop">Premium Essentials</Link></li>
-            </ul>
-          </div>
+          {/* Links container */}
+          <div className="footer-links-container">
+            {/* Collections links */}
+            <div className="footer-col">
+              <h4>Collections</h4>
+              <ul className="footer-links">
+                <li><Link to="/shop">Oversized T-Shirts</Link></li>
+                <li><Link to="/shop">Custom Prints</Link></li>
+                <li><Link to="/shop">Puff Print Collection</Link></li>
+                <li><Link to="/shop">Premium Essentials</Link></li>
+              </ul>
+            </div>
 
-          {/* Support links */}
-          <div className="footer-col">
-            <h4>Customer Care</h4>
-            <ul className="footer-links">
-              <li><Link to="/contact">Contact Support</Link></li>
-              <li><Link to="/track">Track Order</Link></li>
-              <li><Link to="/reviews">Customer Reviews</Link></li>
-              <li><Link to="/">Sizing Guide</Link></li>
-            </ul>
-          </div>
+            {/* Support links */}
+            <div className="footer-col">
+              <h4>Customer Care</h4>
+              <ul className="footer-links">
+                <li><Link to="/contact">Contact Support</Link></li>
+                <li><Link to="/track">Track Order</Link></li>
+                <li><Link to="/reviews">Customer Reviews</Link></li>
+                <li><Link to="/">Sizing Guide</Link></li>
+              </ul>
+            </div>
 
-          {/* Legal links */}
-          <div className="footer-col">
-            <h4>Legal</h4>
-            <ul className="footer-links">
-              <li><Link to="/terms">Terms of Service</Link></li>
-              <li><Link to="/privacy">Privacy Policy</Link></li>
-              <li><Link to="/refund-policy">Refund & Return Policy</Link></li>
-              <li><Link to="/cookie-policy">Cookie Policy</Link></li>
-            </ul>
+            {/* Legal links */}
+            <div className="footer-col">
+              <h4>Legal</h4>
+              <ul className="footer-links">
+                <li><Link to="/terms">Terms of Service</Link></li>
+                <li><Link to="/privacy">Privacy Policy</Link></li>
+                <li><Link to="/refund-policy">Refund & Return Policy</Link></li>
+                <li><Link to="/cookie-policy">Cookie Policy</Link></li>
+              </ul>
+            </div>
           </div>
         </div>
 
