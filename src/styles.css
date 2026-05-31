@@ -4201,7 +4201,7 @@ p, .page-section__text, body {
 @media (min-width: 1024px) { p, .page-section__text, body { font-size: 18px !important; } }
 
 /* 3. FLUID GRID SYSTEM (Mobile First overrides) */
-.product-grid, .related-products-section .product-grid {
+.product-grid {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
   gap: 16px !important;
