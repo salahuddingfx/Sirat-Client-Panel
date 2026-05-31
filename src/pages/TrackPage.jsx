@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Search, PackageSearch } from "lucide-react";
 import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
 import SEO from "../components/SEO";
 
 export default function TrackPage() {
-  const [query, setQuery] = useState("");
-  const [message, setMessage] = useState("Enter an order ID, a customer name, or an email and name.");
+  const [searchParams] = useSearchParams();
+  const initialId = searchParams.get("id") || "";
+  const [query, setQuery] = useState(initialId);
+  const [message, setMessage] = useState(
+    initialId
+      ? `Looking up shipment progress for Order #${initialId}...`
+      : "Enter an order ID, a customer name, or an email and name."
+  );
 
   function parseQuery(q) {
     const cleaned = q.trim();
