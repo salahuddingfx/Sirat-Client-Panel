@@ -83,8 +83,8 @@ export default function CartDrawer({ isOpen, onClose }) {
                           <h4 className="cart-drawer__item-name">{item.product.name}</h4>
                           <span className="cart-drawer__item-variant">Size: {item.variant.label}</span>
                           <div className="cart-drawer__item-meta">
-                            <strong>${price * item.quantity}</strong>
-                            <span className="helper">${price} each</span>
+                            <strong>৳{price * item.quantity}</strong>
+                            <span className="helper">৳{price} each</span>
                           </div>
                         </div>
 
@@ -150,17 +150,17 @@ export default function CartDrawer({ isOpen, onClose }) {
                 <div className="cart-drawer__summary">
                   <div className="cart-drawer__summary-row">
                     <span>Subtotal</span>
-                    <span>${cartSubtotal.toFixed(2)}</span>
+                    <span>৳{cartSubtotal}</span>
                   </div>
                   {discountAmount > 0 && (
                     <div className="cart-drawer__summary-row promo">
                       <span>Discount</span>
-                      <span>-${discountAmount.toFixed(2)}</span>
+                      <span>-৳{discountAmount}</span>
                     </div>
                   )}
                   <div className="cart-drawer__summary-row total">
                     <span>Estimated Total</span>
-                    <span>${cartTotal.toFixed(2)}</span>
+                    <span>৳{cartTotal}</span>
                   </div>
                 </div>
 
