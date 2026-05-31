@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Minus, Trash2, ShoppingCart, Tag } from "lucide-react";
-import { useCart } from "../../../app/providers/CartContext";
-import { Button } from "../../components/ui";
+import { useCart } from "@app/providers/CartContext";
+import { Button } from "@components/ui";
 
 export default function CartDrawer({ isOpen, onClose }) {
   const navigate = useNavigate();
