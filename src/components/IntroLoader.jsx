@@ -11,7 +11,6 @@ export default function IntroLoader({ onComplete }) {
   const handleDismiss = () => {
     const tl = gsap.timeline({
       onComplete: () => {
-        sessionStorage.setItem("sirat_loader_shown", "true");
         onComplete();
       }
     });
