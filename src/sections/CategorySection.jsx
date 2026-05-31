@@ -5,15 +5,14 @@ import ProductCard from "../components/ProductCard";
 import { products } from "../data/mockData";
 
 const categoryData = [
-  { name: "Outerwear", bg: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=600" },
-  { name: "Sets", bg: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=600" },
-  { name: "Essentials", bg: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=600" },
-  { name: "Bottoms", bg: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=600" },
-  { name: "Accessories", bg: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600" }
+  { name: "Oversized", bg: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=600" },
+  { name: "Custom Prints", bg: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=600" },
+  { name: "Screen Prints", bg: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=600" },
+  { name: "Essentials", bg: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=600" }
 ];
 
 export default function CategorySection() {
-  const [selectedCategory, setSelectedCategory] = useState("Outerwear");
+  const [selectedCategory, setSelectedCategory] = useState("Oversized");
 
   const categoryProducts = useMemo(() => {
     return products.filter((p) => p.category.toLowerCase() === selectedCategory.toLowerCase());
