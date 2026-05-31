@@ -740,7 +740,7 @@ section:not(.page-section) {
 /* Editorial Asymmetrical Grid Layout - Mobile First */
 .product-grid-editorial {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
@@ -4209,7 +4209,7 @@ p, .page-section__text, body {
 /* 3. FLUID GRID SYSTEM (Mobile First overrides) */
 .product-grid, .related-products-section .product-grid {
   display: grid !important;
-  grid-template-columns: 1fr !important;
+  grid-template-columns: repeat(2, 1fr) !important;
   gap: 16px !important;
 }
 @media (min-width: 480px) { .product-grid { grid-template-columns: repeat(2, 1fr) !important; } }
