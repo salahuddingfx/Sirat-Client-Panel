@@ -719,14 +719,14 @@ section:not(.page-section) {
 @media (min-width: 1024px) {
   .product-grid {
     grid-template-columns: repeat(4, 1fr) !important;
-    gap: 32px !important;
+    gap: 20px !important;
   }
 }
 
 @media (min-width: 1440px) {
   .product-grid {
     grid-template-columns: repeat(5, 1fr) !important;
-    gap: 32px !important;
+    gap: 20px !important;
   }
 }
 
@@ -812,7 +812,7 @@ section:not(.page-section) {
 .product-card-modern {
   border: 1px solid var(--sirat-border);
   background: var(--sirat-surface);
-  border-radius: 20px; /* Decreased border-radius to be more compact */
+  border-radius: 12px; /* Decreased border-radius to be more compact */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -854,8 +854,8 @@ section:not(.page-section) {
   aspect-ratio: 1.15 / 1; /* Decreased card height aspect ratio */
   background: #F4F3EF; /* Light grey-cream image block background */
   border-bottom: 1px solid var(--sirat-border);
-  border-top-left-radius: 19px;
-  border-top-right-radius: 19px;
+  border-top-left-radius: 11px;
+  border-top-right-radius: 11px;
   overflow: hidden;
 }
 
