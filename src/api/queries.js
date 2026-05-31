@@ -52,3 +52,20 @@ export async function placeOrder(payload) {
   const response = await clientApi.post("/orders", payload);
   return response.data;
 }
+
+export async function loginUser(credentials) {
+  const response = await clientApi.post("/auth/login", credentials);
+  return response.data;
+}
+
+export async function registerUser(payload) {
+  const response = await clientApi.post("/auth/register", payload);
+  return response.data;
+}
+
+export async function fetchMyOrders(token) {
+  const response = await clientApi.get("/orders/my-orders", {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+}
