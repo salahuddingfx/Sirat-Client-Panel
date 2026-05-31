@@ -1,7 +1,1 @@
-.sirat-panel {
-  background: white;
-  border: 1px solid var(--sirat-border, #eee);
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-}
+/* Using original sirat-panel styles from global configuration */
