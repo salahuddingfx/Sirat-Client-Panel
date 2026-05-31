@@ -3,34 +3,34 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "lenis";
 
-import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/Footer";
-import BottomNav from "../components/layout/BottomNav";
-import ScrollToTop from "../components/layout/ScrollToTop";
-import FloatingSupport from "../components/layout/FloatingSupport";
-import IntroLoader from "../components/layout/IntroLoader";
+import Navbar from "@components/layout/Navbar";
+import Footer from "@components/layout/Footer";
+import BottomNav from "@components/layout/BottomNav";
+import ScrollToTop from "@components/layout/ScrollToTop";
+import FloatingSupport from "@components/layout/FloatingSupport";
+import IntroLoader from "@components/layout/IntroLoader";
 
-import CartDrawer from "../features/cart/CartDrawer";
+import CartDrawer from "@features/cart/CartDrawer";
 
-import HomePage from "../pages/Home/Home";
-import AboutPage from "../pages/About/About";
-import ShopPage from "../pages/Shop/Shop";
-import TrackPage from "../pages/Track/Track";
-import ContactPage from "../pages/Contact/Contact";
-import ReviewsPage from "../pages/Reviews/Reviews";
-import SimplePage from "../pages/Simple/Simple";
-import NotFoundPage from "../pages/NotFound/NotFound";
-import TermsPage from "../pages/Terms/Terms";
-import PrivacyPage from "../pages/Privacy/Privacy";
-import RefundPage from "../pages/Refund/Refund";
-import CookiePage from "../pages/Cookie/Cookie";
-import ProductDetailPage from "../pages/ProductDetail/ProductDetail";
-import CartPage from "../pages/Cart/Cart";
-import CheckoutPage from "../pages/Checkout/Checkout";
-import AccountPage from "../pages/Account/Account";
-import OrderSuccessPage from "../pages/OrderSuccess/OrderSuccess";
+import HomePage from "@pages/Home/Home";
+import AboutPage from "@pages/About/About";
+import ShopPage from "@pages/Shop/Shop";
+import TrackPage from "@pages/Track/Track";
+import ContactPage from "@pages/Contact/Contact";
+import ReviewsPage from "@pages/Reviews/Reviews";
+import SimplePage from "@pages/Simple/Simple";
+import NotFoundPage from "@pages/NotFound/NotFound";
+import TermsPage from "@pages/Terms/Terms";
+import PrivacyPage from "@pages/Privacy/Privacy";
+import RefundPage from "@pages/Refund/Refund";
+import CookiePage from "@pages/Cookie/Cookie";
+import ProductDetailPage from "@pages/ProductDetail/ProductDetail";
+import CartPage from "@pages/Cart/Cart";
+import CheckoutPage from "@pages/Checkout/Checkout";
+import AccountPage from "@pages/Account/Account";
+import OrderSuccessPage from "@pages/OrderSuccess/OrderSuccess";
 
-import { useCart } from "./providers/CartContext";
+import { useCart } from "@app/providers/CartContext";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -84,7 +84,7 @@ export function App() {
             <Route path="/account" element={<AccountPage />} />
             <Route path="/order-success" element={<OrderSuccessPage />} />
             <Route path="/page/:slug" element={<SimplePage />} />
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </motion.main>
       </AnimatePresence>
