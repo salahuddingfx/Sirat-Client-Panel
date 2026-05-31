@@ -21,9 +21,9 @@ export default function CategorySection() {
   return (
     <section className="controllable-categories-section">
       <SectionHeader
-        eyebrow="Controllable drops"
+        eyebrow="Curated Styles"
         title="Browse by Category"
-        description="Click a category below to explore its garments with animated transitions."
+        description="Click a category below to explore our premium collection."
       />
       
       <div className="homepage-category-selector" style={{ marginTop: "1.5rem" }}>
