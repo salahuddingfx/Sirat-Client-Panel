@@ -47,3 +47,8 @@ export async function fetchReviews() {
   const response = await clientApi.get("/reviews");
   return response.data;
 }
+
+export async function placeOrder(payload) {
+  const response = await clientApi.post("/orders", payload);
+  return response.data;
+}

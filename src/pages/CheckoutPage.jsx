@@ -7,10 +7,13 @@ import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
 import SEO from "../components/SEO";
 
+import { placeOrder } from "../api/queries";
+
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { cartItems, cartSubtotal, discountAmount, clearCart } = useCart();
   const { isLoggedIn, user } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // State controls
   const [email, setEmail] = useState("");
@@ -58,7 +61,7 @@ export default function CheckoutPage() {
     return Math.max(0, cartSubtotal - discountAmount + shippingCharge);
   }, [cartSubtotal, discountAmount, shippingCharge]);
 
-  const handlePlaceOrder = (e) => {
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
     if (!name || !email || !phone || !address) {
       alert("Please fill in all required shipping fields.");
@@ -70,47 +73,47 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Simulate placing order
-    const orderNum = `SRT-${Math.floor(100000 + Math.random() * 900000)}`;
-    
-    // Capture state values before clearing cart
-    const orderDetails = {
-      orderId: orderNum,
-      name,
-      phone,
-      address,
-      city,
-      totalWeight,
-      shippingCharge,
-      paymentMethod,
-      paySender,
-      payTxid,
-      estimatedTotal,
-      items: cartItems.map((item) => ({
-        id: item.product.id,
-        name: item.product.name,
-        category: item.product.category,
-        price: item.product.price + item.variant.priceDelta,
-        quantity: item.quantity,
-        variantLabel: item.variant.label,
-      })),
-      date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) + " " + new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
-      status: "received"
-    };
+    setIsSubmitting(true);
 
-    // Save order to localStorage for tracking querying
     try {
-      const existingOrders = JSON.parse(localStorage.getItem("sirat_orders") || "[]");
-      existingOrders.push(orderDetails);
-      localStorage.setItem("sirat_orders", JSON.stringify(existingOrders));
-    } catch (err) {
-      console.error("Failed to save order to localStorage", err);
-    }
+      const payload = {
+        guestInfo: !isLoggedIn ? { name, email, phone, address, city } : undefined,
+        items: cartItems.map((item) => ({
+          product: item.product.id,
+          quantity: item.quantity,
+          variant: item.variant.label,
+          price: item.product.price + item.variant.priceDelta,
+        })),
+        shippingCharge,
+        totalAmount: estimatedTotal,
+        paymentMethod,
+        paymentDetails: (paymentMethod === "bkash" || paymentMethod === "nagad") ? {
+          senderNumber: paySender,
+          txId: payTxid
+        } : undefined
+      };
 
-    clearCart();
-    
-    // Redirect to OrderSuccessPage
-    navigate("/order-success", { state: orderDetails });
+      const response = await placeOrder(payload);
+
+      if (response.success) {
+        const orderDetails = response.data;
+        
+        // Save to local for guest tracking convenience
+        const existingOrders = JSON.parse(localStorage.getItem("sirat_orders") || "[]");
+        existingOrders.push(orderDetails);
+        localStorage.setItem("sirat_orders", JSON.stringify(existingOrders));
+
+        clearCart();
+        navigate("/order-success", { state: orderDetails });
+      } else {
+        alert(response.message || "Failed to place order.");
+      }
+    } catch (err) {
+      console.error("Order error:", err);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -394,9 +397,10 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <Button type="submit" style={{ width: "100%", marginTop: "1.5rem" }}>
-                Place Order (৳{estimatedTotal})
+              <Button type="submit" disabled={isSubmitting} style={{ width: "100%", marginTop: "1.5rem", opacity: isSubmitting ? 0.7 : 1 }}>
+                {isSubmitting ? "Placing Order..." : `Place Order (৳${estimatedTotal})`}
               </Button>
+
               
               <div style={{ marginTop: "1rem", textAlign: "center" }}>
                 <Link to="/cart" className="back-btn" style={{ display: "inline-flex", width: "auto", border: "none", fontSize: "0.8rem", padding: "0" }}>
