@@ -20,7 +20,7 @@ export default function CtaSection() {
               <Button>Shop the Drop</Button>
             </Link>
             <Link to="/contact">
-              <Button variant="outline" style={{ border: "1px solid rgba(255,255,255,0.4)", color: "#FAF7F2" }}>
+              <Button variant="outline">
                 Join Drop Queue
               </Button>
             </Link>
