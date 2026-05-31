@@ -8,18 +8,46 @@ import SEO from "../components/SEO";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { cartItems, cartSubtotal, cartTotal, discountAmount, clearCart } = useCart();
+  const { cartItems, cartSubtotal, discountAmount, clearCart } = useCart();
 
   // State controls
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [city, setCity] = useState("Dhaka");
+  const [city, setCity] = useState("Cox's Bazar"); // Default Cox's Bazar
   const [zip, setZip] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [paySender, setPaySender] = useState("");
+  const [payTxid, setPayTxid] = useState("");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [generatedOrderId, setGeneratedOrderId] = useState("");
+
+  // Calculate order weight
+  const totalWeight = useMemo(() => {
+    return cartItems.reduce((sum, item) => {
+      const weightNum = parseFloat(item.product.weight || 0.35);
+      return sum + weightNum * item.quantity;
+    }, 0);
+  }, [cartItems]);
+
+  // Calculate shipping charges
+  const shippingCharge = useMemo(() => {
+    if (city === "Cox's Bazar") {
+      return 70;
+    }
+    // Outside Cox's Bazar
+    if (totalWeight <= 1.0) {
+      return 120;
+    }
+    const extraWeight = totalWeight - 1.0;
+    const extraCharge = Math.ceil(extraWeight) * 10;
+    return 120 + extraCharge;
+  }, [city, totalWeight]);
+
+  const estimatedTotal = useMemo(() => {
+    return Math.max(0, cartSubtotal - discountAmount + shippingCharge);
+  }, [cartSubtotal, discountAmount, shippingCharge]);
 
   const handlePlaceOrder = (e) => {
     e.preventDefault();
@@ -28,11 +56,16 @@ export default function CheckoutPage() {
       return;
     }
 
+    if ((paymentMethod === "bkash" || paymentMethod === "nagad") && (!paySender || !payTxid)) {
+      alert(`Please enter your ${paymentMethod === "bkash" ? "bKash" : "Nagad"} sender phone and transaction ID.`);
+      return;
+    }
+
     // Simulate placing order
     const orderNum = `SRT-${Math.floor(100000 + Math.random() * 900000)}`;
     setGeneratedOrderId(orderNum);
     setOrderPlaced(true);
-    clearCart();
+    // Note: clearCart will clear items, so we'll keep variables in success state by rendering local states
   };
 
   // If order is placed successfully, render success state
@@ -46,16 +79,31 @@ export default function CheckoutPage() {
           <p className="page-section__text" style={{ margin: "0.5rem auto 1.5rem" }}>
             Your order has been received and is being processed. 
           </p>
-          <div style={{ background: "var(--sirat-bg)", border: "1px solid var(--sirat-border)", padding: "1.25rem", borderRadius: "12px", marginBottom: "2rem" }}>
-            <span style={{ fontSize: "0.85rem", color: "var(--sirat-muted)", display: "block" }}>Order Tracking Number:</span>
-            <strong style={{ fontSize: "1.25rem", color: "var(--sirat-gold-soft)", letterSpacing: "0.05em" }}>{generatedOrderId}</strong>
-            <span style={{ fontSize: "0.78rem", color: "var(--sirat-muted)", display: "block", marginTop: "0.45rem" }}>
-              Copy this ID and use it on our <strong>Track</strong> page to monitor shipping.
-            </span>
+
+          <div style={{ background: "var(--sirat-bg)", border: "1px solid var(--sirat-border)", padding: "1.25rem", borderRadius: "12px", marginBottom: "2rem", textAlign: "left" }}>
+            <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+              <span style={{ fontSize: "0.85rem", color: "var(--sirat-muted)", display: "block" }}>Order Tracking Number:</span>
+              <strong style={{ fontSize: "1.25rem", color: "var(--sirat-gold-soft)", letterSpacing: "0.05em" }}>{generatedOrderId}</strong>
+            </div>
+            
+            <div style={{ fontSize: "0.85rem", display: "grid", gap: "0.55rem", borderTop: "1px dashed var(--sirat-border)", paddingTop: "0.85rem" }}>
+              <div>📦 <strong>Recipient Name:</strong> {name}</div>
+              <div>📞 <strong>Contact Phone:</strong> {phone}</div>
+              <div>📍 <strong>Address:</strong> {address}, {city}</div>
+              <div>⚖️ <strong>Total Package Weight:</strong> {totalWeight.toFixed(2)} kg</div>
+              <div>🚚 <strong>Shipping Fee:</strong> ৳{shippingCharge}</div>
+              <div>💵 <strong>Payment Method:</strong> {paymentMethod.toUpperCase() === "COD" ? "Cash on Delivery (COD)" : `${paymentMethod.toUpperCase()} Mobile Money`}</div>
+              {paySender && <div>📱 <strong>Sender Number:</strong> {paySender}</div>}
+              {payTxid && <div>🔑 <strong>Transaction ID:</strong> {payTxid}</div>}
+              <div style={{ borderTop: "1px solid var(--sirat-border)", paddingTop: "0.55rem", marginTop: "0.2rem", fontSize: "0.95rem" }}>
+                💰 <strong>Amount Paid/Due:</strong> <strong style={{ color: "var(--sirat-gold-soft)" }}>৳{estimatedTotal}</strong>
+              </div>
+            </div>
           </div>
+
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-            <Button onClick={() => navigate("/")}>Go to Home</Button>
-            <Button variant="outline" onClick={() => navigate("/track")}>Track Shipment</Button>
+            <Button onClick={() => { clearCart(); navigate("/"); }}>Go to Home</Button>
+            <Button variant="outline" onClick={() => { clearCart(); navigate(`/track?id=${generatedOrderId}`); }}>Track Shipment</Button>
           </div>
         </Panel>
       </PageFrame>
@@ -147,11 +195,13 @@ export default function CheckoutPage() {
                     onChange={(e) => setCity(e.target.value)}
                     style={{ paddingRight: "2rem" }}
                   >
+                    <option value="Cox's Bazar">Cox's Bazar</option>
                     <option value="Dhaka">Dhaka</option>
                     <option value="Chittagong">Chittagong</option>
                     <option value="Sylhet">Sylhet</option>
                     <option value="Rajshahi">Rajshahi</option>
                     <option value="Khulna">Khulna</option>
+                    <option value="Outside Cox's Bazar">Outside Cox's Bazar (Other)</option>
                   </select>
                 </div>
                 <div className="form-group">
@@ -192,45 +242,93 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                {/* Mobile Banking option */}
+                {/* bKash Option */}
                 <div 
-                  className={["payment-option", paymentMethod === "mfs" ? "active" : ""].filter(Boolean).join(" ")}
-                  onClick={() => setPaymentMethod("mfs")}
+                  className={["payment-option", paymentMethod === "bkash" ? "active" : ""].filter(Boolean).join(" ")}
+                  onClick={() => setPaymentMethod("bkash")}
                 >
                   <input 
                     type="radio" 
                     name="payOpt" 
-                    checked={paymentMethod === "mfs"} 
-                    onChange={() => setPaymentMethod("mfs")} 
-                    aria-label="Mobile Financial Services"
+                    checked={paymentMethod === "bkash"} 
+                    onChange={() => setPaymentMethod("bkash")} 
+                    aria-label="bKash Money Transfer"
                   />
-                  <Landmark size={20} style={{ color: "var(--sirat-gold)" }} />
+                  <Landmark size={20} style={{ color: "#E2136E" }} />
                   <div className="payment-option-label">
-                    <span className="payment-option-title">Mobile Banking (bKash / Nagad)</span>
-                    <span className="payment-option-desc">Send payment instantly using mobile wallet apps.</span>
+                    <span className="payment-option-title">bKash (Send Money)</span>
+                    <span className="payment-option-desc">Instantly pay using bKash personal wallet.</span>
                   </div>
                 </div>
 
-                {/* Card Payment option */}
+                {/* Nagad Option */}
                 <div 
-                  className={["payment-option", paymentMethod === "card" ? "active" : ""].filter(Boolean).join(" ")}
-                  onClick={() => setPaymentMethod("card")}
+                  className={["payment-option", paymentMethod === "nagad" ? "active" : ""].filter(Boolean).join(" ")}
+                  onClick={() => setPaymentMethod("nagad")}
                 >
                   <input 
                     type="radio" 
                     name="payOpt" 
-                    checked={paymentMethod === "card"} 
-                    onChange={() => setPaymentMethod("card")} 
-                    aria-label="Online Card Payment"
+                    checked={paymentMethod === "nagad"} 
+                    onChange={() => setPaymentMethod("nagad")} 
+                    aria-label="Nagad Money Transfer"
                   />
-                  <CreditCard size={20} style={{ color: "var(--sirat-gold)" }} />
+                  <Landmark size={20} style={{ color: "#F57C00" }} />
                   <div className="payment-option-label">
-                    <span className="payment-option-title">Credit / Debit Card (SSLCommerz)</span>
-                    <span className="payment-option-desc">Secure online payment via Visa, MasterCard, or Amex.</span>
+                    <span className="payment-option-title">Nagad (Send Money)</span>
+                    <span className="payment-option-desc">Instantly pay using Nagad personal wallet.</span>
                   </div>
                 </div>
 
               </div>
+
+              {/* Conditional payment fields */}
+              {(paymentMethod === "bkash" || paymentMethod === "nagad") && (
+                <div style={{
+                  marginTop: "1.5rem",
+                  padding: "1.25rem",
+                  background: "var(--sirat-bg)",
+                  border: "1px solid var(--sirat-border)",
+                  borderRadius: "12px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem"
+                }}>
+                  <div style={{ fontSize: "0.85rem", lineHeight: "1.5", color: "var(--sirat-text)" }}>
+                    💡 Please send money (<strong>৳{estimatedTotal}</strong>) to our personal {paymentMethod === "bkash" ? "bKash" : "Nagad"} wallet: 
+                    <strong style={{ display: "block", fontSize: "1rem", color: "var(--sirat-gold-soft)", marginTop: "0.25rem" }}>01700-000000 (Send Money)</strong>
+                    Enter your Sender Number and Transaction ID (TxnID) below:
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                    <div className="form-group">
+                      <label htmlFor="pay-sender">Your {paymentMethod === "bkash" ? "bKash" : "Nagad"} Number *</label>
+                      <input
+                        id="pay-sender"
+                        type="text"
+                        required
+                        className="form-input"
+                        style={{ width: "100%", padding: "0.6rem 0.8rem", borderRadius: "8px", border: "1px solid var(--sirat-border)", background: "var(--sirat-surface)" }}
+                        placeholder="e.g. 01711223344"
+                        value={paySender}
+                        onChange={(e) => setPaySender(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="pay-txid">Transaction ID (TxnID) *</label>
+                      <input
+                        id="pay-txid"
+                        type="text"
+                        required
+                        className="form-input"
+                        style={{ width: "100%", padding: "0.6rem 0.8rem", borderRadius: "8px", border: "1px solid var(--sirat-border)", background: "var(--sirat-surface)" }}
+                        placeholder="e.g. A1B2C3D4E5"
+                        value={payTxid}
+                        onChange={(e) => setPayTxid(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </Panel>
           </div>
 
@@ -262,18 +360,22 @@ export default function CheckoutPage() {
                   </div>
                 )}
                 <div className="cart-drawer__summary-row">
-                  <span>Shipping</span>
-                  <span style={{ color: "#10B981", fontWeight: "700" }}>FREE</span>
+                  <span>Total Weight</span>
+                  <span>{totalWeight.toFixed(2)} kg</span>
+                </div>
+                <div className="cart-drawer__summary-row">
+                  <span>Shipping ({city === "Cox's Bazar" ? "Cox's Bazar" : "Outside"})</span>
+                  <span>৳{shippingCharge}</span>
                 </div>
                 <hr className="product-card-modern__divider" style={{ margin: "0.55rem 0" }} />
                 <div className="cart-drawer__summary-row total" style={{ fontSize: "1.15rem" }}>
                   <span>Estimated Total</span>
-                  <span>৳{cartTotal}</span>
+                  <span>৳{estimatedTotal}</span>
                 </div>
               </div>
 
               <Button type="submit" style={{ width: "100%", marginTop: "1.5rem" }}>
-                Place Order (৳{cartTotal})
+                Place Order (৳{estimatedTotal})
               </Button>
               
               <div style={{ marginTop: "1rem", textAlign: "center" }}>
