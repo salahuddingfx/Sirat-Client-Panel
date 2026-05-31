@@ -64,9 +64,6 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
               <Compass size={12} /> Purity in Every Step
             </span>
           </div>
-          <button className="mobile-menu-button" aria-label="Toggle menu" onClick={() => setMobileOpen((s) => !s)}>
-            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
 
           <nav className="storefront-nav" aria-label="Primary">
             {navItems.map((item) => (
@@ -117,36 +114,42 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
               <Search size={16} />
             </Button>
             
-            {isLoggedIn ? (
-              <div className="navbar-profile-dropdown-container">
-                <button type="button" className="navbar-profile-trigger-btn" aria-label="User Profile Menu">
-                  {user?.name?.charAt(0) || "U"}
-                </button>
-                <div className="navbar-profile-dropdown-menu">
-                  <div className="dropdown-user-info">
-                    <strong>{user?.name}</strong>
-                    <span>{user?.email}</span>
-                  </div>
-                  <hr className="product-card-modern__divider" style={{ margin: "0.55rem 0" }} />
-                  <Link to="/account" className="dropdown-item">Dashboard</Link>
-                  <button type="button" className="dropdown-item logout-btn" onClick={logout}>
-                    Log Out
+            <div className="hide-on-mobile">
+              {isLoggedIn ? (
+                <div className="navbar-profile-dropdown-container">
+                  <button type="button" className="navbar-profile-trigger-btn" aria-label="User Profile Menu">
+                    {user?.name?.charAt(0) || "U"}
                   </button>
+                  <div className="navbar-profile-dropdown-menu">
+                    <div className="dropdown-user-info">
+                      <strong>{user?.name}</strong>
+                      <span>{user?.email}</span>
+                    </div>
+                    <hr className="product-card-modern__divider" style={{ margin: "0.55rem 0" }} />
+                    <Link to="/account" className="dropdown-item">Dashboard</Link>
+                    <button type="button" className="dropdown-item logout-btn" onClick={logout}>
+                      Log Out
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <Link to="/account" aria-label="Account Dashboard">
-                <Button variant="ghost" aria-label="Account">
-                  <User size={16} />
-                </Button>
-              </Link>
-            )}
+              ) : (
+                <Link to="/account" aria-label="Account Dashboard">
+                  <Button variant="ghost" aria-label="Account">
+                    <User size={16} />
+                  </Button>
+                </Link>
+              )}
+            </div>
 
             <Button variant="ghost" aria-label="Cart" onClick={onCartToggle} className="navbar-cart-btn">
               <ShoppingBag size={16} />
               {cartCount > 0 && <span className="navbar-cart-badge">{cartCount}</span>}
             </Button>
           </div>
+
+          <button className="mobile-menu-button" aria-label="Toggle menu" onClick={() => setMobileOpen((s) => !s)}>
+            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
       </header>
 
@@ -161,6 +164,32 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
                 {item.label}
               </NavLink>
             ))}
+            
+            {isLoggedIn ? (
+              <div className="mobile-nav-user-section" style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid var(--sirat-border)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
+                  <div className="navbar-profile-trigger-btn">
+                    {user?.name?.charAt(0) || "U"}
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <strong style={{ fontSize: "0.9rem" }}>{user?.name}</strong>
+                    <span style={{ fontSize: "0.72rem", color: "var(--sirat-muted)" }}>{user?.email}</span>
+                  </div>
+                </div>
+                <NavLink to="/account" className="mobile-nav__link" onClick={() => setMobileOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <User size={16} /> Dashboard
+                </NavLink>
+                <button type="button" className="mobile-nav__link logout-btn" onClick={() => { logout(); setMobileOpen(false); }} style={{ display: "flex", alignItems: "center", gap: "0.5rem", border: "none", background: "none", width: "100%", textAlign: "left", cursor: "pointer", color: "#EF4444", marginTop: "0.5rem" }}>
+                  Log Out
+                </button>
+              </div>
+            ) : (
+              <div style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid var(--sirat-border)" }}>
+                <NavLink to="/account" className="mobile-nav__link" onClick={() => setMobileOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <User size={16} /> Sign In / Account
+                </NavLink>
+              </div>
+            )}
           </div>
         </div>
       ) : null}
