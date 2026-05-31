@@ -3927,9 +3927,11 @@ section:not(.page-section) {
   }
   .storefront__toolbar {
     gap: 0.25rem !important;
+    flex-wrap: nowrap !important;
   }
   .storefront__toolbar .sirat-button {
     padding: 0.5rem 0.65rem !important;
+    width: auto !important;
   }
   .mobile-menu-button {
     padding: 0.45rem !important;
