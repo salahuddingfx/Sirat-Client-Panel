@@ -4207,10 +4207,9 @@ p, .page-section__text, body {
   gap: 16px !important;
 }
 @media (min-width: 480px) { .product-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-@media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; } }
-@media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 32px !important; } }
-@media (min-width: 1440px) { .product-grid { grid-template-columns: repeat(5, 1fr) !important; } }
-@media (min-width: 1920px) { .product-grid { grid-template-columns: repeat(6, 1fr) !important; } }
+@media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 20px !important; } }
+@media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(5, 1fr) !important; gap: 20px !important; } }
+@media (min-width: 1920px) { .product-grid { grid-template-columns: repeat(5, 1fr) !important; gap: 20px !important; } }
 
 .category-grid {
   display: grid !important;
