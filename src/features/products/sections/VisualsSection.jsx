@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { SectionHeader } from "../../components/ui";
-import ProductCard from "../components/ProductCard";
-import { products } from "../data/mockData";
+import { SectionHeader } from "@components/ui";
+import ProductCard from "@features/products/components/ProductCard";
+import { products } from "@data/mockData";
 
 export default function VisualsSection() {
   const highlightedProducts = useMemo(() => {

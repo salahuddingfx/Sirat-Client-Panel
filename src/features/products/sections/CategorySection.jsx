@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SectionHeader } from "../../components/ui";
-import ProductCard from "../components/ProductCard";
-import { products } from "../data/mockData";
+import { SectionHeader } from "@components/ui";
+import ProductCard from "@features/products/components/ProductCard";
+import { products } from "@data/mockData";
 
 const categoryData = [
   { name: "Oversized", bg: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=600" },

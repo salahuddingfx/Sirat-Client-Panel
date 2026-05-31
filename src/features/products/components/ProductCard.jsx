@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart, Star, Truck } from "lucide-react";
-import { useCart } from "../../../app/providers/CartContext";
+import { useCart } from "@app/providers/CartContext";
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();

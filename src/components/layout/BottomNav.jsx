@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Home, Compass, Truck, ShoppingCart, User } from "lucide-react";
-import { useCart } from "../../app/providers/CartContext";
+import { useCart } from "@app/providers/CartContext";
 
 export default function BottomNav() {
   const { cartCount, setCartDrawerOpen } = useCart();

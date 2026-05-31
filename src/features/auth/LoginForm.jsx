@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
-import { Button } from "../../../components/ui";
+import { Button } from "@components/ui";
 
 export default function LoginForm({ onLogin, onForgotPassword, onToggleRegister }) {
   const [email, setEmail] = useState("");

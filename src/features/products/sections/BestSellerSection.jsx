@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import { Star, ShoppingCart, Plus, Minus, Sparkles } from "lucide-react";
-import { Button } from "../../components/ui";
-import { products } from "../data/mockData";
-import { useCart } from "../../../app/providers/CartContext";
+import { Button } from "@components/ui";
+import { products } from "@data/mockData";
+import { useCart } from "@app/providers/CartContext";
 
 export default function BestSellerSection() {
   const { addToCart } = useCart();

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
-import { Button } from "../../components/ui";
+import { Button } from "@components/ui";
 
 const sliderSlides = [
   {

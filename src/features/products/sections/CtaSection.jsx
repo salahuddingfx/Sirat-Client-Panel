@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Tag } from "lucide-react";
-import { Button } from "../../components/ui";
+import { Button } from "@components/ui";
 
 export default function CtaSection() {
   return (

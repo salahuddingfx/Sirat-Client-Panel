@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Search, Sparkles, Menu, X, ShoppingCart, Phone, Mail, Zap, Truck, Shirt, Compass, User } from "lucide-react";
-import { Button } from "../../components/ui";
-import { useCart } from "../../app/providers/CartContext";
-import { useAuth } from "../../app/providers/AuthContext";
+import { Button } from "@components/ui";
+import { useCart } from "@app/providers/CartContext";
+import { useAuth } from "@app/providers/AuthContext";
 
 export default function Navbar({ navItems, brandNote, onCartToggle }) {
   const [mobileOpen, setMobileOpen] = useState(false);
