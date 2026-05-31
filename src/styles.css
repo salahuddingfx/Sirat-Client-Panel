@@ -457,6 +457,17 @@ section:not(.page-section) {
   flex-wrap: wrap;
 }
 
+.storefront__toolbar .sirat-button {
+  width: 42px !important;
+  height: 42px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+}
+
 .storefront-nav {
   display: flex;
   gap: 0.35rem;
@@ -485,9 +496,10 @@ section:not(.page-section) {
 
 /* Editorial Split Hero Layout */
 .homepage-hero {
-  margin: 0;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
   overflow: hidden;
-  width: 100%;
+  width: 100% !important;
 }
 
 .hero-split-container {
@@ -3930,8 +3942,14 @@ section:not(.page-section) {
     flex-wrap: nowrap !important;
   }
   .storefront__toolbar .sirat-button {
-    padding: 0.5rem 0.65rem !important;
-    width: auto !important;
+    padding: 0 !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-height: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
   }
   .mobile-menu-button {
     padding: 0.45rem !important;
