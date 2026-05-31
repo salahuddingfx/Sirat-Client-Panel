@@ -44,7 +44,7 @@ export default function BestSellerSection() {
           </div>
 
           <div className="bestseller-price">
-            <h3>${bestSellerProduct.price}</h3>
+            <h3>৳{bestSellerProduct.price}</h3>
             <span className="helper">In high demand — free delivery</span>
           </div>
 
