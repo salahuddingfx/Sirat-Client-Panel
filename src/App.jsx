@@ -20,6 +20,8 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import AccountPage from "./pages/AccountPage";
+import OrderSuccessPage from "./pages/OrderSuccessPage";
+import ScrollToTop from "./components/ScrollToTop";
 import CartDrawer from "./components/CartDrawer";
 import IntroLoader from "./components/IntroLoader";
 import { products } from "./data/mockData";
@@ -62,6 +64,7 @@ export function App() {
 
   return (
     <div className="storefront">
+      <ScrollToTop />
       {loaderActive && <IntroLoader onComplete={() => setLoaderActive(false)} />}
       <Navbar navItems={navItems} brandNote={brandNote} onCartToggle={() => setCartDrawerOpen(true)} />
       <CartDrawer isOpen={cartDrawerOpen} onClose={() => setCartDrawerOpen(false)} />
@@ -131,6 +134,7 @@ export function App() {
           <Route path="/cookie-policy" element={<CookiePage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/order-success" element={<OrderSuccessPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
