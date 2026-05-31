@@ -8,6 +8,52 @@ export function CartProvider({ children }) {
   const [promoError, setPromoError] = useState("");
   const [discountPercent, setDiscountPercent] = useState(0);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+  const [toastTimeout, setToastTimeout] = useState(null);
+
+  const triggerToast = (message, type = "success") => {
+    // Clear any previous timeout
+    if (toastTimeout) {
+      clearTimeout(toastTimeout);
+    }
+    
+    // Play synthesized chimes using Web Audio API
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) {
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        if (type === "success") {
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+          osc.frequency.setValueAtTime(880, ctx.currentTime + 0.08); // A5
+          gain.gain.setValueAtTime(0.06, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + 0.35);
+        } else {
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(392.00, ctx.currentTime); // G4
+          osc.frequency.exponentialRampToValueAtTime(196.00, ctx.currentTime + 0.25); // G3
+          gain.gain.setValueAtTime(0.08, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + 0.25);
+        }
+      }
+    } catch (e) {
+      console.warn("Sound play failed", e);
+    }
+
+    setToast({ show: true, message, type });
+    const timeout = setTimeout(() => {
+      setToast({ show: false, message: "", type: "success" });
+    }, 2500);
+    setToastTimeout(timeout);
+  };
 
   const addToCart = (product, variant, quantity = 1) => {
     setCartItems((prevItems) => {
@@ -25,12 +71,17 @@ export function CartProvider({ children }) {
     });
     // Auto-open drawer when item is added
     setCartDrawerOpen(true);
+    triggerToast(`${product.name} (${variant.label}) added to bag!`, "success");
   };
 
   const removeFromCart = (productId, variantId) => {
+    const item = cartItems.find((i) => i.product.id === productId && i.variant.id === variantId);
     setCartItems((prevItems) =>
       prevItems.filter((item) => !(item.product.id === productId && item.variant.id === variantId))
     );
+    if (item) {
+      triggerToast(`${item.product.name} removed from bag.`, "info");
+    }
   };
 
   const updateQuantity = (productId, variantId, quantity) => {
@@ -106,6 +157,8 @@ export function CartProvider({ children }) {
         cartCount,
         cartDrawerOpen,
         setCartDrawerOpen,
+        toast,
+        triggerToast,
         addToCart,
         removeFromCart,
         updateQuantity,
