@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "lenis";
 
