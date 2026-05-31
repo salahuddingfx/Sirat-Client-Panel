@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, lazy, Suspense } from "react";
 import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "lenis";
@@ -12,23 +12,23 @@ import IntroLoader from "@components/layout/IntroLoader";
 
 import CartDrawer from "@features/cart/CartDrawer";
 
-import HomePage from "@pages/Home/Home";
-import AboutPage from "@pages/About/About";
-import ShopPage from "@pages/Shop/Shop";
-import TrackPage from "@pages/Track/Track";
-import ContactPage from "@pages/Contact/Contact";
-import ReviewsPage from "@pages/Reviews/Reviews";
-import SimplePage from "@pages/Simple/Simple";
-import NotFoundPage from "@pages/NotFound/NotFound";
-import TermsPage from "@pages/Terms/Terms";
-import PrivacyPage from "@pages/Privacy/Privacy";
-import RefundPage from "@pages/Refund/Refund";
-import CookiePage from "@pages/Cookie/Cookie";
-import ProductDetailPage from "@pages/ProductDetail/ProductDetail";
-import CartPage from "@pages/Cart/Cart";
-import CheckoutPage from "@pages/Checkout/Checkout";
-import AccountPage from "@pages/Account/Account";
-import OrderSuccessPage from "@pages/OrderSuccess/OrderSuccess";
+const HomePage = lazy(() => import("@pages/Home/Home"));
+const AboutPage = lazy(() => import("@pages/About/About"));
+const ShopPage = lazy(() => import("@pages/Shop/Shop"));
+const TrackPage = lazy(() => import("@pages/Track/Track"));
+const ContactPage = lazy(() => import("@pages/Contact/Contact"));
+const ReviewsPage = lazy(() => import("@pages/Reviews/Reviews"));
+const SimplePage = lazy(() => import("@pages/Simple/Simple"));
+const NotFoundPage = lazy(() => import("@pages/NotFound/NotFound"));
+const TermsPage = lazy(() => import("@pages/Terms/Terms"));
+const PrivacyPage = lazy(() => import("@pages/Privacy/Privacy"));
+const RefundPage = lazy(() => import("@pages/Refund/Refund"));
+const CookiePage = lazy(() => import("@pages/Cookie/Cookie"));
+const ProductDetailPage = lazy(() => import("@pages/ProductDetail/ProductDetail"));
+const CartPage = lazy(() => import("@pages/Cart/Cart"));
+const CheckoutPage = lazy(() => import("@pages/Checkout/Checkout"));
+const AccountPage = lazy(() => import("@pages/Account/Account"));
+const OrderSuccessPage = lazy(() => import("@pages/OrderSuccess/OrderSuccess"));
 
 import { useCart } from "@app/providers/CartContext";
 
@@ -67,25 +67,27 @@ export function App() {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
         >
-          <Routes location={location}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/shop" element={<ShopPage />} />
-            <Route path="/track" element={<TrackPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/reviews" element={<ReviewsPage />} />
-            <Route path="/terms" element={<TermsPage />} />
-            <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="/refund" element={<RefundPage />} />
-            <Route path="/cookie" element={<CookiePage />} />
-            <Route path="/product/:slug" element={<ProductDetailPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/account" element={<AccountPage />} />
-            <Route path="/order-success" element={<OrderSuccessPage />} />
-            <Route path="/page/:slug" element={<SimplePage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <Suspense fallback={<div className="page-loader" />}>
+            <Routes location={location}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/shop" element={<ShopPage />} />
+              <Route path="/track" element={<TrackPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/reviews" element={<ReviewsPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/refund" element={<RefundPage />} />
+              <Route path="/cookie" element={<CookiePage />} />
+              <Route path="/product/:slug" element={<ProductDetailPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/account" element={<AccountPage />} />
+              <Route path="/order-success" element={<OrderSuccessPage />} />
+              <Route path="/page/:slug" element={<SimplePage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
         </motion.main>
       </AnimatePresence>
 
