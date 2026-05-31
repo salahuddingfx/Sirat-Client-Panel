@@ -3959,8 +3959,7 @@ section:not(.page-section) {
     gap: 2.5rem !important;
   }
   .footer-links-container {
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
+    flex-direction: column !important;
     gap: 2rem !important;
   }
   .storefront__footer-inner {
