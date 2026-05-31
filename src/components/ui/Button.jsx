@@ -11,7 +11,7 @@ export const Button = ({
     <motion.button
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className={`btn btn-${variant} ${className}`}
+      className={`sirat-button sirat-button--${variant} ${className}`}
       {...props}
     >
       {children}

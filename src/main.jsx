@@ -6,8 +6,8 @@ import { store } from "@app/store/store";
 import { AuthProvider } from "@app/providers/AuthContext";
 import { CartProvider } from "@app/providers/CartContext";
 import { ErrorBoundary } from "@app/ErrorBoundary";
-import "@styles/global.css";
 import "@styles/sirat-ui.css";
+import "@styles/global.css";
 import "@styles/responsive.css";
 import { App } from "@app/App";
 
