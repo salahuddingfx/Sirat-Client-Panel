@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import Lenis from "lenis";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -16,6 +17,9 @@ import PrivacyPage from "./pages/PrivacyPage";
 import RefundPage from "./pages/RefundPage";
 import CookiePage from "./pages/CookiePage";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import AccountPage from "./pages/AccountPage";
 import CartDrawer from "./components/CartDrawer";
 import IntroLoader from "./components/IntroLoader";
 import { products } from "./data/mockData";
@@ -34,9 +38,27 @@ export function App() {
   const brandNote = useMemo(() => "Cox's Bazar", []);
   const { cartDrawerOpen, setCartDrawerOpen } = useCart();
   const location = useLocation();
-  const [loaderActive, setLoaderActive] = useState(() => {
-    return !sessionStorage.getItem("sirat_loader_shown");
-  });
+  const [loaderActive, setLoaderActive] = useState(true);
+
+  // Initialize smooth scrolling with Lenis
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   return (
     <div className="storefront">
@@ -57,9 +79,9 @@ export function App() {
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/refund-policy" element={<RefundPage />} />
           <Route path="/cookie-policy" element={<CookiePage />} />
-          <Route path="/cart" element={<SimplePage title="Your Bag" description="Review the custom printed garments in your cart before checking out." />} />
-          <Route path="/checkout" element={<SimplePage title="Secure Checkout" description="Provide your shipping address and select a payment option to complete your purchase." />} />
-          <Route path="/account" element={<SimplePage title="Customer Account" description="Access your order history, edit shipping addresses, and manage your profile." />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/account" element={<AccountPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AnimatePresence>
