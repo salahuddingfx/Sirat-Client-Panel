@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Minus, Trash2, ShoppingBag, Tag } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { Button } from "../lib/ui";
 
 export default function CartDrawer({ isOpen, onClose }) {
+  const navigate = useNavigate();
   const {
     cartItems,
     promoCode,
@@ -162,7 +164,14 @@ export default function CartDrawer({ isOpen, onClose }) {
                   </div>
                 </div>
 
-                <Button className="cart-drawer__checkout-btn" style={{ width: "100%" }}>
+                <Button 
+                  className="cart-drawer__checkout-btn" 
+                  style={{ width: "100%" }}
+                  onClick={() => {
+                    navigate("/checkout");
+                    onClose();
+                  }}
+                >
                   Proceed to Checkout
                 </Button>
               </div>
