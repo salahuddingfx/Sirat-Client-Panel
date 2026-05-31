@@ -387,6 +387,7 @@ section:not(.page-section) {
 
 .storefront__header {
   width: 100%;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 40;
@@ -3354,7 +3355,7 @@ section:not(.page-section) {
 
 /* Auth Page and Dashboard Styles */
 .auth-container {
-  max-width: 640px;
+  max-width: 680px;
   margin: 2rem auto;
   padding: 2.5rem;
   border-radius: var(--sirat-radius-lg);
@@ -4342,4 +4343,102 @@ img, video {
 
 /* Additional safety */
 .storefront { padding: 0 !important; }
+
+/* Mobile Bottom Navigation Bar */
+.mobile-bottom-nav {
+  display: none; /* Hide on desktop */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 66px;
+  background: rgba(250, 249, 245, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--sirat-border);
+  z-index: 9999;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 0.5rem;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.mobile-bottom-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  color: var(--sirat-muted);
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  outline: none;
+  flex: 1;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.mobile-bottom-nav__item:hover,
+.mobile-bottom-nav__item:focus {
+  color: var(--sirat-text);
+}
+
+.mobile-bottom-nav__item.active {
+  color: var(--sirat-gold-soft);
+}
+
+.mobile-bottom-nav__label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.mobile-bottom-nav__icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-bottom-nav__badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--sirat-gold-soft);
+  color: var(--sirat-surface);
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0.1rem 0.35rem;
+  border-radius: 99px;
+  line-height: 1;
+  min-width: 14px;
+  text-align: center;
+  border: 1px solid var(--sirat-bg);
+}
+
+/* Float WhatsApp support above bottom nav on mobile */
+.floating-support-container {
+  transition: bottom 0.2s ease;
+}
+
+@media (max-width: 767px) {
+  .mobile-bottom-nav {
+    display: flex;
+  }
+  
+  /* Add padding to body/storefront to prevent content overlapping with fixed nav */
+  body {
+    padding-bottom: 66px !important;
+  }
+  
+  /* Elevate floating support widget to float above the bottom nav */
+  .floating-support-container {
+    bottom: 82px !important;
+  }
+}
+
 
