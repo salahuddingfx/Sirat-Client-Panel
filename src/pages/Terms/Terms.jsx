@@ -1,5 +1,5 @@
-import PageFrame from "../../components/layout/PageFrame";
-import { Panel } from "../../components/ui";
+import PageFrame from "@components/layout/PageFrame";
+import { Panel } from "@components/ui";
 
 export default function TermsPage() {
   return (

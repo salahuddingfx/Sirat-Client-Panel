@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, PackageSearch, Package, Truck, ArrowRight, User, MapPin, Calendar, ShieldCheck, Shirt, Check, Clipboard, Settings, Home, CreditCard } from "lucide-react";
-import PageFrame from "../../components/layout/PageFrame";
-import { Button, Panel } from "../../components/ui";
-import SEO from "../../components/layout/SEO";
+import PageFrame from "@components/layout/PageFrame";
+import { Button, Panel } from "@components/ui";
+import SEO from "@components/layout/SEO";
 
 // Initial Seed Mock Orders to test different statuses and payment methods immediately
 const MOCK_ORDERS = [
