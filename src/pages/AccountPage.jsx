@@ -3,14 +3,14 @@ import { LogOut, User, Mail, Phone, MapPin, Package, ArrowRight, ShieldCheck, Ke
 import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
 import SEO from "../components/SEO";
+import { useAuth } from "../context/AuthContext";
 
 export default function AccountPage() {
-  // Authentication states
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, user, login, register, logout } = useAuth();
+  
+  // Local form states
   const [activeForm, setActiveForm] = useState("login"); // login, register, forgot, otp, reset
-  const [userEmail, setUserEmail] = useState("");
-  const [userName, setUserName] = useState("Salahuddin Ahmed");
-  const [userPhone, setUserPhone] = useState("+880 1711-223344");
+  const [userEmail, setUserEmail] = useState(""); // For forgot password form email tracking
   const [otpSentEmail, setOtpSentEmail] = useState("");
   const [otpCode, setOtpCode] = useState(["", "", "", "", "", ""]);
   
@@ -32,20 +32,13 @@ export default function AccountPage() {
   const handleLogin = (e) => {
     e.preventDefault();
     if (!loginEmail || !loginPass) return;
-    setUserEmail(loginEmail);
-    // Extract name from email for a personalized greeting
-    const prefix = loginEmail.split("@")[0];
-    setUserName(prefix.charAt(0).toUpperCase() + prefix.slice(1) + " Ahmed");
-    setIsLoggedIn(true);
+    login(loginEmail, loginPass);
   };
 
   const handleRegister = (e) => {
     e.preventDefault();
     if (!regName || !regEmail || !regPhone || !regPass) return;
-    setUserName(regName);
-    setUserEmail(regEmail);
-    setUserPhone(regPhone);
-    setIsLoggedIn(true);
+    register(regName, regEmail, regPhone, regPass);
   };
 
   const handleForgot = (e) => {
@@ -89,7 +82,7 @@ export default function AccountPage() {
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    logout();
     setLoginEmail("");
     setLoginPass("");
     setActiveForm("login");
@@ -107,10 +100,10 @@ export default function AccountPage() {
           <Panel className="profile-card">
             <div className="profile-header">
               <div className="profile-avatar">
-                {userName.charAt(0)}
+                {user?.name?.charAt(0) || "U"}
               </div>
               <div className="profile-details">
-                <h3>{userName}</h3>
+                <h3>{user?.name || "Premium User"}</h3>
                 <span>Premium Customer</span>
               </div>
             </div>
@@ -120,11 +113,11 @@ export default function AccountPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", fontSize: "0.88rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--sirat-muted)" }}>
                 <Mail size={14} className="accent" />
-                <span style={{ color: "var(--sirat-text)" }}>{userEmail || "salahuddin@sirat.com"}</span>
+                <span style={{ color: "var(--sirat-text)" }}>{user?.email || "salahuddin@sirat.com"}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--sirat-muted)" }}>
                 <Phone size={14} className="accent" />
-                <span style={{ color: "var(--sirat-text)" }}>{userPhone}</span>
+                <span style={{ color: "var(--sirat-text)" }}>{user?.phone || "+880 1711-223344"}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--sirat-muted)" }}>
                 <MapPin size={14} className="accent" />
