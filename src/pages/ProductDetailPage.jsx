@@ -161,6 +161,12 @@ export default function ProductDetailPage() {
     setCartDrawerOpen(true);
   };
 
+  const handleBuyNow = () => {
+    if (!activeVariant) return;
+    addToCart(product, activeVariant, quantity);
+    navigate("/checkout");
+  };
+
   // Find related products (excluding current, same category first)
   const relatedProducts = useMemo(() => {
     return products
@@ -342,18 +348,27 @@ export default function ProductDetailPage() {
               </div>
 
               <Button
-                style={{ flex: 1 }}
+                variant="outline"
+                style={{ flex: 1, minHeight: "48px" }}
                 onClick={handleAddToCart}
                 disabled={activeVariant && !activeVariant.inStock}
               >
                 <ShoppingBag size={16} style={{ marginRight: "8px" }} /> Add to Cart
               </Button>
 
+              <Button
+                style={{ flex: 1, minHeight: "48px" }}
+                onClick={handleBuyNow}
+                disabled={activeVariant && !activeVariant.inStock}
+              >
+                ⚡ Order Now
+              </Button>
+
               <button
                 type="button"
                 className={["action-circle-btn detail-wishlist-btn", isWishlisted ? "active-wishlist" : ""].filter(Boolean).join(" ")}
                 onClick={() => setIsWishlisted(!isWishlisted)}
-                style={{ width: "44px", height: "44px" }}
+                style={{ width: "48px", height: "48px", flexShrink: 0 }}
                 title="Add to Wishlist"
               >
                 <Heart size={18} fill={isWishlisted ? "currentColor" : "none"} />
