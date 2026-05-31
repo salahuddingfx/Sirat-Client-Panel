@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { CheckCircle, ShoppingCart, User, Phone, MapPin, Scale, Truck, CreditCard, Smartphone, Key, Coins } from "lucide-react";
-import PageFrame from "../../components/layout/PageFrame";
-import { Button, Panel } from "../../components/ui";
-import SEO from "../../components/layout/SEO";
+import PageFrame from "@components/layout/PageFrame";
+import { Button, Panel } from "@components/ui";
+import SEO from "@components/layout/SEO";
 
 export default function OrderSuccessPage() {
   const location = useLocation();

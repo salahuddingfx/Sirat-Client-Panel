@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import HeroSection from "../../features/products/sections/HeroSection";
-import VisualsSection from "../../features/products/sections/VisualsSection";
-import CategorySection from "../../features/products/sections/CategorySection";
-import BestSellerSection from "../../features/products/sections/BestSellerSection";
-import AllProductsSection from "../../features/products/sections/AllProductsSection";
-import ReviewsSection from "../../features/products/sections/ReviewsSection";
-import CtaSection from "../../features/products/sections/CtaSection";
-import FaqSection from "../../features/products/sections/FaqSection";
-import NewsletterSection from "../../features/products/sections/NewsletterSection";
-import { storyPoints } from "../../data/mockData";
-import { Panel } from "../../components/ui";
-import SEO from "../../components/layout/SEO";
+import HeroSection from "@features/products/sections/HeroSection";
+import VisualsSection from "@features/products/sections/VisualsSection";
+import CategorySection from "@features/products/sections/CategorySection";
+import BestSellerSection from "@features/products/sections/BestSellerSection";
+import AllProductsSection from "@features/products/sections/AllProductsSection";
+import ReviewsSection from "@features/products/sections/ReviewsSection";
+import CtaSection from "@features/products/sections/CtaSection";
+import FaqSection from "@features/products/sections/FaqSection";
+import NewsletterSection from "@features/products/sections/NewsletterSection";
+import { storyPoints } from "@data/mockData";
+import { Panel } from "@components/ui";
+import SEO from "@components/layout/SEO";
 
 export default function HomePage() {
   return (

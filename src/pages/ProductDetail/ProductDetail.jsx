@@ -2,11 +2,11 @@ import { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles } from "lucide-react";
-import { useCart } from "../../app/providers/CartContext";
-import { products } from "../../data/mockData";
-import ProductCard from "../../features/products/components/ProductCard";
-import { Button, Panel } from "../../components/ui";
-import SEO from "../../components/layout/SEO";
+import { useCart } from "@app/providers/CartContext";
+import { products } from "@data/mockData";
+import ProductCard from "@features/products/components/ProductCard";
+import { Button, Panel } from "@components/ui";
+import SEO from "@components/layout/SEO";
 
 // Custom StarRatingSelector supporting half stars
 function StarRatingSelector({ rating, onChange }) {
