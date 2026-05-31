@@ -3,12 +3,14 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Search, Sparkles, Menu, X, ShoppingBag, Phone, Mail, Zap, Truck, Shirt, Compass, User } from "lucide-react";
 import { Button } from "../lib/ui";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar({ navItems, brandNote, onCartToggle }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [navbarSearchVal, setNavbarSearchVal] = useState("");
   const { cartCount } = useCart();
+  const { isLoggedIn, user, logout } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -127,11 +129,32 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
             <Button variant="ghost" aria-label="Search" onClick={() => setSearchOpen(true)}>
               <Search size={16} />
             </Button>
-            <Link to="/account" aria-label="Account Dashboard">
-              <Button variant="ghost" aria-label="Account">
-                <User size={16} />
-              </Button>
-            </Link>
+            
+            {isLoggedIn ? (
+              <div className="navbar-profile-dropdown-container">
+                <button type="button" className="navbar-profile-trigger-btn" aria-label="User Profile Menu">
+                  {user?.name?.charAt(0) || "U"}
+                </button>
+                <div className="navbar-profile-dropdown-menu">
+                  <div className="dropdown-user-info">
+                    <strong>{user?.name}</strong>
+                    <span>{user?.email}</span>
+                  </div>
+                  <hr className="product-card-modern__divider" style={{ margin: "0.55rem 0" }} />
+                  <Link to="/account" className="dropdown-item">Dashboard</Link>
+                  <button type="button" className="dropdown-item logout-btn" onClick={logout}>
+                    Log Out
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <Link to="/account" aria-label="Account Dashboard">
+                <Button variant="ghost" aria-label="Account">
+                  <User size={16} />
+                </Button>
+              </Link>
+            )}
+
             <Button variant="ghost" aria-label="Cart" onClick={onCartToggle} className="navbar-cart-btn">
               <ShoppingBag size={16} />
               {cartCount > 0 && <span className="navbar-cart-badge">{cartCount}</span>}
