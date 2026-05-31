@@ -9,6 +9,7 @@ export default function ProductCard({ product }) {
   const { addToCart, setCartDrawerOpen } = useCart();
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || "");
+  const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || "");
 
   const handleWishlist = (e) => {
     e.stopPropagation();
@@ -17,15 +18,15 @@ export default function ProductCard({ product }) {
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    const defaultVariant = product.variants?.[0] || { id: "default", label: "M", priceDelta: 0, inStock: true };
-    addToCart(product, defaultVariant, 1);
+    const selectedVariant = product.variants?.find((v) => v.label === selectedSize) || product.variants?.[0] || { id: "default", label: "M", priceDelta: 0, inStock: true };
+    addToCart(product, selectedVariant, 1);
   };
 
   const handleBuyNow = (e) => {
     e.stopPropagation();
-    const defaultVariant = product.variants?.[0] || { id: "default", label: "M", priceDelta: 0, inStock: true };
-    addToCart(product, defaultVariant, 1);
-    setCartDrawerOpen(true);
+    const selectedVariant = product.variants?.find((v) => v.label === selectedSize) || product.variants?.[0] || { id: "default", label: "M", priceDelta: 0, inStock: true };
+    addToCart(product, selectedVariant, 1);
+    navigate("/checkout");
   };
 
   return (
@@ -91,11 +92,16 @@ export default function ProductCard({ product }) {
 
         {/* Size details */}
         {product.sizes && product.sizes.length > 0 && (
-          <div className="product-card-modern__sizes">
+          <div className="product-card-modern__sizes" onClick={(e) => e.stopPropagation()}>
             {product.sizes.map((sz) => (
-              <span key={sz} className="size-pill">
+              <button
+                key={sz}
+                type="button"
+                className={["size-pill", selectedSize === sz ? "active" : ""].filter(Boolean).join(" ")}
+                onClick={() => setSelectedSize(sz)}
+              >
                 {sz}
-              </span>
+              </button>
             ))}
           </div>
         )}
