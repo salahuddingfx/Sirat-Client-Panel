@@ -81,20 +81,7 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
             ))}
           </nav>
 
-          {mobileOpen ? (
-            <div className="mobile-nav">
-              <div className="mobile-nav__inner">
-                <button className="mobile-nav__close" aria-label="Close menu" onClick={() => setMobileOpen(false)}>
-                  <X size={22} />
-                </button>
-                {navItems.map((item) => (
-                  <NavLink key={item.href} to={item.href} className="mobile-nav__link" onClick={() => setMobileOpen(false)}>
-                    {item.label}
-                  </NavLink>
-                ))}
-              </div>
-            </div>
-          ) : null}
+
 
           {searchOpen && (
             <div className="navbar-search-overlay-container">
@@ -162,6 +149,21 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
           </div>
         </div>
       </header>
+
+      {mobileOpen ? (
+        <div className="mobile-nav">
+          <div className="mobile-nav__inner">
+            <button className="mobile-nav__close" aria-label="Close menu" onClick={() => setMobileOpen(false)}>
+              <X size={22} />
+            </button>
+            {navItems.map((item) => (
+              <NavLink key={item.href} to={item.href} className="mobile-nav__link" onClick={() => setMobileOpen(false)}>
+                {item.label}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }
