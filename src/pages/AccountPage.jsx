@@ -4,9 +4,9 @@ import PageFrame from "../components/PageFrame";
 import { Button, Panel } from "../lib/ui";
 import SEO from "../components/SEO";
 import { useAuth } from "../context/AuthContext";
-import LoginForm from "../components/LoginForm";
-import RegisterForm from "../components/RegisterForm";
-import ForgotPasswordForm from "../components/ForgotPasswordForm";
+import LoginForm from "../components/authcontext/LoginForm";
+import RegisterForm from "../components/authcontext/RegisterForm";
+import ForgotPasswordForm from "../components/authcontext/ForgotPasswordForm";
 
 export default function AccountPage() {
   const { isLoggedIn, user, login, register, logout } = useAuth();
