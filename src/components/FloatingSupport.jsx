@@ -1,6 +1,7 @@
 export default function FloatingSupport() {
   return (
     <div
+      className="floating-support-container"
       style={{
         position: "fixed",
         bottom: "24px",
