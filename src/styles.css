@@ -719,14 +719,14 @@ section:not(.page-section) {
 @media (min-width: 1024px) {
   .product-grid {
     grid-template-columns: repeat(4, 1fr) !important;
-    gap: 20px !important;
+    gap: 18px !important;
   }
 }
 
 @media (min-width: 1440px) {
   .product-grid {
     grid-template-columns: repeat(5, 1fr) !important;
-    gap: 20px !important;
+    gap: 18px !important;
   }
 }
 
@@ -3354,9 +3354,9 @@ section:not(.page-section) {
 
 /* Auth Page and Dashboard Styles */
 .auth-container {
-  max-width: 540px;
+  max-width: 580px;
   margin: 2rem auto;
-  padding: 2rem;
+  padding: 2.25rem;
   border-radius: var(--sirat-radius-lg);
   border: 1px solid var(--sirat-border);
   background: var(--sirat-surface);
