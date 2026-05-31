@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Star, Heart, ShoppingBag, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, Zap } from "lucide-react";
+import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, Zap } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { products } from "../data/mockData";
 import ProductCard from "../components/ProductCard";
@@ -158,12 +158,11 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     if (!activeVariant) return;
     addToCart(product, activeVariant, quantity);
-    setCartDrawerOpen(true);
   };
 
   const handleBuyNow = () => {
     if (!activeVariant) return;
-    addToCart(product, activeVariant, quantity);
+    addToCart(product, activeVariant, quantity, false);
     navigate("/checkout");
   };
 
@@ -353,7 +352,7 @@ export default function ProductDetailPage() {
                 onClick={handleAddToCart}
                 disabled={activeVariant && !activeVariant.inStock}
               >
-                <ShoppingBag size={16} style={{ marginRight: "8px" }} /> Add to Cart
+                <ShoppingCart size={16} style={{ marginRight: "8px" }} /> Add to Cart
               </Button>
 
               <Button
