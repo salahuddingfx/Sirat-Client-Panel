@@ -7,7 +7,7 @@ import { Button, Panel } from "../lib/ui";
 import { products } from "../data/mockData";
 import SEO from "../components/SEO";
 
-const categories = ["All", "Outerwear", "Sets", "Essentials", "Bottoms"];
+const categories = ["All", "Oversized", "Custom Prints", "Screen Prints", "Essentials"];
 const sizes = ["XS", "S", "M", "L", "XL"];
 
 export default function ShopPage() {
@@ -17,13 +17,21 @@ export default function ShopPage() {
   const [searchQuery, setSearchQuery] = useState(searchParamQuery);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const [maxPrice, setMaxPrice] = useState(300);
+  const [maxPrice, setMaxPrice] = useState(2500);
   const [sortBy, setSortBy] = useState("featured");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setSearchQuery(searchParamQuery);
   }, [searchParamQuery]);
+
+  // Simulate loading shimmer when filters or options change
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 550);
+    return () => clearTimeout(timer);
+  }, [selectedCategory, searchQuery, selectedSizes, maxPrice, sortBy]);
 
   const toggleSize = (size) => {
     setSelectedSizes((prev) =>
@@ -36,7 +44,7 @@ export default function ShopPage() {
     setSearchParams({});
     setSelectedCategory("All");
     setSelectedSizes([]);
-    setMaxPrice(300);
+    setMaxPrice(2500);
     setSortBy("featured");
   };
 
@@ -148,20 +156,20 @@ export default function ShopPage() {
             <div className="sidebar-section">
               <div className="sidebar-section__header">
                 <h4 className="sidebar-section__title">Filter by Price</h4>
-                <span className="price-limit">${maxPrice} max</span>
+                <span className="price-limit">৳{maxPrice} max</span>
               </div>
               <input
                 type="range"
-                min="50"
-                max="300"
-                step="10"
+                min="500"
+                max="2500"
+                step="100"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Number(e.target.value))}
                 className="price-slider"
               />
               <div className="price-range-labels">
-                <span>$50</span>
-                <span>$300</span>
+                <span>৳500</span>
+                <span>৳2500</span>
               </div>
             </div>
 
@@ -193,7 +201,25 @@ export default function ShopPage() {
 
         {/* Products Grid / Catalog Content */}
         <div className="shop-content">
-          {filteredProducts.length === 0 ? (
+          {isLoading ? (
+            <div className="product-grid">
+              {[...Array(6)].map((_, idx) => (
+                <div key={idx} className="product-card-modern" style={{ pointerEvents: "none" }}>
+                  <div className="product-card-modern__media skeleton" style={{ aspectRatio: "1.15 / 1" }} />
+                  <div className="product-card-modern__body" style={{ padding: "0.7rem", display: "flex", flexDirection: "column", gap: "0.55rem" }}>
+                    <div className="skeleton" style={{ height: "1.1rem", width: "75%" }} />
+                    <div className="skeleton" style={{ height: "0.85rem", width: "45%" }} />
+                    <div className="skeleton" style={{ height: "0.85rem", width: "90%", marginTop: "0.2rem" }} />
+                    <hr className="product-card-modern__divider" style={{ margin: "0.25rem 0" }} />
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div className="skeleton" style={{ height: "1.2rem", width: "30%" }} />
+                      <div className="skeleton" style={{ height: "1.7rem", width: "25%", borderRadius: "6px" }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredProducts.length === 0 ? (
             <div className="shop-empty-state sirat-panel">
               <RefreshCw size={40} className="muted animate-spin-slow" />
               <h3>No pieces found</h3>
