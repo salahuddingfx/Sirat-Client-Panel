@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Plus, Minus, Trash2, ShoppingBag, Tag } from "lucide-react";
+import { X, Plus, Minus, Trash2, ShoppingCart, Tag } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { Button } from "../lib/ui";
 
@@ -54,7 +54,7 @@ export default function CartDrawer({ isOpen, onClose }) {
           >
             <div className="cart-drawer__header">
               <div className="cart-drawer__title-group">
-                <ShoppingBag size={20} className="accent" />
+                <ShoppingCart size={20} className="accent" />
                 <h3>Your Cart ({cartItems.reduce((acc, item) => acc + item.quantity, 0)})</h3>
               </div>
               <button className="cart-drawer__close" aria-label="Close cart" onClick={onClose}>
@@ -65,7 +65,7 @@ export default function CartDrawer({ isOpen, onClose }) {
             <div className="cart-drawer__content">
               {cartItems.length === 0 ? (
                 <div className="cart-drawer__empty">
-                  <ShoppingBag size={48} className="muted" style={{ marginBottom: "1rem" }} />
+                  <ShoppingCart size={48} className="muted" style={{ marginBottom: "1rem" }} />
                   <p>Your shopping bag is empty.</p>
                   <Button variant="outline" style={{ marginTop: "1rem" }} onClick={onClose}>
                     Start Shopping
