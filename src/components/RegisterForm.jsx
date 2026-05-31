@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
-import { Button } from "./lib/ui";
+import { Button } from "../lib/ui";
 
 export default function RegisterForm({ onRegister, onToggleLogin }) {
   const [name, setName] = useState("");
