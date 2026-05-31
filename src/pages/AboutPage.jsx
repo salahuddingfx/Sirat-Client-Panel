@@ -6,7 +6,7 @@ import { Panel } from "../lib/ui";
 import SEO from "../components/SEO";
 
 export default function AboutPage() {
-  const timelineRef = useRef(null);
+  const pageRef = useRef(null);
 
   // GSAP animation on component mount
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function AboutPage() {
         delay: 0.2,
         ease: "power2.out"
       });
-    }, timelineRef);
+    }, pageRef);
 
     return () => context.revert();
   }, []);
@@ -107,101 +107,103 @@ export default function AboutPage() {
   ];
 
   return (
-    <PageFrame
-      eyebrow="About Sirat"
-      title="A streetwear drop label built on quality & honesty."
-      description="Sirat is designed around dramatic presentation, premium materials sourcing, and a streamlined online storefront that brings luxury garments directly to your wardrobe."
-    >
-      <SEO title="About Us" description="Discover Sirat's custom screen printing, premium combed cotton sourcing, team profiles, and animated journey timeline." />
+    <div ref={pageRef}>
+      <PageFrame
+        eyebrow="About Sirat"
+        title="A streetwear drop label built on quality & honesty."
+        description="Sirat is designed around dramatic presentation, premium materials sourcing, and a streamlined online storefront that brings luxury garments directly to your wardrobe."
+      >
+        <SEO title="About Us" description="Discover Sirat's custom screen printing, premium combed cotton sourcing, team profiles, and animated journey timeline." />
 
-      {/* 1. Brand Pillars (Mission, Vision, Priorities) */}
-      <section className="about-pillars" style={{ marginTop: "1rem" }}>
-        <div className="quote-grid">
-          <Panel className="page-card text-center">
-            <div className="storefront__badge" style={{ margin: "0 auto 1rem" }}>
-              <Target size={14} /> Our Mission
-            </div>
-            <h3 className="page-section__title" style={{ fontSize: "1.35rem", marginBottom: "0.5rem" }}>Purity of Craft</h3>
-            <p className="page-section__text" style={{ fontSize: "0.95rem" }}>
-              To engineer street garments of absolute fabric quality. We reject cheap fast-fashion shortcuts, offering heavily weighted, long-lasting custom items instead.
-            </p>
-          </Panel>
-
-          <Panel className="page-card text-center">
-            <div className="storefront__badge" style={{ margin: "0 auto 1rem" }}>
-              <Sparkles size={14} /> Our Vision
-            </div>
-            <h3 className="page-section__title" style={{ fontSize: "1.35rem", marginBottom: "0.5rem" }}>Authentic Standard</h3>
-            <p className="page-section__text" style={{ fontSize: "0.95rem" }}>
-              To set the benchmark for luxury custom streetwear in Bangladesh, demonstrating that fabric weight transparency and custom graphics are key.
-            </p>
-          </Panel>
-
-          <Panel className="page-card text-center">
-            <div className="storefront__badge" style={{ margin: "0 auto 1rem" }}>
-              <ShieldCheck size={14} /> Our Priorities
-            </div>
-            <h3 className="page-section__title" style={{ fontSize: "1.35rem", marginBottom: "0.5rem" }}>Committed to Honesty</h3>
-            <p className="page-section__text" style={{ fontSize: "0.95rem" }}>
-              100% combed cotton, durable puff inks, and next-day shipping. We focus entirely on delivery speed and product feel before checkout.
-            </p>
-          </Panel>
-        </div>
-      </section>
-
-      {/* 2. GSAP Animated Journey Timeline */}
-      <section className="about-timeline-section" ref={timelineRef} style={{ marginTop: "4rem" }}>
-        <div className="section-header" style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <p className="section-header__eyebrow">Our Path</p>
-          <h2>Journey Timeline</h2>
-          <p style={{ margin: "0.5rem auto 0" }}>How we scaled from a small printing table in Cox's Bazar to an active custom streetwear label.</p>
-        </div>
-
-        <div className="timeline-container">
-          <div className="timeline-line" />
-
-          <div className="timeline-items">
-            {timelineItems.map((item, idx) => (
-              <div key={item.year} className="timeline-item">
-                <div className="timeline-node">
-                  <Calendar size={14} />
-                </div>
-                <div className="timeline-content-wrapper">
-                  <Panel className="timeline-content page-card">
-                    <span className="timeline-date">{item.year}</span>
-                    <h4 className="timeline-title">{item.title}</h4>
-                    <p className="timeline-desc">{item.copy}</p>
-                  </Panel>
-                </div>
+        {/* 1. Brand Pillars (Mission, Vision, Priorities) */}
+        <section className="about-pillars" style={{ marginTop: "1rem" }}>
+          <div className="quote-grid">
+            <Panel className="page-card text-center">
+              <div className="storefront__badge" style={{ margin: "0 auto 1rem" }}>
+                <Target size={14} /> Our Mission
               </div>
+              <h3 className="page-section__title" style={{ fontSize: "1.35rem", marginBottom: "0.5rem" }}>Purity of Craft</h3>
+              <p className="page-section__text" style={{ fontSize: "0.95rem" }}>
+                To engineer street garments of absolute fabric quality. We reject cheap fast-fashion shortcuts, offering heavily weighted, long-lasting custom items instead.
+              </p>
+            </Panel>
+
+            <Panel className="page-card text-center">
+              <div className="storefront__badge" style={{ margin: "0 auto 1rem" }}>
+                <Sparkles size={14} /> Our Vision
+              </div>
+              <h3 className="page-section__title" style={{ fontSize: "1.35rem", marginBottom: "0.5rem" }}>Authentic Standard</h3>
+              <p className="page-section__text" style={{ fontSize: "0.95rem" }}>
+                To set the benchmark for luxury custom streetwear in Bangladesh, demonstrating that fabric weight transparency and custom graphics are key.
+              </p>
+            </Panel>
+
+            <Panel className="page-card text-center">
+              <div className="storefront__badge" style={{ margin: "0 auto 1rem" }}>
+                <ShieldCheck size={14} /> Our Priorities
+              </div>
+              <h3 className="page-section__title" style={{ fontSize: "1.35rem", marginBottom: "0.5rem" }}>Committed to Honesty</h3>
+              <p className="page-section__text" style={{ fontSize: "0.95rem" }}>
+                100% combed cotton, durable puff inks, and next-day shipping. We focus entirely on delivery speed and product feel before checkout.
+              </p>
+            </Panel>
+          </div>
+        </section>
+
+        {/* 2. GSAP Animated Journey Timeline */}
+        <section className="about-timeline-section" style={{ marginTop: "4rem" }}>
+          <div className="section-header" style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <p className="section-header__eyebrow">Our Path</p>
+            <h2>Journey Timeline</h2>
+            <p style={{ margin: "0.5rem auto 0" }}>How we scaled from a small printing table in Cox's Bazar to an active custom streetwear label.</p>
+          </div>
+
+          <div className="timeline-container">
+            <div className="timeline-line" />
+
+            <div className="timeline-items">
+              {timelineItems.map((item, idx) => (
+                <div key={item.year} className="timeline-item">
+                  <div className="timeline-node">
+                    <Calendar size={14} />
+                  </div>
+                  <div className="timeline-content-wrapper">
+                    <Panel className="timeline-content page-card">
+                      <span className="timeline-date">{item.year}</span>
+                      <h4 className="timeline-title">{item.title}</h4>
+                      <p className="timeline-desc">{item.copy}</p>
+                    </Panel>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 3. Team Profiles */}
+        <section className="about-team-section" style={{ marginTop: "4rem" }}>
+          <div className="section-header" style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <p className="section-header__eyebrow">The Collective</p>
+            <h2>Meet the Team</h2>
+            <p style={{ margin: "0.5rem auto 0" }}>The creators, textile engineers, and print specialists behind Sirat's custom drops.</p>
+          </div>
+
+          <div className="team-grid">
+            {team.map((member) => (
+              <Panel key={member.name} className="team-card page-card">
+                <div className="team-avatar-container">
+                  <img src={member.avatar} alt={member.name} className="team-avatar" />
+                </div>
+                <div className="team-meta">
+                  <h4 className="team-name">{member.name}</h4>
+                  <span className="team-role">{member.role}</span>
+                  <p className="team-desc">{member.desc}</p>
+                </div>
+              </Panel>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* 3. Team Profiles */}
-      <section className="about-team-section" style={{ marginTop: "4rem" }}>
-        <div className="section-header" style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <p className="section-header__eyebrow">The Collective</p>
-          <h2>Meet the Team</h2>
-          <p style={{ margin: "0.5rem auto 0" }}>The creators, textile engineers, and print specialists behind Sirat's custom drops.</p>
-        </div>
-
-        <div className="team-grid">
-          {team.map((member) => (
-            <Panel key={member.name} className="team-card page-card">
-              <div className="team-avatar-container">
-                <img src={member.avatar} alt={member.name} className="team-avatar" />
-              </div>
-              <div className="team-meta">
-                <h4 className="team-name">{member.name}</h4>
-                <span className="team-role">{member.role}</span>
-                <p className="team-desc">{member.desc}</p>
-              </div>
-            </Panel>
-          ))}
-        </div>
-      </section>
-    </PageFrame>
+        </section>
+      </PageFrame>
+    </div>
   );
 }
