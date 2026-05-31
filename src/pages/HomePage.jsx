@@ -40,21 +40,46 @@ export default function HomePage() {
 
       {/* Value proposition points */}
       <section className="story-section">
-        <div className="info-grid">
+        <motion.div 
+          className="info-grid"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.15
+              }
+            }
+          }}
+        >
           {storyPoints.map((point) => {
             const Icon = point.icon;
             return (
-              <Panel key={point.title} className="page-card">
-                <div className="storefront__badge">
-                  <Icon size={14} /> {point.title}
-                </div>
-                <p className="page-section__text" style={{ marginTop: "0.85rem" }}>
-                  {point.copy}
-                </p>
-              </Panel>
+              <motion.div
+                key={point.title}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+                }}
+              >
+                <Panel className="page-card value-card">
+                  <div className="value-card-header">
+                    <div className="value-icon-container">
+                      <Icon size={20} className="value-icon" />
+                    </div>
+                    <h3 className="value-card-title">{point.title}</h3>
+                  </div>
+                  <p className="page-section__text value-card-copy">
+                    {point.copy}
+                  </p>
+                </Panel>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </section>
 
       {/* 6. Animated reviews carousel */}
