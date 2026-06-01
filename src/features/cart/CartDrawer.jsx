@@ -17,7 +17,9 @@ export default function CartDrawer({ isOpen, onClose }) {
     cartTotal,
     updateQuantity,
     removeFromCart,
-    applyPromoCode
+    applyPromoCode,
+    clearCart,
+    triggerConfirm
   } = useCart();
 
   const [promoInput, setPromoInput] = useState("");
