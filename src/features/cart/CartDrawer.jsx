@@ -83,7 +83,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                 {cartItems.length > 0 && (
                     <button 
                         onClick={() => {
-                            if (window.confirm("Clear your entire cart?")) clearCart();
+                            triggerConfirm("Clear your entire cart?", clearCart);
                         }}
                         style={{ background: "none", border: "none", color: "var(--sirat-error)", fontSize: "0.75rem", fontWeight: "700", cursor: "pointer", textTransform: "uppercase" }}
                     >
