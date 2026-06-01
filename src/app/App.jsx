@@ -9,6 +9,7 @@ import BottomNav from "@components/layout/BottomNav";
 import ScrollToTop from "@components/layout/ScrollToTop";
 import FloatingSupport from "@components/layout/FloatingSupport";
 import IntroLoader from "@components/layout/IntroLoader";
+import Toast from "@components/ui/Toast";
 
 import CartDrawer from "@features/cart/CartDrawer";
 
