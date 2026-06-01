@@ -19,7 +19,7 @@ export default function ShopPage() {
   const [searchQuery, setSearchQuery] = useState(searchParamQuery);
   const [selectedCategory, setSelectedCategory] = useState(categoryParam);
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const [maxPrice, setMaxPrice] = useState(2500);
+  const [maxPrice, setMaxPrice] = useState(10000);
   const [sortBy, setSortBy] = useState("featured");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,8 +32,10 @@ export default function ShopPage() {
           fetchProducts(),
           fetchCategories()
         ]);
-        setProducts(productsData);
-        setCategories(["All", ...categoriesData.map(c => c.name)]);
+        setProducts(productsData || []);
+        if (categoriesData) {
+            setCategories(["All", ...categoriesData.map(c => c.name)]);
+        }
       } catch (err) {
         console.error("Failed to fetch shop data:", err);
       } finally {
@@ -62,7 +64,7 @@ export default function ShopPage() {
     setSearchParams({});
     setSelectedCategory("All");
     setSelectedSizes([]);
-    setMaxPrice(2500);
+    setMaxPrice(10000);
     setSortBy("featured");
   };
 
@@ -83,7 +85,7 @@ export default function ShopPage() {
 
     // 2. Category Tab filter
     if (selectedCategory !== "All") {
-      result = result.filter((p) => p.category.toLowerCase() === selectedCategory.toLowerCase());
+      result = result.filter((p) => p.category?.toLowerCase() === selectedCategory.toLowerCase());
     }
 
     // 3. Price slider filter
@@ -92,7 +94,7 @@ export default function ShopPage() {
     // 4. Size checkbox filter
     if (selectedSizes.length > 0) {
       result = result.filter((p) =>
-        p.variants.some((v) => selectedSizes.includes(v.label) && v.inStock)
+        p.variants?.some((v) => selectedSizes.includes(v.label) && v.inStock)
       );
     }
 
@@ -102,14 +104,14 @@ export default function ShopPage() {
     } else if (sortBy === "price-high") {
       result.sort((a, b) => b.price - a.price);
     } else if (sortBy === "rating") {
-      result.sort((a, b) => b.rating - a.rating);
+      result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
     } else {
       // "featured" default, prioritize featured:true
       result.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
     }
 
     return result;
-  }, [searchQuery, selectedCategory, selectedSizes, maxPrice, sortBy]);
+  }, [products, searchQuery, selectedCategory, selectedSizes, maxPrice, sortBy]);
 
   return (
     <PageFrame
@@ -177,25 +179,25 @@ export default function ShopPage() {
                 />
               </div>
             </div>
-const [maxPrice, setMaxPrice] = useState(10000);
-// ...
-            <div className="sidebar-section__header">
-              <h4 className="sidebar-section__title">Filter by Price</h4>
-              <span className="price-limit">{'\u09F3'}{maxPrice} max</span>
-            </div>
-            <input
-              type="range"
-              min="0"
-              max="20000"
-              step="100"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="price-slider"
-            />
-            <div className="price-range-labels">
-              <span>{'\u09F3'}0</span>
-              <span>{'\u09F3'}20000</span>
-            </div>
+
+            <div className="sidebar-section">
+              <div className="sidebar-section__header">
+                <h4 className="sidebar-section__title">Filter by Price</h4>
+                <span className="price-limit">{'\u09F3'}{maxPrice} max</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="20000"
+                step="100"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(Number(e.target.value))}
+                className="price-slider"
+              />
+              <div className="price-range-labels">
+                <span>{'\u09F3'}0</span>
+                <span>{'\u09F3'}20000</span>
+              </div>
             </div>
 
             <div className="sidebar-section">
