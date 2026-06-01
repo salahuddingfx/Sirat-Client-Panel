@@ -1,67 +1,10 @@
-﻿import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { Compass, Target, ShieldCheck, Calendar, Sparkles } from "lucide-react";
-import gsap from "gsap";
 import PageFrame from "@components/layout/PageFrame";
 import { Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
 
 export default function AboutPage() {
-  const pageRef = useRef(null);
-
-  // GSAP animation on component mount
-  useEffect(() => {
-    const context = gsap.context(() => {
-      // Animate timeline line scale
-      gsap.from(".timeline-line", {
-        scaleY: 0,
-        transformOrigin: "top center",
-        duration: 1.2,
-        ease: "power2.inOut"
-      });
-
-      // Animate timeline nodes
-      gsap.from(".timeline-node", {
-        scale: 0,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.2,
-        delay: 0.4,
-        ease: "back.out(1.7)"
-      });
-
-      // Animate timeline content items (sliding in from alternating sides)
-      gsap.from(".timeline-item:nth-child(odd) .timeline-content", {
-        opacity: 0,
-        x: -40,
-        duration: 0.8,
-        stagger: 0.25,
-        delay: 0.5,
-        ease: "power2.out"
-      });
-
-      gsap.from(".timeline-item:nth-child(even) .timeline-content", {
-        opacity: 0,
-        x: 40,
-        duration: 0.8,
-        stagger: 0.25,
-        delay: 0.5,
-        ease: "power2.out"
-      });
-
-      // Animate team cards on load
-      gsap.from(".team-card", {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.15,
-        delay: 0.2,
-        ease: "power2.out"
-      });
-    }, pageRef);
-
-    return () => context.revert();
-  }, []);
-
   const team = [
     {
       name: "Tanvir Rahman",
@@ -107,7 +50,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <div ref={pageRef}>
+    <div>
       <PageFrame
         eyebrow="About Sirat"
         title="A streetwear drop label built on quality & honesty."
@@ -118,7 +61,7 @@ export default function AboutPage() {
         {/* 1. Brand Pillars (Mission, Vision, Priorities) */}
         <section className="about-pillars" style={{ marginTop: "1rem" }}>
           <div className="quote-grid">
-            <Panel className="page-card text-center">
+            <Panel className="page-card text-center" transition={{ duration: 0.6, delay: 0.1 }}>
               <div className="storefront__badge" style={{ margin: "0 auto 1rem" }}>
                 <Target size={14} /> Our Mission
               </div>
@@ -128,7 +71,7 @@ export default function AboutPage() {
               </p>
             </Panel>
 
-            <Panel className="page-card text-center">
+            <Panel className="page-card text-center" transition={{ duration: 0.6, delay: 0.2 }}>
               <div className="storefront__badge" style={{ margin: "0 auto 1rem" }}>
                 <Sparkles size={14} /> Our Vision
               </div>
@@ -138,7 +81,7 @@ export default function AboutPage() {
               </p>
             </Panel>
 
-            <Panel className="page-card text-center">
+            <Panel className="page-card text-center" transition={{ duration: 0.6, delay: 0.3 }}>
               <div className="storefront__badge" style={{ margin: "0 auto 1rem" }}>
                 <ShieldCheck size={14} /> Our Priorities
               </div>
@@ -150,7 +93,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 2. GSAP Animated Journey Timeline */}
+        {/* 2. Journey Timeline */}
         <section className="about-timeline-section" style={{ marginTop: "4rem" }}>
           <div className="section-header" style={{ textAlign: "center", marginBottom: "3rem" }}>
             <p className="section-header__eyebrow">Our Path</p>
@@ -159,16 +102,35 @@ export default function AboutPage() {
           </div>
 
           <div className="timeline-container">
-            <div className="timeline-line" />
+            <motion.div
+              className="timeline-line"
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
+              style={{ originY: 0 }}
+            />
 
             <div className="timeline-items">
               {timelineItems.map((item, idx) => (
                 <div key={item.year} className="timeline-item">
-                  <div className="timeline-node">
+                  <motion.div
+                    className="timeline-node"
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.2 + idx * 0.15, ease: "easeOut" }}
+                  >
                     <Calendar size={14} />
-                  </div>
+                  </motion.div>
                   <div className="timeline-content-wrapper">
-                    <Panel className="timeline-content page-card">
+                    <Panel
+                      className="timeline-content page-card"
+                      initial={{ opacity: 0, x: idx % 2 === 0 ? -40 : 40 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.8, delay: 0.3 + idx * 0.15 }}
+                    >
                       <span className="timeline-date">{item.year}</span>
                       <h4 className="timeline-title">{item.title}</h4>
                       <p className="timeline-desc">{item.copy}</p>
@@ -189,8 +151,15 @@ export default function AboutPage() {
           </div>
 
           <div className="team-grid">
-            {team.map((member) => (
-              <Panel key={member.name} className="team-card page-card">
+            {team.map((member, idx) => (
+              <Panel
+                key={member.name}
+                className="team-card page-card"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: idx * 0.15 }}
+              >
                 <div className="team-avatar-container">
                   <img src={member.avatar} alt={member.name} className="team-avatar" />
                 </div>
