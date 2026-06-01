@@ -4,10 +4,12 @@ import PageFrame from "../../components/layout/PageFrame";
 import { Button, Panel } from "../../components/ui";
 import { contactFormSchema } from "@sirat/api";
 import SEO from "../../components/layout/SEO";
+import { submitContact } from "@api/queries";
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("Drop us a line about custom designs, sizing queries, or shipping details.");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <PageFrame
@@ -20,12 +22,22 @@ export default function ContactPage() {
         <Panel className="page-card">
           <form
             className="form-grid"
-            onSubmit={(event) => {
+            onSubmit={async (event) => {
               event.preventDefault();
               const result = contactFormSchema.safeParse(form);
 
               if (result.success) {
-                setStatus(`Thanks ${result.data.name}. Our support team will reply to ${result.data.email} within 24 hours.`);
+                setIsSubmitting(true);
+                try {
+                    await submitContact(result.data);
+                    setStatus(`Thanks ${result.data.name}. Our support team will reply to ${result.data.email} within 24 hours.`);
+                    setForm({ name: "", email: "", message: "" });
+                } catch (err) {
+                    console.error("Contact submission error:", err);
+                    setStatus("Failed to send message. Please try again later.");
+                } finally {
+                    setIsSubmitting(false);
+                }
               } else {
                 setStatus(result.error.issues[0]?.message ?? "Please fill out the contact form correctly.");
               }
