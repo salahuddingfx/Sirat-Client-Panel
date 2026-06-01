@@ -4,8 +4,9 @@ import { Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { Button } from "@components/ui";
+import { fetchHeroSlides } from "@api/queries";
 
-const sliderSlides = [
+const defaultSlides = [
   {
     type: "image",
     mediaUrl: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1200",
@@ -37,14 +38,27 @@ const sliderSlides = [
 
 export default function HeroSection() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [sliderSlides, setSliderSlides] = useState(defaultSlides);
   const heroRef = useRef(null);
+
+  useEffect(() => {
+    fetchHeroSlides().then(data => {
+      if (data && data.length > 0) {
+        setSliderSlides(data.map(slide => ({
+            ...slide,
+            type: "image", // API slides are currently images
+            mediaUrl: slide.image
+        })));
+      }
+    }).catch(err => console.error("Failed to fetch hero slides:", err));
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % sliderSlides.length);
     }, 7000);
     return () => clearInterval(timer);
-  }, []);
+  }, [sliderSlides.length]);
 
   useEffect(() => {
     const context = gsap.context(() => {
@@ -57,7 +71,7 @@ export default function HeroSection() {
       });
     }, heroRef);
     return () => context.revert();
-  }, []);
+  }, [sliderSlides.length]);
 
   return (
     <section className="homepage-hero hero-animate" ref={heroRef}>

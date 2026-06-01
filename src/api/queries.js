@@ -74,3 +74,28 @@ export async function fetchSettings() {
   const response = await clientApi.get("/settings");
   return settingsSchema.parse(response.data.data);
 }
+
+export async function fetchHeroSlides() {
+  const response = await clientApi.get("/hero");
+  return response.data.data;
+}
+
+export async function submitContact(payload) {
+  const response = await clientApi.post("/contact", payload);
+  return response.data;
+}
+
+export async function fetchProductReviews(productId) {
+  const response = await clientApi.get(`/reviews/product/${productId}`);
+  return response.data.data;
+}
+
+export async function submitReview(payload) {
+  const response = await clientApi.post("/reviews", payload);
+  return response.data;
+}
+
+export async function validateCouponCode(code, totalAmount) {
+  const response = await clientApi.post("/coupons/validate", { code, totalAmount });
+  return response.data;
+}
