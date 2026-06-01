@@ -36,10 +36,10 @@ export default function Footer() {
             <div className="footer-col">
               <h4>Collections</h4>
               <ul className="footer-links">
-                <li><Link to="/shop">Oversized T-Shirts</Link></li>
-                <li><Link to="/shop">Custom Prints</Link></li>
-                <li><Link to="/shop">Puff Print Collection</Link></li>
-                <li><Link to="/shop">Premium Essentials</Link></li>
+                <li><Link to="/shop?category=Oversized">Oversized T-Shirts</Link></li>
+                <li><Link to="/shop?category=Custom%20Prints">Custom Prints</Link></li>
+                <li><Link to="/shop?q=puff">Puff Print Collection</Link></li>
+                <li><Link to="/shop?category=Essentials">Premium Essentials</Link></li>
               </ul>
             </div>
  

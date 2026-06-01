@@ -13,10 +13,11 @@ const sizes = ["XS", "S", "M", "L", "XL"];
 export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchParamQuery = searchParams.get("q") || "";
+  const categoryParam = searchParams.get("category") || "All";
 
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(searchParamQuery);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState(categoryParam);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [maxPrice, setMaxPrice] = useState(2500);
   const [sortBy, setSortBy] = useState("featured");
@@ -41,6 +42,10 @@ export default function ShopPage() {
   useEffect(() => {
     setSearchQuery(searchParamQuery);
   }, [searchParamQuery]);
+
+  useEffect(() => {
+    setSelectedCategory(searchParams.get("category") || "All");
+  }, [searchParams]);
 
   const toggleSize = (size) => {
     setSelectedSizes((prev) =>
@@ -117,7 +122,14 @@ export default function ShopPage() {
               key={cat}
               type="button"
               className={["category-tab", selectedCategory === cat ? "active" : ""].filter(Boolean).join(" ")}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                const params = {};
+                const q = searchParams.get("q");
+                if (q) params.q = q;
+                if (cat !== "All") params.category = cat;
+                setSearchParams(params);
+              }}
             >
               {cat}
             </button>
