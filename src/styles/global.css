@@ -1998,6 +1998,29 @@ section:not(.page-section) {
   font-weight: 800;
 }
 
+/* Infinite marquee utilities for smooth GPU-accelerated loops */
+.marquee-container {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 1.5rem;
+  will-change: transform;
+  animation: marquee-infinite 30s linear infinite;
+}
+.marquee-container:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee-infinite {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* Toast Notifications */
 .sirat-toast {
   position: fixed;

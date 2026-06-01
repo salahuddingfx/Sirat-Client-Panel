@@ -5,9 +5,8 @@ import PageFrame from "@components/layout/PageFrame";
 import ProductCard from "@features/products/components/ProductCard";
 import SEO from "@components/layout/SEO";
 import { Button, Panel } from "@components/ui";
-import { fetchProducts } from "@api/queries";
+import { fetchProducts, fetchCategories } from "@api/queries";
 
-const categories = ["All", "Oversized", "Custom Prints", "Screen Prints", "Essentials"];
 const sizes = ["XS", "S", "M", "L", "XL"];
 
 export default function ShopPage() {
@@ -16,6 +15,7 @@ export default function ShopPage() {
   const categoryParam = searchParams.get("category") || "All";
 
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState(["All"]);
   const [searchQuery, setSearchQuery] = useState(searchParamQuery);
   const [selectedCategory, setSelectedCategory] = useState(categoryParam);
   const [selectedSizes, setSelectedSizes] = useState([]);
@@ -25,18 +25,22 @@ export default function ShopPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadProducts = async () => {
+    const loadData = async () => {
       try {
         setIsLoading(true);
-        const data = await fetchProducts();
-        setProducts(data);
+        const [productsData, categoriesData] = await Promise.all([
+          fetchProducts(),
+          fetchCategories()
+        ]);
+        setProducts(productsData);
+        setCategories(["All", ...categoriesData.map(c => c.name)]);
       } catch (err) {
-        console.error("Failed to fetch products:", err);
+        console.error("Failed to fetch shop data:", err);
       } finally {
         setIsLoading(false);
       }
     };
-    loadProducts();
+    loadData();
   }, []);
 
   useEffect(() => {

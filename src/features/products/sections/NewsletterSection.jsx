@@ -2,16 +2,32 @@
 import { Mail, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Panel, Button } from "@components/ui";
+import { subscribeNewsletter } from "@api/queries";
+import { useCart } from "@app/providers/CartContext";
 
 export default function NewsletterSection() {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { triggerToast } = useCart();
 
-  const handleNewsletterSubmit = (e) => {
+  const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
-    if (newsletterEmail.trim()) {
-      setNewsletterSubscribed(true);
-      setNewsletterEmail("");
+    if (!newsletterEmail.trim()) return;
+
+    setLoading(true);
+    try {
+        const res = await subscribeNewsletter(newsletterEmail);
+        if (res.success) {
+            setNewsletterSubscribed(true);
+            setNewsletterEmail("");
+            triggerToast("Welcome to the exclusive SIRAT list!", "success");
+        }
+    } catch (err) {
+        console.error(err);
+        triggerToast("Subscription failed. Please try again.", "error");
+    } finally {
+        setLoading(false);
     }
   };
 

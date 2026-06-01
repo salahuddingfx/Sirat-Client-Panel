@@ -1,24 +1,38 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Star, ShoppingCart, Plus, Minus, Sparkles } from "lucide-react";
 import { Button } from "@components/ui";
-import { products } from "@data/mockData";
+import { fetchBestSellerProduct } from "@api/queries";
 import { useCart } from "@app/providers/CartContext";
 
 export default function BestSellerSection() {
   const { addToCart } = useCart();
   const [bestSellerSize, setBestSellerSize] = useState("M");
   const [bestSellerQty, setBestSellerQty] = useState(1);
+  const [bestSellerProduct, setBestSellerProduct] = useState(null);
 
-  const bestSellerProduct = useMemo(() => {
-    return products.find((p) => p.bestSeller === true) || products[0];
+  useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      try {
+        const prod = await fetchBestSellerProduct();
+        if (mounted) setBestSellerProduct(prod);
+      } catch (e) {
+        console.error("Failed to fetch best seller:", e);
+      }
+    };
+    load();
+    return () => { mounted = false; };
   }, []);
 
   const handleBestSellerAddToCart = () => {
+    if (!bestSellerProduct) return;
     const variant =
       bestSellerProduct.variants.find((v) => v.label === bestSellerSize) ||
       bestSellerProduct.variants[0];
     addToCart(bestSellerProduct, variant, bestSellerQty);
   };
+
+  if (!bestSellerProduct) return null;
 
   return (
     <section className="bestseller-section sirat-panel">
@@ -29,7 +43,7 @@ export default function BestSellerSection() {
           </div>
           <div className="bestseller-media-frame">
             <img 
-              src={bestSellerProduct.image} 
+              src={bestSellerProduct.images?.[0] || ''} 
               alt={bestSellerProduct.name} 
               className="bestseller-image" 
               loading="lazy" 

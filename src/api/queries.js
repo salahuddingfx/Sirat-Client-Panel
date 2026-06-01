@@ -1,6 +1,6 @@
 import axios from "axios";
 import { z } from "zod";
-import { productSchema, contactFormSchema, trackOrderSchema, settingsSchema } from "./schemas";
+import { productSchema, contactFormSchema, trackOrderSchema, settingsSchema, categorySchema } from "./schemas";
 
 const envSchema = z.object({
   VITE_API_BASE_URL: z.string().url().or(z.literal(""))
@@ -23,6 +23,11 @@ export const clientApi = axios.create({
 export async function fetchFeaturedProducts() {
   const response = await clientApi.get("/products/featured");
   return z.array(productSchema).parse(response.data.data);
+}
+
+export async function fetchBestSellerProduct() {
+  const response = await clientApi.get("/products/best-seller");
+  return productSchema.parse(response.data.data);
 }
 
 export async function fetchProducts() {
@@ -109,5 +114,15 @@ export async function updateProfile(payload, token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
   const response = await clientApi.put("/users/profile", payload, { headers });
+  return response.data;
+}
+
+export async function fetchCategories() {
+  const response = await clientApi.get("/categories");
+  return z.array(categorySchema).parse(response.data.data);
+}
+
+export async function subscribeNewsletter(email) {
+  const response = await clientApi.post("/newsletter/subscribe", { email });
   return response.data;
 }

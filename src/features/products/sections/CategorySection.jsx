@@ -1,22 +1,56 @@
-﻿import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeader } from "@components/ui";
 import ProductCard from "@features/products/components/ProductCard";
-import { products } from "@data/mockData";
-
-const categoryData = [
-  { name: "Oversized", bg: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=600" },
-  { name: "Custom Prints", bg: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=600" },
-  { name: "Screen Prints", bg: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=600" },
-  { name: "Essentials", bg: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=600" }
-];
+import { fetchProducts, fetchCategories } from "@api/queries";
 
 export default function CategorySection() {
-  const [selectedCategory, setSelectedCategory] = useState("Oversized");
+  const [products, setProducts] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+        const [productsData, categoriesData] = await Promise.all([
+          fetchProducts(),
+          fetchCategories()
+        ]);
+        setProducts(productsData);
+        // Prefer featured categories; fallback to all if none are featured
+        const featuredCats = categoriesData.filter(c => c.featured);
+        const useCats = featuredCats.length > 0 ? featuredCats : categoriesData;
+        setCategoryData(useCats);
+        if (useCats.length > 0) {
+          setSelectedCategory(useCats[0].name);
+        }
+      } catch (err) {
+        console.error("Failed to load category section data:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadData();
+  }, []);
 
   const categoryProducts = useMemo(() => {
+    if (!selectedCategory) return [];
     return products.filter((p) => p.category.toLowerCase() === selectedCategory.toLowerCase());
-  }, [selectedCategory]);
+  }, [products, selectedCategory]);
+
+  if (isLoading) {
+    return (
+      <section className="controllable-categories-section">
+        <SectionHeader
+          eyebrow="Curated Styles"
+          title="Browse by Category"
+          description="Loading categories..."
+        />
+      </section>
+    );
+  }
 
   return (
     <section className="controllable-categories-section">
@@ -27,17 +61,21 @@ export default function CategorySection() {
       />
       
       <div className="homepage-category-selector" style={{ marginTop: "1.5rem" }}>
-        {categoryData.map((cat) => (
-          <button
-            key={cat.name}
-            type="button"
-            className={["hp-category-tab", selectedCategory === cat.name ? "active" : ""].filter(Boolean).join(" ")}
-            onClick={() => setSelectedCategory(cat.name)}
-          >
-            <div className="hp-category-tab__preview" style={{ backgroundImage: `url(${cat.bg})` }} />
-            <span>{cat.name}</span>
-          </button>
-        ))}
+        <div className="marquee-container">
+          <div className="marquee-track">
+            {[...categoryData, ...categoryData].map((cat, idx) => (
+              <button
+                key={`${cat.name}-${idx}`}
+                type="button"
+                className={["hp-category-tab", selectedCategory === cat.name ? "active" : ""].filter(Boolean).join(" ")}
+                onClick={() => setSelectedCategory(cat.name)}
+              >
+                <div className="hp-category-tab__preview" style={{ backgroundImage: `url(${cat.image})` }} />
+                <span>{cat.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="category-product-wrapper" style={{ marginTop: "1.5rem" }}>
