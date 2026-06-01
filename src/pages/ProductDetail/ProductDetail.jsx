@@ -7,7 +7,7 @@ import { products } from "@data/mockData";
 import ProductCard from "@features/products/components/ProductCard";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
-import { fetchProductBySlug } from "@api/queries";
+import { fetchProductBySlug, fetchProductReviews, submitReview } from "@api/queries";
 
 // Custom StarRatingSelector supporting half stars
 function StarRatingSelector({ rating, onChange }) {
