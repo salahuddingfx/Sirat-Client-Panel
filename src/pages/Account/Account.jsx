@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LogOut, User, Mail, Phone, MapPin, Package, Edit2, Plus, Trash2, Check, Camera } from "lucide-react";
+import { LogOut, User, Mail, Phone, MapPin, Package, Edit2, Plus, Trash2, Camera } from "lucide-react";
 import PageFrame from "../../components/layout/PageFrame";
 import { Button, Panel } from "../../components/ui";
 import SEO from "../../components/layout/SEO";
@@ -8,7 +8,6 @@ import LoginForm from "../../features/auth/LoginForm";
 import RegisterForm from "../../features/auth/RegisterForm";
 import ForgotPasswordForm from "../../features/auth/ForgotPasswordForm";
 import { fetchMyOrders } from "../../api/queries";
-import { updateProfile as apiUpdateProfile } from "../../api/queries";
 
 export default function AccountPage() {
   const { isLoggedIn, user, login, register, updateProfile, logout } = useAuth();
@@ -42,38 +41,37 @@ export default function AccountPage() {
           phone: user?.phone || "", 
           username: user?.username || "" 
       });
-    const { isLoggedIn, user, login, register, updateProfile, logout, triggerToast } = useAuth();
-    // ... (rest of states)
+    }
+  }, [isLoggedIn, user]);
 
-    const handleUpdateProfile = async (e) => {
-      e.preventDefault();
-      setIsUpdating(true);
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    setIsUpdating(true);
+    
+    try {
+        const formData = new FormData();
+        formData.append("name", profileForm.name);
+        formData.append("username", profileForm.username);
+        formData.append("phone", profileForm.phone);
+        if (avatarFile) {
+            formData.append("avatar", avatarFile);
+        }
 
-      try {
-          const formData = new FormData();
-          formData.append("name", profileForm.name);
-          formData.append("username", profileForm.username);
-          formData.append("phone", profileForm.phone);
-          if (avatarFile) {
-              formData.append("avatar", avatarFile);
-          }
-
-          const res = await updateProfile(formData);
-          if (res.success) {
-              setIsEditingProfile(false);
-              setAvatarFile(null);
-              setAvatarPreview(null);
-              triggerToast("Profile updated successfully!", "success");
-          } else {
-              triggerToast(res.message, "error");
-          }
-      } catch (err) {
-          console.error(err);
-          triggerToast("Failed to update profile", "error");
-      } finally {
-          setIsUpdating(false);
-      }
-    };
+        const res = await updateProfile(formData);
+        if (res.success) {
+            setIsEditingProfile(false);
+            setAvatarFile(null);
+            setAvatarPreview(null);
+        } else {
+            alert(res.message);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Failed to update profile");
+    } finally {
+        setIsUpdating(false);
+    }
+  };
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
