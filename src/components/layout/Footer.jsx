@@ -77,6 +77,7 @@ export default function Footer() {
                 <li><Link to="/faq">FAQ Support</Link></li>
                 <li><Link to="/sizing">Sizing Guide</Link></li>
                 <li><Link to="/reviews">Customer Reviews</Link></li>
+                <li><a href="/app-release.apk" download style={{ color: "var(--sirat-gold)", fontWeight: "700" }}>Download Android App</a></li>
               </ul>
             </div>
 
