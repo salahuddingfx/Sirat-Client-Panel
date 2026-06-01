@@ -92,6 +92,7 @@ export function App() {
       <BottomNav />
       <ScrollToTop />
       <FloatingSupport />
+      <Toast />
     </div>
   );
 }
