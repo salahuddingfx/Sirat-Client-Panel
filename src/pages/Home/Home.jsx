@@ -1,6 +1,7 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import HeroSection from "@features/products/sections/HeroSection";
+import FlashSaleSection from "@features/products/sections/FlashSaleSection";
 import VisualsSection from "@features/products/sections/VisualsSection";
 import CategorySection from "@features/products/sections/CategorySection";
 import BestSellerSection from "@features/products/sections/BestSellerSection";
@@ -25,6 +26,9 @@ export default function HomePage() {
       <SEO title="Home" description="Sirat specializes in premium custom printed garments made from 100% combed cotton. Explore our latest heavyweight streetwear drops." />
       {/* 1. Hero media slider */}
       <HeroSection />
+
+      {/* Flash Sale highlighted section */}
+      <FlashSaleSection />
 
       {/* 2. Highlighted products visual grid */}
       <VisualsSection />
