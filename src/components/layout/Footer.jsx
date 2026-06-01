@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Compass } from "lucide-react";
+import { Facebook, Instagram, Compass, Youtube, Twitter } from "lucide-react";
 import { useSettings } from "@app/providers/settings";
 
 export default function Footer() {
@@ -36,7 +36,31 @@ export default function Footer() {
               )}
               {settings.whatsapp && (
                 <a href={settings.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-                  <span style={{ fontSize: "0.9rem", fontWeight: "bold" }}>WA</span>
+                  <span style={{ fontSize: "0.85rem", fontWeight: "bold" }}>WA</span>
+                </a>
+              )}
+              {settings.youtube && (
+                <a href={settings.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                  <Youtube size={18} />
+                </a>
+              )}
+              {settings.twitter && (
+                <a href={settings.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter/X">
+                  <Twitter size={18} />
+                </a>
+              )}
+              {settings.pinterest && (
+                <a href={settings.pinterest} target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style={{ verticalAlign: "middle" }}>
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.16 9.42 7.63 11.16-.1-.95-.19-2.4.04-3.44.2-.87 1.3-5.5 1.3-5.5s-.33-.66-.33-1.64c0-1.54.89-2.68 2-2.68.94 0 1.4.7 1.4 1.55 0 .95-.6 2.37-.91 3.69-.26 1.1.55 2 1.63 2 1.96 0 3.47-2.07 3.47-5.06 0-2.64-1.9-4.49-4.61-4.49-3.14 0-4.99 2.36-4.99 4.8 0 .95.36 1.97.82 2.52.09.11.1.2.07.31-.08.33-.25.99-.28 1.14-.04.16-.14.2-.32.12-1.19-.55-1.93-2.3-1.93-3.7 0-3 2.19-5.77 6.3-5.77 3.3 0 5.88 2.36 5.88 5.51 0 3.29-2.08 5.94-4.96 5.94-.97 0-1.88-.5-2.2-1.1l-.6 2.29c-.22.84-.8 1.9-1.2 2.54 1.12.35 2.3.54 3.53.54 6.63 0 12-5.37 12-12S18.63 0 12 0z"/>
+                  </svg>
+                </a>
+              )}
+              {settings.tiktok && (
+                <a href={settings.tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: "middle" }}>
+                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                  </svg>
                 </a>
               )}
             </div>
