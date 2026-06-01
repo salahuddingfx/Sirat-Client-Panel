@@ -66,9 +66,17 @@ const authSlice = createSlice({
       } catch (e) {
         console.error("Failed to clear auth state from localStorage", e);
       }
+    },
+    updateUser: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+      try {
+        localStorage.setItem("sirat_user", JSON.stringify(state.user));
+      } catch (e) {
+        console.error("Failed to update user in localStorage", e);
+      }
     }
   }
 });
 
-export const { login, register, logout } = authSlice.actions;
+export const { login, register, logout, updateUser } = authSlice.actions;
 export default authSlice.reducer;
