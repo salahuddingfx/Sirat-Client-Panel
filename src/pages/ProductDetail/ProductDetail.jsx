@@ -189,6 +189,17 @@ export default function ProductDetailPage() {
       .slice(0, 5); // Display exactly 5 cards in the grid row
   }, [product]);
 
+  if (loading) {
+    return (
+      <div className="storefront__content" style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "60vh" }}>
+        <div className="loading-spinner">
+          <div className="spinner-dot"></div>
+          <p style={{ marginTop: "1rem", color: "var(--sirat-muted)" }}>Initializing garment spec...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="storefront__content">
