@@ -33,7 +33,7 @@ export default function VisualsSection() {
         <div className="marquee-container">
           <div className="marquee-track">
             {[...featured, ...featured].map((product, idx) => (
-              <div key={`${product.id}-${idx}`} style={{ minWidth: 260 }}>
+              <div key={`${product.id}-${idx}`} style={{ minWidth: 210, maxWidth: 210 }}>
                 <ProductCard product={product} />
               </div>
             ))}
