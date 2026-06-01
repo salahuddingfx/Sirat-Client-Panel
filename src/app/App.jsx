@@ -1,4 +1,4 @@
-﻿import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "lenis";
@@ -29,6 +29,8 @@ import CartPage from "@pages/Cart/Cart";
 import CheckoutPage from "@pages/Checkout/Checkout";
 import AccountPage from "@pages/Account/Account";
 import OrderSuccessPage from "@pages/OrderSuccess/OrderSuccess";
+import FaqPage from "@pages/Faq/Faq";
+import SizingPage from "@pages/Sizing/Sizing";
 
 import { useCart } from "@app/providers/CartContext";
 
@@ -79,6 +81,8 @@ export function App() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/order-success" element={<OrderSuccessPage />} />
+        <Route path="/faq" element={<FaqPage />} />
+        <Route path="/sizing" element={<SizingPage />} />
         <Route path="/page/:slug" element={<SimplePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

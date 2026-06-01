@@ -53,8 +53,9 @@ h1, h2, h3, h4, h5, h6, .sirat-brand, .page-card__title, .section-header h2, .be
   width: auto;
   height: 40px !important;
   max-width: min(180px, 42vw);
-  object-fit: contain;
-  border-radius: 6px;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
 }
 
 .footer-brand-mark {
@@ -467,7 +468,7 @@ section:not(.page-section) {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1rem clamp(1.5rem, 5vw, 4rem);
+  padding: 0.55rem clamp(1.5rem, 5vw, 4rem);
   max-width: 100%;
   margin: 0 auto;
   width: 100%;
@@ -4180,8 +4181,13 @@ section:not(.page-section) {
    STRICT MOBILE-FIRST RESPONSIVE ARCHITECTURE
    ========================================================== */
 
-/* OVERRIDE LEGACY BEHAVIOR */
-html, body {
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;

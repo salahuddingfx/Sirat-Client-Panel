@@ -49,8 +49,9 @@ export default function Footer() {
               <ul className="footer-links">
                 <li><Link to="/contact">Contact Support</Link></li>
                 <li><Link to="/track">Track Order</Link></li>
+                <li><Link to="/faq">FAQ Support</Link></li>
+                <li><Link to="/sizing">Sizing Guide</Link></li>
                 <li><Link to="/reviews">Customer Reviews</Link></li>
-                <li><Link to="/">Sizing Guide</Link></li>
               </ul>
             </div>
  
