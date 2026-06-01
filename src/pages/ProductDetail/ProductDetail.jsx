@@ -162,6 +162,33 @@ export default function ProductDetailPage() {
     return sum / reviews.length;
   }, [reviews]);
 
+  // Get active variant price delta
+  const activeVariant = useMemo(() => {
+    if (!product) return null;
+    return product.variants?.find((v) => v.label === selectedSize) || product.variants?.[0] || null;
+  }, [product, selectedSize]);
+
+  // Find if this variant is already in the cart
+  const cartItem = useMemo(() => {
+    if (!product || !activeVariant) return null;
+    return cartItems.find(
+      (item) => item.product.id === product.id && item.variant.id === activeVariant.id
+    );
+  }, [cartItems, product, activeVariant]);
+
+  // Find related products (excluding current, same category first)
+  const relatedProducts = useMemo(() => {
+    if (!product) return [];
+    return products
+      .filter((p) => p.id !== product.id)
+      .sort((a, b) => {
+        if (a.category === product.category && b.category !== product.category) return -1;
+        if (a.category !== product.category && b.category === product.category) return 1;
+        return 0;
+      })
+      .slice(0, 5); // Display exactly 5 cards in the grid row
+  }, [product]);
+
   if (!product) {
     return (
       <div className="storefront__content">
@@ -179,43 +206,7 @@ export default function ProductDetailPage() {
     );
   }
 
-  // Get active variant price delta
-  const activeVariant = useMemo(() => {
-    return product.variants?.find((v) => v.label === selectedSize) || product.variants?.[0] || null;
-  }, [product, selectedSize]);
-
-  // Find if this variant is already in the cart
-  const cartItem = useMemo(() => {
-    if (!product || !activeVariant) return null;
-    return cartItems.find(
-      (item) => item.product.id === product.id && item.variant.id === activeVariant.id
-    );
-  }, [cartItems, product, activeVariant]);
-
   const currentPrice = product.price + (activeVariant?.priceDelta || 0);
-
-  const handleAddToCart = () => {
-    if (!activeVariant) return;
-    addToCart(product, activeVariant, quantity);
-  };
-
-  const handleBuyNow = () => {
-    if (!activeVariant) return;
-    addToCart(product, activeVariant, quantity, false);
-    navigate("/checkout");
-  };
-
-  // Find related products (excluding current, same category first)
-  const relatedProducts = useMemo(() => {
-    return products
-      .filter((p) => p.id !== product.id)
-      .sort((a, b) => {
-        if (a.category === product.category && b.category !== product.category) return -1;
-        if (a.category !== product.category && b.category === product.category) return 1;
-        return 0;
-      })
-      .slice(0, 5); // Display exactly 5 cards in the grid row
-  }, [product]);
 
   // Determine Unsplash image for OG sharing preview
   const previewImage =
