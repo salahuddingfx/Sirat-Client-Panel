@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="footer-col brand-col">
             <div className="footer-logo">
               <Link to="/" className="storefront__brand-link footer-brand-link">
-                <img src="/Sirat.png" alt="SIRAT Logo" className="storefront__brand-mark footer-brand-mark" />
+                <img src={settings.logo || "/Sirat.png"} alt="SIRAT Logo" className="storefront__brand-mark footer-brand-mark" />
                 <span className="sirat-brand-text">SIRAT</span>
               </Link>
               <span className="storefront__brand-tagline">
@@ -32,6 +32,11 @@ export default function Footer() {
               {settings.instagram && (
                 <a href={settings.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                   <Instagram size={18} />
+                </a>
+              )}
+              {settings.whatsapp && (
+                <a href={settings.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                  <span style={{ fontSize: "0.9rem", fontWeight: "bold" }}>WA</span>
                 </a>
               )}
             </div>
