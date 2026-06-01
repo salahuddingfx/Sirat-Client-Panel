@@ -208,6 +208,17 @@ export default function ProductDetailPage() {
 
   const currentPrice = product.price + (activeVariant?.priceDelta || 0);
 
+  const handleAddToCart = () => {
+    if (!activeVariant) return;
+    addToCart(product, activeVariant, quantity);
+  };
+
+  const handleBuyNow = () => {
+    if (!activeVariant) return;
+    addToCart(product, activeVariant, quantity, false);
+    navigate("/checkout");
+  };
+
   // Determine Unsplash image for OG sharing preview
   const previewImage =
     product.name.toLowerCase().includes("lumina") ? "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=600" :
