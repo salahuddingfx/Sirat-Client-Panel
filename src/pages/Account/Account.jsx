@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LogOut, User, Mail, Phone, MapPin, Package, Edit2, Plus, Trash2, Check } from "lucide-react";
+import { LogOut, User, Mail, Phone, MapPin, Package, Edit2, Plus, Trash2, Check, Camera } from "lucide-react";
 import PageFrame from "../../components/layout/PageFrame";
 import { Button, Panel } from "../../components/ui";
 import SEO from "../../components/layout/SEO";
@@ -8,6 +8,7 @@ import LoginForm from "../../features/auth/LoginForm";
 import RegisterForm from "../../features/auth/RegisterForm";
 import ForgotPasswordForm from "../../features/auth/ForgotPasswordForm";
 import { fetchMyOrders } from "../../api/queries";
+import { updateProfile as apiUpdateProfile } from "../../api/queries";
 
 export default function AccountPage() {
   const { isLoggedIn, user, login, register, updateProfile, logout } = useAuth();
@@ -21,6 +22,10 @@ export default function AccountPage() {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileForm, setProfileForm] = useState({ name: "", phone: "", username: "" });
   const [isUpdating, setIsUpdating] = useState(false);
+
+  // Avatar states
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
 
   // Address states
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -43,13 +48,38 @@ export default function AccountPage() {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
-    const res = await updateProfile(profileForm);
-    if (res.success) {
-        setIsEditingProfile(false);
-    } else {
-        alert(res.message);
+    
+    try {
+        const formData = new FormData();
+        formData.append("name", profileForm.name);
+        formData.append("username", profileForm.username);
+        formData.append("phone", profileForm.phone);
+        if (avatarFile) {
+            formData.append("avatar", avatarFile);
+        }
+
+        const res = await updateProfile(formData);
+        if (res.success) {
+            setIsEditingProfile(false);
+            setAvatarFile(null);
+            setAvatarPreview(null);
+        } else {
+            alert(res.message);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Failed to update profile");
+    } finally {
+        setIsUpdating(false);
     }
-    setIsUpdating(false);
+  };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        setAvatarFile(file);
+        setAvatarPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleAddAddress = async (e) => {
@@ -97,7 +127,20 @@ export default function AccountPage() {
             <Panel className="profile-card">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div className="profile-header">
-                        <div className="profile-avatar">{user?.name?.charAt(0) || "U"}</div>
+                        <div className="profile-avatar" style={{ position: "relative", overflow: "hidden" }}>
+                            {avatarPreview || user?.avatar ? (
+                                <img src={avatarPreview || user?.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                            ) : (
+                                user?.name?.charAt(0) || "U"
+                            )}
+                            
+                            {isEditingProfile && (
+                                <label style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#fff" }}>
+                                    <Camera size={16} />
+                                    <input type="file" hidden accept="image/*" onChange={handleAvatarChange} />
+                                </label>
+                            )}
+                        </div>
                         <div className="profile-details">
                             <h3>{user?.name || "User"}</h3>
                             <span className="muted">@{user?.username || "no-username"}</span>
