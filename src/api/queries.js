@@ -99,3 +99,8 @@ export async function validateCouponCode(code, totalAmount) {
   const response = await clientApi.post("/coupons/validate", { code, totalAmount });
   return response.data;
 }
+
+export async function updateProfile(payload) {
+  const response = await clientApi.put("/users/profile", payload);
+  return response.data;
+}
