@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LogOut, User, Mail, Phone, MapPin, Package } from "lucide-react";
+import { LogOut, User, Mail, Phone, MapPin, Package, Edit2, Plus, Trash2, Check } from "lucide-react";
 import PageFrame from "../../components/layout/PageFrame";
 import { Button, Panel } from "../../components/ui";
 import SEO from "../../components/layout/SEO";
@@ -10,12 +10,21 @@ import ForgotPasswordForm from "../../features/auth/ForgotPasswordForm";
 import { fetchMyOrders } from "../../api/queries";
 
 export default function AccountPage() {
-  const { isLoggedIn, user, login, register, logout } = useAuth();
+  const { isLoggedIn, user, login, register, updateProfile, logout } = useAuth();
   const [orders, setOrders] = useState([]);
   
   // Local form states
   const [activeForm, setActiveForm] = useState("login"); // login, register, forgot
-  const [userEmail, setUserEmail] = useState(""); // For forgot password form email tracking
+  const [userEmail, setUserEmail] = useState(""); 
+
+  // Dashboard states
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [profileForm, setProfileForm] = useState({ name: "", phone: "", username: "" });
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  // Address states
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [addressForm, setProfileAddressForm] = useState({ street: "", city: "", zipCode: "", country: "Bangladesh", isDefault: false });
   
   useEffect(() => {
     if (isLoggedIn) {
@@ -23,8 +32,52 @@ export default function AccountPage() {
       fetchMyOrders(token).then(res => {
         if (res.success) setOrders(res.data);
       });
+      setProfileForm({ 
+          name: user?.name || "", 
+          phone: user?.phone || "", 
+          username: user?.username || "" 
+      });
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, user]);
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    setIsUpdating(true);
+    const res = await updateProfile(profileForm);
+    if (res.success) {
+        setIsEditingProfile(false);
+    } else {
+        alert(res.message);
+    }
+    setIsUpdating(false);
+  };
+
+  const handleAddAddress = async (e) => {
+    e.preventDefault();
+    setIsUpdating(true);
+    const updatedAddresses = [...(user.addresses || []), addressForm];
+    if (addressForm.isDefault) {
+        updatedAddresses.forEach(a => a.isDefault = false);
+        updatedAddresses[updatedAddresses.length - 1].isDefault = true;
+    }
+    const res = await updateProfile({ addresses: updatedAddresses });
+    if (res.success) {
+        setShowAddressForm(false);
+        setProfileAddressForm({ street: "", city: "", zipCode: "", country: "Bangladesh", isDefault: false });
+    }
+    setIsUpdating(false);
+  };
+
+  const handleDeleteAddress = async (index) => {
+    if (!window.confirm("Delete this address?")) return;
+    const updatedAddresses = user.addresses.filter((_, i) => i !== index);
+    await updateProfile({ addresses: updatedAddresses });
+  };
+
+  const handleSetDefault = async (index) => {
+    const updatedAddresses = user.addresses.map((a, i) => ({ ...a, isDefault: i === index }));
+    await updateProfile({ addresses: updatedAddresses });
+  };
 
   const handleLogout = () => {
     logout();
@@ -37,46 +90,104 @@ export default function AccountPage() {
       <SEO title="User Profile" description="Access order history, tracking credentials, and update details." />
 
       {isLoggedIn ? (
-        /* USER DASHBOARD PANEL */
         <div className="dashboard-grid">
           
-          {/* Left profile info card */}
-          <Panel className="profile-card">
-            <div className="profile-header">
-              <div className="profile-avatar">
-                {user?.name?.charAt(0) || "U"}
-              </div>
-              <div className="profile-details">
-                <h3>{user?.name || "Premium User"}</h3>
-                <span>Premium Customer</span>
-              </div>
-            </div>
+          <div style={{ display: "grid", gap: "1.5rem" }}>
+            {/* Profile Info Card */}
+            <Panel className="profile-card">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div className="profile-header">
+                        <div className="profile-avatar">{user?.name?.charAt(0) || "U"}</div>
+                        <div className="profile-details">
+                            <h3>{user?.name || "User"}</h3>
+                            <span className="muted">@{user?.username || "no-username"}</span>
+                        </div>
+                    </div>
+                    {!isEditingProfile && (
+                        <button onClick={() => setIsEditingProfile(true)} className="action-circle-btn" style={{ width: "32px", height: "32px" }}>
+                            <Edit2 size={14} />
+                        </button>
+                    )}
+                </div>
 
-            <hr className="product-card-modern__divider" style={{ margin: "0.5rem 0" }} />
+                <hr className="product-card-modern__divider" style={{ margin: "1rem 0" }} />
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", fontSize: "0.88rem" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--sirat-muted)" }}>
-                <Mail size={14} className="accent" />
-                <span style={{ color: "var(--sirat-text)" }}>{user?.email || "salahuddin@sirat.com"}</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--sirat-muted)" }}>
-                <Phone size={14} className="accent" />
-                <span style={{ color: "var(--sirat-text)" }}>{user?.phone || "+880 1711-223344"}</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--sirat-muted)" }}>
-                <MapPin size={14} className="accent" />
-                <span style={{ color: "var(--sirat-text)" }}>House 24, Road 5, Banani, Dhaka</span>
-              </div>
-            </div>
+                {isEditingProfile ? (
+                    <form onSubmit={handleUpdateProfile} style={{ display: "grid", gap: "0.75rem" }}>
+                        <div className="form-group">
+                            <label style={{ fontSize: "0.75rem", fontWeight: "700" }}>Full Name</label>
+                            <input className="form-input" value={profileForm.name} onChange={e => setProfileForm({...profileForm, name: e.target.value})} required />
+                        </div>
+                        <div className="form-group">
+                            <label style={{ fontSize: "0.75rem", fontWeight: "700" }}>Username</label>
+                            <input className="form-input" value={profileForm.username} onChange={e => setProfileForm({...profileForm, username: e.target.value})} />
+                        </div>
+                        <div className="form-group">
+                            <label style={{ fontSize: "0.75rem", fontWeight: "700" }}>Phone Number</label>
+                            <input className="form-input" value={profileForm.phone} onChange={e => setProfileForm({...profileForm, phone: e.target.value})} />
+                        </div>
+                        <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+                            <Button type="submit" size="sm" disabled={isUpdating}>{isUpdating ? "Saving..." : "Save Changes"}</Button>
+                            <Button type="button" variant="outline" size="sm" onClick={() => setIsEditingProfile(false)}>Cancel</Button>
+                        </div>
+                    </form>
+                ) : (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", fontSize: "0.88rem" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--sirat-muted)" }}>
+                            <Mail size={14} className="accent" />
+                            <span style={{ color: "var(--sirat-text)" }}>{user?.email}</span>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--sirat-muted)" }}>
+                            <Phone size={14} className="accent" />
+                            <span style={{ color: "var(--sirat-text)" }}>{user?.phone || "No phone added"}</span>
+                        </div>
+                    </div>
+                )}
 
-            <Button 
-              variant="outline" 
-              onClick={handleLogout} 
-              style={{ marginTop: "1rem", display: "inline-flex", width: "100%", justifyContent: "center", gap: "0.5rem" }}
-            >
-              <LogOut size={14} /> Log Out
-            </Button>
-          </Panel>
+                <Button variant="outline" onClick={handleLogout} style={{ marginTop: "1.5rem", width: "100%", gap: "0.5rem" }}>
+                    <LogOut size={14} /> Log Out
+                </Button>
+            </Panel>
+
+            {/* Address Book Card */}
+            <Panel className="profile-card">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+                    <h3 style={{ margin: 0, fontSize: "1rem" }}><MapPin size={16} className="accent" style={{ verticalAlign: "middle", marginRight: "6px" }} /> Address Book</h3>
+                    <button onClick={() => setShowAddressForm(!showAddressForm)} className="action-circle-btn" style={{ width: "28px", height: "28px" }}>
+                        {showAddressForm ? <Trash2 size={14} /> : <Plus size={14} />}
+                    </button>
+                </div>
+
+                {showAddressForm && (
+                    <form onSubmit={handleAddAddress} style={{ display: "grid", gap: "0.75rem", marginBottom: "1.5rem", padding: "1rem", background: "var(--sirat-bg-alt)", borderRadius: "8px" }}>
+                        <input className="form-input" placeholder="Street Address" value={addressForm.street} onChange={e => setProfileAddressForm({...addressForm, street: e.target.value})} required />
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
+                            <input className="form-input" placeholder="City" value={addressForm.city} onChange={e => setProfileAddressForm({...addressForm, city: e.target.value})} required />
+                            <input className="form-input" placeholder="Zip" value={addressForm.zipCode} onChange={e => setProfileAddressForm({...addressForm, zipCode: e.target.value})} required />
+                        </div>
+                        <label style={{ fontSize: "0.8rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                            <input type="checkbox" checked={addressForm.isDefault} onChange={e => setProfileAddressForm({...addressForm, isDefault: e.target.checked})} /> Set as Default
+                        </label>
+                        <Button type="submit" size="sm" disabled={isUpdating}>Add Address</Button>
+                    </form>
+                )}
+
+                <div style={{ display: "grid", gap: "0.75rem" }}>
+                    {user.addresses?.map((addr, idx) => (
+                        <div key={idx} style={{ padding: "0.75rem", border: "1px solid var(--sirat-border)", borderRadius: "8px", position: "relative" }}>
+                            {addr.isDefault && <span style={{ position: "absolute", top: "0.5rem", right: "0.5rem", color: "var(--sirat-gold)", fontSize: "0.7rem", fontWeight: "700" }}>DEFAULT</span>}
+                            <p style={{ margin: 0, fontSize: "0.85rem", fontWeight: "600" }}>{addr.street}</p>
+                            <p style={{ margin: 0, fontSize: "0.8rem", color: "var(--sirat-muted)" }}>{addr.city}, {addr.zipCode}</p>
+                            <div style={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
+                                {!addr.isDefault && <button onClick={() => handleSetDefault(idx)} style={{ background: "none", border: "none", color: "var(--sirat-gold-soft)", fontSize: "0.75rem", cursor: "pointer", padding: 0 }}>Set Default</button>}
+                                <button onClick={() => handleDeleteAddress(idx)} style={{ background: "none", border: "none", color: "var(--sirat-error)", fontSize: "0.75rem", cursor: "pointer", padding: 0 }}>Remove</button>
+                            </div>
+                        </div>
+                    ))}
+                    {(!user.addresses || user.addresses.length === 0) && <p className="muted" style={{ fontSize: "0.85rem" }}>No addresses saved yet.</p>}
+                </div>
+            </Panel>
+          </div>
 
           {/* Right Orders List panel */}
           <div className="dashboard-section">
