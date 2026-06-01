@@ -20,77 +20,99 @@ export const clientApi = axios.create({
   }
 });
 
-export async function fetchProducts() {
-  const response = await clientApi.get("/products");
-  const data = response.data.data;
-  if (!Array.isArray(data)) return [];
+// --- Product Queries ---
 
-  return data.map(item => {
-      try {
-          return productSchema.parse(item);
-      } catch (e) {
-          console.warn("Skipping invalid product:", item?._id, e);
-          return null;
-      }
-  }).filter(Boolean);
+export async function fetchProducts() {
+  try {
+    const response = await clientApi.get("/products");
+    const data = response.data.data;
+    if (!Array.isArray(data)) return [];
+
+    return data.map(item => {
+        try {
+            return productSchema.parse(item);
+        } catch (e) {
+            console.warn("Skipping invalid product:", item?._id, e);
+            return null;
+        }
+    }).filter(Boolean);
+  } catch (err) {
+    console.error("Failed to fetch products:", err);
+    return [];
+  }
 }
 
 export async function fetchFeaturedProducts() {
-  const response = await clientApi.get("/products/featured");
-  const data = response.data.data;
-  if (!Array.isArray(data)) return [];
+  try {
+    const response = await clientApi.get("/products/featured");
+    const data = response.data.data;
+    if (!Array.isArray(data)) return [];
 
-  return data.map(item => {
-    try {
-        return productSchema.parse(item);
-    } catch (e) {
-        console.warn("Skipping invalid featured product:", item?._id, e);
-        return null;
-    }
-  }).filter(Boolean);
+    return data.map(item => {
+      try {
+          return productSchema.parse(item);
+      } catch (e) {
+          console.warn("Skipping invalid featured product:", item?._id, e);
+          return null;
+      }
+    }).filter(Boolean);
+  } catch (err) {
+    console.error("Failed to fetch featured products:", err);
+    return [];
+  }
 }
+
+export async function fetchBestSellerProduct() {
+  try {
+    const response = await clientApi.get("/products/best-seller");
+    return productSchema.parse(response.data.data);
+  } catch (e) {
+    console.error("Failed to parse best seller product:", e);
+    return null;
+  }
+}
+
+export async function fetchProductBySlug(slug) {
+  try {
+    const response = await clientApi.get(`/products/${slug}`);
+    return productSchema.parse(response.data.data);
+  } catch (e) {
+    console.error("Failed to parse product by slug:", slug, e);
+    return null;
+  }
+}
+
+// --- Category Queries ---
 
 export async function fetchCategories() {
-  const response = await clientApi.get("/categories");
-  const data = response.data.data;
-  if (!Array.isArray(data)) return [];
+  try {
+    const response = await clientApi.get("/categories");
+    const data = response.data.data;
+    if (!Array.isArray(data)) return [];
 
-  return data.map(item => {
-    try {
-        return categorySchema.parse(item);
-    } catch (e) {
-        console.warn("Skipping invalid category:", item?._id, e);
-        return null;
-    }
-  }).filter(Boolean);
+    return data.map(item => {
+      try {
+          return categorySchema.parse(item);
+      } catch (e) {
+          console.warn("Skipping invalid category:", item?._id, e);
+          return null;
+      }
+    }).filter(Boolean);
+  } catch (err) {
+    console.error("Failed to fetch categories:", err);
+    return [];
+  }
 }
 
-export async function submitContactForm(payload) {
-  return clientApi.post("/contact", contactFormSchema.parse(payload));
-}
-
-export async function trackOrder(payload) {
-  return clientApi.post("/orders/track", trackOrderSchema.parse(payload));
-}
-
-export async function fetchReviews() {
-  const response = await clientApi.get("/reviews");
-  return response.data.data;
-}
+// --- Order Queries ---
 
 export async function placeOrder(payload) {
   const response = await clientApi.post("/orders", payload);
   return response.data;
 }
 
-export async function loginUser(credentials) {
-  const response = await clientApi.post("/auth/login", credentials);
-  return response.data;
-}
-
-export async function registerUser(payload) {
-  const response = await clientApi.post("/auth/register", payload);
-  return response.data;
+export async function trackOrder(payload) {
+  return clientApi.post("/orders/track", trackOrderSchema.parse(payload));
 }
 
 export async function fetchMyOrders(token) {
@@ -100,33 +122,15 @@ export async function fetchMyOrders(token) {
   return response.data;
 }
 
-export async function fetchSettings() {
-  const response = await clientApi.get("/settings");
-  return settingsSchema.parse(response.data.data);
-}
+// --- Auth Queries ---
 
-export async function fetchHeroSlides() {
-  const response = await clientApi.get("/hero");
-  return response.data.data;
-}
-
-export async function submitContact(payload) {
-  const response = await clientApi.post("/contact", payload);
+export async function loginUser(credentials) {
+  const response = await clientApi.post("/auth/login", credentials);
   return response.data;
 }
 
-export async function fetchProductReviews(productId) {
-  const response = await clientApi.get(`/reviews/product/${productId}`);
-  return response.data.data;
-}
-
-export async function submitReview(payload) {
-  const response = await clientApi.post("/reviews", payload);
-  return response.data;
-}
-
-export async function validateCouponCode(code, totalAmount) {
-  const response = await clientApi.post("/coupons/validate", { code, totalAmount });
+export async function registerUser(payload) {
+  const response = await clientApi.post("/auth/register", payload);
   return response.data;
 }
 
@@ -142,9 +146,65 @@ export async function updateProfile(payload, token) {
   return response.data;
 }
 
-export async function fetchCategories() {
-  const response = await clientApi.get("/categories");
-  return z.array(categorySchema).parse(response.data.data);
+// --- Review Queries ---
+
+export async function fetchReviews() {
+  try {
+    const response = await clientApi.get("/reviews");
+    const data = response.data.data;
+    if (!Array.isArray(data)) return [];
+    return data;
+  } catch (err) {
+    console.error("Failed to fetch reviews:", err);
+    return [];
+  }
+}
+
+export async function fetchProductReviews(productId) {
+  try {
+    const response = await clientApi.get(`/reviews/product/${productId}`);
+    return response.data.data;
+  } catch (err) {
+    console.error("Failed to fetch product reviews:", err);
+    return [];
+  }
+}
+
+export async function submitReview(payload) {
+  const response = await clientApi.post("/reviews", payload);
+  return response.data;
+}
+
+// --- Misc Queries ---
+
+export async function fetchSettings() {
+  try {
+    const response = await clientApi.get("/settings");
+    return settingsSchema.parse(response.data.data);
+  } catch (e) {
+    console.error("Failed to parse settings:", e);
+    return null;
+  }
+}
+
+export async function fetchHeroSlides() {
+  try {
+    const response = await clientApi.get("/hero");
+    return response.data.data;
+  } catch (err) {
+    console.error("Failed to fetch hero slides:", err);
+    return [];
+  }
+}
+
+export async function submitContact(payload) {
+  const response = await clientApi.post("/contact", payload);
+  return response.data;
+}
+
+export async function validateCouponCode(code, totalAmount) {
+  const response = await clientApi.post("/coupons/validate", { code, totalAmount });
+  return response.data;
 }
 
 export async function subscribeNewsletter(email) {
