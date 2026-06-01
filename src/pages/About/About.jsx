@@ -1,10 +1,18 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Compass, Target, ShieldCheck, Calendar, Sparkles } from "lucide-react";
 import PageFrame from "@components/layout/PageFrame";
 import { Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
 
 export default function AboutPage() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 75%", "end 75%"]
+  });
+  const scaleY = useTransform(scrollYProgress, [0, 0.95], [0, 1]);
+
   const team = [
     {
       name: "Tanvir Rahman",
@@ -101,14 +109,10 @@ export default function AboutPage() {
             <p style={{ margin: "0.5rem auto 0" }}>How we scaled from a small printing table in Cox's Bazar to an active custom streetwear label.</p>
           </div>
 
-          <div className="timeline-container">
+          <div className="timeline-container" ref={containerRef}>
             <div className="timeline-line">
               <motion.div
-                initial={{ scaleY: 0 }}
-                whileInView={{ scaleY: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, ease: "easeInOut" }}
-                style={{ originY: 0, width: "100%", height: "100%", background: "var(--sirat-border-strong)" }}
+                style={{ scaleY, originY: 0, width: "100%", height: "100%", background: "var(--sirat-border-strong)" }}
               />
             </div>
 
