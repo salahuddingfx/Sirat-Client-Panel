@@ -33,6 +33,7 @@ export function CartProvider({ children }) {
   const promoCode = useSelector(selectPromoCode);
   const promoError = useSelector(selectPromoError);
   const discountPercent = useSelector(selectDiscountPercent);
+  const discountFixed = useSelector(selectDiscountFixed);
   const cartDrawerOpen = useSelector(selectCartDrawerOpen);
   const toast = useSelector(selectToast);
   const cartSubtotal = useSelector(selectCartSubtotal);
@@ -105,10 +106,8 @@ export function CartProvider({ children }) {
     dispatch(updateQuantityAction({ productId, variantId, quantity }));
   };
 
-  const applyPromoCode = (code) => {
-    dispatch(applyPromoCodeAction(code));
-    const cleanCode = code.trim().toUpperCase();
-    return cleanCode === "SIRAT10" || cleanCode === "LAUNCH15" || cleanCode === "";
+  const applyPromoCode = (payload) => {
+    dispatch(applyPromoCodeAction(payload));
   };
 
   const clearCart = () => {
