@@ -110,6 +110,7 @@ export const selectDiscountPercent = (state) => state.cart.discountPercent;
 export const selectDiscountFixed = (state) => state.cart.discountFixed;
 export const selectCartDrawerOpen = (state) => state.cart.cartDrawerOpen;
 export const selectToast = (state) => state.cart.toast;
+export const selectConfirm = (state) => state.cart.confirm;
 
 export const selectCartSubtotal = (state) =>
   state.cart.cartItems.reduce(
@@ -140,7 +141,9 @@ export const {
   clearCart,
   setCartDrawerOpen,
   showToast,
-  hideToast
+  hideToast,
+  showConfirm,
+  hideConfirm
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
