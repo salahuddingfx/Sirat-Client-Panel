@@ -5,8 +5,10 @@ import { Button, Panel } from "../../components/ui";
 import { contactFormSchema } from "@sirat/api";
 import SEO from "../../components/layout/SEO";
 import { submitContact } from "@api/queries";
+import { useCart } from "../../app/providers/CartContext";
 
 export default function ContactPage() {
+  const { triggerToast } = useCart();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("Drop us a line about custom designs, sizing queries, or shipping details.");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,14 +34,18 @@ export default function ContactPage() {
                     await submitContact(result.data);
                     setStatus(`Thanks ${result.data.name}. Our support team will reply to ${result.data.email} within 24 hours.`);
                     setForm({ name: "", email: "", message: "" });
+                    triggerToast("Message sent successfully!", "success");
                 } catch (err) {
                     console.error("Contact submission error:", err);
                     setStatus("Failed to send message. Please try again later.");
+                    triggerToast("Failed to send message.", "error");
                 } finally {
                     setIsSubmitting(false);
                 }
               } else {
-                setStatus(result.error.issues[0]?.message ?? "Please fill out the contact form correctly.");
+                const errorMsg = result.error.issues[0]?.message ?? "Please fill out the contact form correctly.";
+                setStatus(errorMsg);
+                triggerToast(errorMsg, "warning");
               }
             }}
           >
