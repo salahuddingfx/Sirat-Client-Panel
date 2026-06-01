@@ -2088,7 +2088,7 @@ section:not(.page-section) {
   transform: translate(-50%, -50%);
   background: var(--sirat-surface);
   border: 2px solid var(--sirat-gold);
-  padding: 1.5rem 2.5rem;
+  padding: 1.5rem 1rem;
   border-radius: 20px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
   display: flex;
@@ -2096,8 +2096,7 @@ section:not(.page-section) {
   align-items: center;
   gap: 1.25rem;
   z-index: 9999;
-  min-width: 380px;
-  max-width: 90vw;
+  width: min(380px, 90vw);
   text-align: center;
   backdrop-filter: blur(10px);
 }
@@ -2107,24 +2106,27 @@ section:not(.page-section) {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 }
 
 .toast-message {
   font-size: 1.15rem;
   font-weight: 600;
-  color: var(--sirat-text-main);
+  color: var(--sirat-text);
   line-height: 1.5;
+  word-break: break-word;
 }
 
 .toast-icon {
   width: 48px !important;
   height: 48px !important;
+  flex-shrink: 0;
 }
 
 .toast-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.75rem;
+  right: 0.75rem;
   background: none;
   border: none;
   color: var(--sirat-muted);
@@ -2144,6 +2146,8 @@ section:not(.page-section) {
   font-size: 0.95rem;
   cursor: pointer;
   transition: transform 0.2s;
+  width: 100%;
+  max-width: 200px;
 }
 
 .toast-ok-btn:hover {
@@ -2158,19 +2162,19 @@ section:not(.page-section) {
   background: var(--sirat-gold);
 }
 
-.toast-success { border-left: 4px solid #10B981; }
+.toast-success { border-color: #10B981; }
 .toast-success .toast-progress { background: #10B981; }
 .toast-success .toast-icon { color: #10B981; }
 
-.toast-error { border-left: 4px solid #EF4444; }
+.toast-error { border-color: #EF4444; }
 .toast-error .toast-progress { background: #EF4444; }
 .toast-error .toast-icon { color: #EF4444; }
 
-.toast-warning { border-left: 4px solid #F59E0B; }
+.toast-warning { border-color: #F59E0B; }
 .toast-warning .toast-progress { background: #F59E0B; }
 .toast-warning .toast-icon { color: #F59E0B; }
 
-.toast-info { border-left: 4px solid var(--sirat-gold); }
+.toast-info { border-color: var(--sirat-gold); }
 .toast-info .toast-progress { background: var(--sirat-gold); }
 .toast-info .toast-icon { color: var(--sirat-gold); }
 
@@ -2184,7 +2188,15 @@ section:not(.page-section) {
 /* responsive */
 @media (max-width: 640px) {
   .sirat-toast {
-    bottom: 5rem; /* above mobile nav */
+    width: 85vw;
+    padding: 1.25rem 0.75rem;
+  }
+  .toast-message {
+    font-size: 1rem;
+  }
+  .toast-icon {
+    width: 40px !important;
+    height: 40px !important;
   }
 }
 
