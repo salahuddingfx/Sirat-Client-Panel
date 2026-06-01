@@ -102,27 +102,30 @@ export default function AboutPage() {
           </div>
 
           <div className="timeline-container">
-            <motion.div
-              className="timeline-line"
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: "easeInOut" }}
-              style={{ originY: 0 }}
-            />
+            <div className="timeline-line">
+              <motion.div
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: "easeInOut" }}
+                style={{ originY: 0, width: "100%", height: "100%", background: "var(--sirat-border-strong)" }}
+              />
+            </div>
 
             <div className="timeline-items">
               {timelineItems.map((item, idx) => (
                 <div key={item.year} className="timeline-item">
-                  <motion.div
-                    className="timeline-node"
-                    initial={{ scale: 0, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.2 + idx * 0.15, ease: "easeOut" }}
-                  >
-                    <Calendar size={14} />
-                  </motion.div>
+                  <div className="timeline-node">
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.2 + idx * 0.15, ease: "easeOut" }}
+                      style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
+                    >
+                      <Calendar size={14} />
+                    </motion.div>
+                  </div>
                   <div className="timeline-content-wrapper">
                     <Panel
                       className="timeline-content page-card"

@@ -3020,7 +3020,6 @@ section:not(.page-section) {
   top: 0;
   bottom: 0;
   width: 2px;
-  background: var(--sirat-border-strong);
   transform: translateX(-50%);
   z-index: 1;
 }
