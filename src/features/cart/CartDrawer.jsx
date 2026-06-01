@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Minus, Trash2, ShoppingCart, Tag } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
 import { Button } from "@components/ui";
+import { validateCouponCode } from "@api/queries";
 
 export default function CartDrawer({ isOpen, onClose }) {
   const navigate = useNavigate();
@@ -20,10 +21,29 @@ export default function CartDrawer({ isOpen, onClose }) {
   } = useCart();
 
   const [promoInput, setPromoInput] = useState("");
+  const [isValidating, setIsValidating] = useState(false);
 
-  const handlePromoSubmit = (e) => {
+  const handlePromoSubmit = async (e) => {
     e.preventDefault();
-    applyPromoCode(promoInput);
+    if (!promoInput) return;
+
+    setIsValidating(true);
+    try {
+        const res = await validateCouponCode(promoInput, cartSubtotal);
+        if (res.success) {
+            applyPromoCode({
+                code: res.data.code,
+                percent: res.data.discountType === 'percentage' ? res.data.discountValue : 0,
+                fixed: res.data.discountType === 'fixed' ? res.data.discountValue : 0
+            });
+            setPromoInput("");
+        }
+    } catch (err) {
+        console.error("Promo error:", err);
+        applyPromoCode({ code: "", error: err.response?.data?.message || "Invalid coupon code." });
+    } finally {
+        setIsValidating(false);
+    }
   };
 
   const handleRemovePromo = () => {
