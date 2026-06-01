@@ -56,22 +56,31 @@ export function CartProvider({ children }) {
         const gain = ctx.createGain();
         osc.connect(gain);
         gain.connect(ctx.destination);
+        
         if (type === "success") {
           osc.type = "sine";
-          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-          osc.frequency.setValueAtTime(880, ctx.currentTime + 0.08); // A5
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime); 
+          osc.frequency.setValueAtTime(880, ctx.currentTime + 0.08); 
           gain.gain.setValueAtTime(0.06, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
           osc.start(ctx.currentTime);
           osc.stop(ctx.currentTime + 0.35);
-        } else {
+        } else if (type === "error" || type === "warning") {
           osc.type = "triangle";
-          osc.frequency.setValueAtTime(392.00, ctx.currentTime); // G4
-          osc.frequency.exponentialRampToValueAtTime(196.00, ctx.currentTime + 0.25); // G3
+          osc.frequency.setValueAtTime(392.00, ctx.currentTime); 
+          osc.frequency.exponentialRampToValueAtTime(196.00, ctx.currentTime + 0.25); 
           gain.gain.setValueAtTime(0.08, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
           osc.start(ctx.currentTime);
           osc.stop(ctx.currentTime + 0.25);
+        } else {
+            // Info/Neutral
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(440, ctx.currentTime);
+            gain.gain.setValueAtTime(0.05, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.2);
         }
       }
     } catch (e) {
@@ -81,7 +90,7 @@ export function CartProvider({ children }) {
     dispatch(showToastAction({ message, type }));
     const timeout = setTimeout(() => {
       dispatch(hideToastAction());
-    }, 2500);
+    }, 3500);
     setToastTimeout(timeout);
   };
 
