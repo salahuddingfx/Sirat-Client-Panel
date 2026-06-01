@@ -203,16 +203,28 @@ export default function CartDrawer({ isOpen, onClose }) {
                   </div>
                 </div>
 
-                <Button 
-                  className="cart-drawer__checkout-btn" 
-                  style={{ width: "100%" }}
-                  onClick={() => {
-                    navigate("/checkout");
-                    onClose();
-                  }}
-                >
-                  Proceed to Checkout
-                </Button>
+                <div style={{ display: "grid", gap: "0.75rem" }}>
+                    <Button 
+                    className="cart-drawer__checkout-btn" 
+                    style={{ width: "100%" }}
+                    onClick={() => {
+                        navigate("/checkout");
+                        onClose();
+                    }}
+                    >
+                    Proceed to Checkout
+                    </Button>
+                    
+                    <button 
+                        onClick={() => {
+                            navigate("/cart");
+                            onClose();
+                        }}
+                        style={{ background: "none", border: "none", color: "var(--sirat-gold-soft)", fontSize: "0.85rem", fontWeight: "700", cursor: "pointer", textDecoration: "underline" }}
+                    >
+                        View Full Shopping Bag
+                    </button>
+                </div>
               </div>
             )}
           </motion.aside>
