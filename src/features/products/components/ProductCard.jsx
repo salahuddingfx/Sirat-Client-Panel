@@ -34,9 +34,9 @@ export default function ProductCard({ product }) {
       whileHover={{ y: -5 }}
       transition={{ duration: 0.18 }}
       className="product-card-modern"
-      onClick={() => navigate(`/product/${product.id}`)}
+      onClick={() => navigate(`/product/${product.slug}`)}
       style={{ cursor: "pointer" }}
-    >
+      >
       {/* Product Image Frame */}
       <div className="product-card-modern__media">
         <img 
