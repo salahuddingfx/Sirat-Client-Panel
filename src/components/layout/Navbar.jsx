@@ -4,6 +4,7 @@ import { Search, Sparkles, Menu, X, ShoppingCart, Phone, Mail, Zap, Truck, Shirt
 import { Button } from "@components/ui";
 import { useCart } from "@app/providers/CartContext";
 import { useAuth } from "@app/providers/AuthContext";
+import { useSettings } from "@app/providers/settings";
 
 export default function Navbar({ navItems, brandNote, onCartToggle }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -11,6 +12,7 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
   const [navbarSearchVal, setNavbarSearchVal] = useState("");
   const { cartCount } = useCart();
   const { isLoggedIn, user, logout } = useAuth();
+  const { settings } = useSettings();
   const navigate = useNavigate();
 
   return (
@@ -19,11 +21,11 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
         <div className="storefront__top-bar-inner">
           <div className="top-bar-contact">
             <span className="contact-item">
-              <Phone size={11} className="top-bar-icon" /> +880 1700 000000
+              <Phone size={11} className="top-bar-icon" /> {settings.phone}
             </span>
             <span className="separator">|</span>
             <span className="contact-item">
-              <Mail size={11} className="top-bar-icon" /> hello@siratclothing.com
+              <Mail size={11} className="top-bar-icon" /> {settings.email}
             </span>
           </div>
 
@@ -76,7 +78,7 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
               <span className="sirat-brand-text">SIRAT</span>
             </Link>
             <span className="storefront__brand-tagline">
-              <Compass size={11} /> Purity in Every Step
+              <Compass size={11} /> {settings.tagline}
             </span>
           </div>
 

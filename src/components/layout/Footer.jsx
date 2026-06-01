@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Compass, Sparkles } from "lucide-react";
+import { Facebook, Instagram, Compass } from "lucide-react";
+import { useSettings } from "@app/providers/settings";
 
 export default function Footer() {
+  const { settings } = useSettings();
+
   return (
     <footer className="storefront__footer">
       <div className="storefront__footer-container">
@@ -14,35 +17,28 @@ export default function Footer() {
                 <span className="sirat-brand-text">SIRAT</span>
               </Link>
               <span className="storefront__brand-tagline">
-                <Compass size={11} /> Purity in Every Step
+                <Compass size={11} /> {settings.tagline}
               </span>
             </div>
             <p className="footer-desc" style={{ fontSize: "0.92rem", lineHeight: "1.6" }}>
-              আপনার পোশাকে আসুক শুদ্ধতার ছোঁয়া। আমরা বিশ্বাস করি কোয়ালিটি এবং সততায়। imported premium fabric এবং 100% combed cotton এ তৈরি কাস্টম প্রিন্টেড টি-শার্টের নির্ভরযোগ্য ঠিকানা।
+              {settings.description}
             </p>
             <div className="footer-socials">
-              <a href="https://www.facebook.com/sirat2026" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <Facebook size={18} />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <Instagram size={18} />
-              </a>
+              {settings.facebook && (
+                <a href={settings.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                  <Facebook size={18} />
+                </a>
+              )}
+              {settings.instagram && (
+                <a href={settings.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                  <Instagram size={18} />
+                </a>
+              )}
             </div>
           </div>
  
           {/* Links container */}
           <div className="footer-links-container">
-            {/* Collections links */}
-            <div className="footer-col">
-              <h4>Collections</h4>
-              <ul className="footer-links">
-                <li><Link to="/shop?category=Oversized">Oversized T-Shirts</Link></li>
-                <li><Link to="/shop?category=Custom%20Prints">Custom Prints</Link></li>
-                <li><Link to="/shop?q=puff">Puff Print Collection</Link></li>
-                <li><Link to="/shop?category=Essentials">Premium Essentials</Link></li>
-              </ul>
-            </div>
- 
             {/* Support links */}
             <div className="footer-col">
               <h4>Customer Care</h4>
@@ -52,6 +48,25 @@ export default function Footer() {
                 <li><Link to="/faq">FAQ Support</Link></li>
                 <li><Link to="/sizing">Sizing Guide</Link></li>
                 <li><Link to="/reviews">Customer Reviews</Link></li>
+              </ul>
+            </div>
+
+            {/* Contact Details */}
+            <div className="footer-col contact-col">
+              <h4>Get in Touch</h4>
+              <ul className="footer-links contact-details-list" style={{ display: "grid", gap: "0.85rem" }}>
+                <li style={{ color: "var(--sirat-muted)", fontSize: "0.9rem", display: "flex", flexDirection: "column", gap: "0.15rem" }}>
+                  <span style={{ fontWeight: "600", color: "var(--sirat-text)", fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.03em" }}>Support Hotline</span>
+                  <span>{settings.phone}</span>
+                </li>
+                <li style={{ color: "var(--sirat-muted)", fontSize: "0.9rem", display: "flex", flexDirection: "column", gap: "0.15rem" }}>
+                  <span style={{ fontWeight: "600", color: "var(--sirat-text)", fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.03em" }}>Email Address</span>
+                  <span style={{ wordBreak: "break-all" }}>{settings.email}</span>
+                </li>
+                <li style={{ color: "var(--sirat-muted)", fontSize: "0.9rem", display: "flex", flexDirection: "column", gap: "0.15rem" }}>
+                  <span style={{ fontWeight: "600", color: "var(--sirat-text)", fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.03em" }}>Corporate Office</span>
+                  <span>{settings.address}</span>
+                </li>
               </ul>
             </div>
  
@@ -69,7 +84,7 @@ export default function Footer() {
         </div>
  
         <div className="storefront__footer-inner">
-          <span>&copy; 2026 SIRAT Clothing. All rights reserved. (Purity in Every Step)</span>
+          <span>&copy; 2026 SIRAT Clothing. All rights reserved. ({settings.tagline})</span>
           <span>Premium custom printed clothing drops.</span>
         </div>
       </div>

@@ -1,4 +1,4 @@
-﻿import { z } from "zod";
+import { z } from "zod";
 
 export const idSchema = z.string().min(1);
 
@@ -39,4 +39,15 @@ export const adminStatSchema = z.object({
   label: z.string(),
   value: z.string(),
   delta: z.string()
+});
+
+export const settingsSchema = z.object({
+  phone: z.string().min(1),
+  email: z.string().email(),
+  address: z.string().min(1),
+  facebook: z.string().url().or(z.literal("")),
+  instagram: z.string().url().or(z.literal("")),
+  whatsapp: z.string().url().or(z.literal("")),
+  tagline: z.string().min(1),
+  description: z.string().min(1)
 });

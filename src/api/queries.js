@@ -1,6 +1,6 @@
 import axios from "axios";
 import { z } from "zod";
-import { productSchema, contactFormSchema, trackOrderSchema } from "./schemas";
+import { productSchema, contactFormSchema, trackOrderSchema, settingsSchema } from "./schemas";
 
 const envSchema = z.object({
   VITE_API_BASE_URL: z.string().url().or(z.literal(""))
@@ -68,4 +68,9 @@ export async function fetchMyOrders(token) {
     headers: { Authorization: `Bearer ${token}` }
   });
   return response.data;
+}
+
+export async function fetchSettings() {
+  const response = await clientApi.get("/settings");
+  return settingsSchema.parse(response.data.data);
 }
