@@ -22,17 +22,17 @@ export const clientApi = axios.create({
 
 export async function fetchFeaturedProducts() {
   const response = await clientApi.get("/products/featured");
-  return z.array(productSchema).parse(response.data);
+  return z.array(productSchema).parse(response.data.data);
 }
 
 export async function fetchProducts() {
   const response = await clientApi.get("/products");
-  return z.array(productSchema).parse(response.data);
+  return z.array(productSchema).parse(response.data.data);
 }
 
 export async function fetchProductBySlug(slug) {
   const response = await clientApi.get(`/products/${slug}`);
-  return productSchema.parse(response.data);
+  return productSchema.parse(response.data.data);
 }
 
 export async function submitContactForm(payload) {

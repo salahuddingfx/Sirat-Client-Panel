@@ -27,7 +27,14 @@ export default function BestSellerSection() {
           <div className="bestseller-badge">
             <Sparkles size={12} style={{ marginRight: "4px" }} /> BEST SELLER
           </div>
-          <div className="bestseller-media-frame" />
+          <div className="bestseller-media-frame">
+            <img 
+              src={bestSellerProduct.image} 
+              alt={bestSellerProduct.name} 
+              className="bestseller-image" 
+              loading="lazy" 
+            />
+          </div>
         </div>
 
         <div className="bestseller-details">
@@ -44,7 +51,7 @@ export default function BestSellerSection() {
           </div>
 
           <div className="bestseller-price">
-            <h3>৳{bestSellerProduct.price}</h3>
+            <h3>{'\u09F3'}{bestSellerProduct.price}</h3>
             <span className="helper">In high demand — free delivery</span>
           </div>
 

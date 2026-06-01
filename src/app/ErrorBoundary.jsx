@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Button } from "@components/ui";
 
 export class ErrorBoundary extends React.Component {

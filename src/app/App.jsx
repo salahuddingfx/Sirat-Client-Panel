@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+﻿import { useMemo, useState, useEffect } from "react";
 import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "lenis";
@@ -43,7 +43,7 @@ const navItems = [
 
 export function App() {
   const location = useLocation();
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { cartDrawerOpen, setCartDrawerOpen } = useCart();
   const [loaderActive, setLoaderActive] = useState(() => {
     return !sessionStorage.getItem("sirat_loader_shown");
   });
@@ -60,8 +60,8 @@ export function App() {
   return (
     <div className="storefront">
       {loaderActive && <IntroLoader onComplete={() => setLoaderActive(false)} />}
-      <Navbar navItems={navItems || []} onCartToggle={() => setIsCartOpen(true)} />
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <Navbar navItems={navItems || []} onCartToggle={() => setCartDrawerOpen(true)} />
+      <CartDrawer isOpen={cartDrawerOpen} onClose={() => setCartDrawerOpen(false)} />
       
       <Routes location={location}>
         <Route path="/" element={<HomePage />} />

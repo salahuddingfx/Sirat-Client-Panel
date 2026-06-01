@@ -76,7 +76,7 @@ export default function CartPage() {
                     <span className="section-header__eyebrow" style={{ fontSize: "0.68rem" }}>{item.product.category}</span>
                     <h3 className="cart-page-item-name">{item.product.name}</h3>
                     <span className="cart-page-item-meta">Size: <strong>{item.variant.label}</strong></span>
-                    <span className="cart-page-item-price">৳{price}</span>
+                    <span className="cart-page-item-price">{'\u09F3'}{price}</span>
                   </div>
 
                   <div className="cart-page-item-qty-actions">
@@ -159,12 +159,12 @@ export default function CartPage() {
             <div className="cart-drawer__summary">
               <div className="cart-drawer__summary-row">
                 <span>Subtotal</span>
-                <span>৳{cartSubtotal}</span>
+                <span>{'\u09F3'}{cartSubtotal}</span>
               </div>
               {discountAmount > 0 && (
                 <div className="cart-drawer__summary-row promo">
                   <span>Discount</span>
-                  <span>-৳{discountAmount}</span>
+                  <span>-{'\u09F3'}{discountAmount}</span>
                 </div>
               )}
               <div className="cart-drawer__summary-row">
@@ -174,7 +174,7 @@ export default function CartPage() {
               <hr className="product-card-modern__divider" style={{ margin: "0.85rem 0" }} />
               <div className="cart-drawer__summary-row total" style={{ fontSize: "1.2rem" }}>
                 <span>Order Total</span>
-                <span>৳{cartTotal}</span>
+                <span>{'\u09F3'}{cartTotal}</span>
               </div>
             </div>
 

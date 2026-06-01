@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+﻿import { useMemo } from "react";
 import { SectionHeader } from "@components/ui";
 import ProductCard from "@features/products/components/ProductCard";
 import { products } from "@data/mockData";

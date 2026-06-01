@@ -39,7 +39,12 @@ export default function ProductCard({ product }) {
     >
       {/* Product Image Frame */}
       <div className="product-card-modern__media">
-        <div className="product-card-modern__image-placeholder" />
+        <img 
+          src={product.image} 
+          alt={product.name} 
+          className="product-card-modern__image" 
+          loading="lazy" 
+        />
         {product.bestSeller && (
           <span className="product-card-modern__bestseller-badge">BEST SELLER</span>
         )}
@@ -111,9 +116,9 @@ export default function ProductCard({ product }) {
         {/* Bottom Price & Action Row */}
         <div className="product-card-modern__footer">
           <div className="price-stack">
-            <span className="current-price">৳{product.price}</span>
+            <span className="current-price">{'\u09F3'}{product.price}</span>
             {product.oldPrice && (
-              <span className="old-price">৳{product.oldPrice}</span>
+              <span className="old-price">{'\u09F3'}{product.oldPrice}</span>
             )}
           </div>
 

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LogOut, User, Mail, Phone, MapPin, Package } from "lucide-react";
 import PageFrame from "../../components/layout/PageFrame";
 import { Button, Panel } from "../../components/ui";
@@ -93,7 +93,7 @@ export default function AccountPage() {
                     <span className="order-date">Placed on {new Date(ord.createdAt).toLocaleDateString()}</span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-                    <strong style={{ fontSize: "1rem" }}>৳{ord.totalAmount}</strong>
+                    <strong style={{ fontSize: "1rem" }}>{'\u09F3'}{ord.totalAmount}</strong>
                     <span className={["order-status", ord.status].filter(Boolean).join(" ")}>
                       {ord.status}
                     </span>

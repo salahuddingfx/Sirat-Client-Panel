@@ -77,14 +77,21 @@ export default function CartDrawer({ isOpen, onClose }) {
                     const price = item.product.price + item.variant.priceDelta;
                     return (
                       <div key={`${item.product.id}-${item.variant.id}`} className="cart-drawer__item">
-                        <div className="cart-drawer__item-media" />
+                        <div className="cart-drawer__item-media">
+                          <img 
+                            src={item.product.image} 
+                            alt={item.product.name} 
+                            className="cart-drawer__item-media-img" 
+                            loading="lazy" 
+                          />
+                        </div>
                         <div className="cart-drawer__item-info">
                           <span className="cart-drawer__item-category">{item.product.category}</span>
                           <h4 className="cart-drawer__item-name">{item.product.name}</h4>
                           <span className="cart-drawer__item-variant">Size: {item.variant.label}</span>
                           <div className="cart-drawer__item-meta">
-                            <strong>৳{price * item.quantity}</strong>
-                            <span className="helper">৳{price} each</span>
+                            <strong>{'\u09F3'}{price * item.quantity}</strong>
+                            <span className="helper">{'\u09F3'}{price} each</span>
                           </div>
                         </div>
 
@@ -150,17 +157,17 @@ export default function CartDrawer({ isOpen, onClose }) {
                 <div className="cart-drawer__summary">
                   <div className="cart-drawer__summary-row">
                     <span>Subtotal</span>
-                    <span>৳{cartSubtotal}</span>
+                    <span>{'\u09F3'}{cartSubtotal}</span>
                   </div>
                   {discountAmount > 0 && (
                     <div className="cart-drawer__summary-row promo">
                       <span>Discount</span>
-                      <span>-৳{discountAmount}</span>
+                      <span>-{'\u09F3'}{discountAmount}</span>
                     </div>
                   )}
                   <div className="cart-drawer__summary-row total">
                     <span>Estimated Total</span>
-                    <span>৳{cartTotal}</span>
+                    <span>{'\u09F3'}{cartTotal}</span>
                   </div>
                 </div>
 

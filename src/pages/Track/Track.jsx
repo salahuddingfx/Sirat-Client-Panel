@@ -252,7 +252,7 @@ export default function TrackPage() {
       
       {/* Search Console */}
       <Panel className="page-card" style={{ maxWidth: "680px", margin: "0 auto 3.5rem", padding: "1.25rem", borderRadius: "16px" }}>
-        <form onSubmit={(e) => { e.preventDefault(); handleSearch(query); }} style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+        <form onSubmit={(e) => { e.preventDefault(); handleSearch(query); }} style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
           <div style={{ position: "relative", flex: 1, minWidth: "260px" }}>
             <Search size={18} style={{ position: "absolute", left: "1.25rem", top: "50%", transform: "translateY(-50%)", color: "var(--sirat-muted)" }} />
             <input
@@ -400,7 +400,7 @@ export default function TrackPage() {
                                 </span>
                               </div>
                             </div>
-                            <strong style={{ fontSize: "0.9rem", color: "var(--sirat-text)" }}>৳{item.price * item.quantity}</strong>
+                            <strong style={{ fontSize: "0.9rem", color: "var(--sirat-text)" }}>{'\u09F3'}{item.price * item.quantity}</strong>
                           </div>
                         ))}
                       </div>
@@ -408,11 +408,11 @@ export default function TrackPage() {
                       <div style={{ display: "grid", gap: "0.55rem", fontSize: "0.82rem", borderBottom: "1px solid var(--sirat-border)", paddingBottom: "0.85rem", marginBottom: "1rem" }}>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                           <span style={{ color: "var(--sirat-muted)" }}>Subtotal</span>
-                          <strong>৳{order.estimatedTotal - order.shippingCharge}</strong>
+                          <strong>{'\u09F3'}{order.estimatedTotal - order.shippingCharge}</strong>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                           <span style={{ color: "var(--sirat-muted)" }}>Delivery Fee</span>
-                          <strong>৳{order.shippingCharge}</strong>
+                          <strong>{'\u09F3'}{order.shippingCharge}</strong>
                         </div>
                       </div>
 
@@ -420,7 +420,7 @@ export default function TrackPage() {
                         <div>
                           <span style={{ fontSize: "0.75rem", color: "var(--sirat-muted)" }}>Total Payable</span>
                           <strong style={{ display: "block", fontSize: "1.5rem", color: "var(--sirat-gold-soft)", fontFamily: "Space Grotesk, sans-serif" }}>
-                            ৳{order.estimatedTotal}
+                            {'\u09F3'}{order.estimatedTotal}
                           </strong>
                         </div>
                         {renderPaymentCard(order)}

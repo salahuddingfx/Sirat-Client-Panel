@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+﻿import { NavLink } from "react-router-dom";
 import { Home, Compass, Truck, ShoppingCart, User } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
 

@@ -33,7 +33,7 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
                 <Zap size={11} className="ticker-icon" /> Summer Drop 2026 is LIVE! Use Code: <strong>LAUNCH15</strong> for 15% OFF
               </span>
               <span className="ticker-item">
-                <Truck size={11} className="ticker-icon" /> FREE shipping on orders over ৳1500 / $150
+                <Truck size={11} className="ticker-icon" /> FREE shipping on orders over {'\u09F3'}1500 / $150
               </span>
               <span className="ticker-item">
                 <Shirt size={11} className="ticker-icon" /> Crafted in 100% premium combed cotton & tactile prints
@@ -44,10 +44,10 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
           <div className="top-bar-selectors">
             <select className="top-bar-select" aria-label="Select Language">
               <option value="en">EN</option>
-              <option value="bn">বাংলা</option>
+              <option value="bn">{"\u09AC\u09BE\u0982\u09B2\u09BE"}</option>
             </select>
             <select className="top-bar-select" aria-label="Select Currency">
-              <option value="bdt">BDT (৳)</option>
+              <option value="bdt">BDT ({'\u09F3'})</option>
               <option value="usd">USD ($)</option>
             </select>
           </div>
@@ -57,29 +57,17 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
       <header className="storefront__header">
         <div className="storefront__header-inner">
           <div className="storefront__brand-group" style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
-            <Link to="/" style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}>
+            <Link to="/" className="storefront__brand-link">
               <img 
-                src="/logo.png" 
+                src="/Sirat.jpg" 
                 alt="SIRAT Logo" 
-                style={{ height: "32px", width: "auto", objectFit: "contain" }}
+                className="storefront__brand-mark"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                 }} 
               />
-              <span className="sirat-brand" style={{ display: "inline-block" }}>SIRAT</span>
             </Link>
-            <span style={{ 
-              fontSize: "0.68rem", 
-              color: "var(--sirat-gold)", 
-              opacity: 0.9, 
-              letterSpacing: "0.1em", 
-              textTransform: "uppercase", 
-              fontWeight: "600", 
-              display: "flex", 
-              alignItems: "center", 
-              gap: "0.3rem", 
-              marginTop: "0.1rem" 
-            }}>
+            <span className="storefront__brand-tagline">
               <Compass size={11} /> Purity in Every Step
             </span>
           </div>

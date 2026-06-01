@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+﻿import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeader } from "@components/ui";
 import ProductCard from "@features/products/components/ProductCard";

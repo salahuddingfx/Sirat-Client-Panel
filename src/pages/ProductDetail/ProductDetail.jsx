@@ -233,7 +233,11 @@ export default function ProductDetailPage() {
         {/* Left media visual panel */}
         <div className="product-detail-media">
           <div className="detail-media-frame">
-            <div className="detail-image-placeholder" />
+            <img 
+              src={product.image} 
+              alt={product.name} 
+              className="detail-image" 
+            />
             {product.bestSeller && (
               <span className="detail-bestseller-badge">BEST SELLER</span>
             )}
@@ -282,9 +286,9 @@ export default function ProductDetailPage() {
 
           {/* Price Stack */}
           <div className="detail-price-stack">
-            <span className="detail-current-price">৳{currentPrice}</span>
+            <span className="detail-current-price">{'\u09F3'}{currentPrice}</span>
             {product.oldPrice && (
-              <span className="detail-old-price">৳{product.oldPrice}</span>
+              <span className="detail-old-price">{'\u09F3'}{product.oldPrice}</span>
             )}
           </div>
 

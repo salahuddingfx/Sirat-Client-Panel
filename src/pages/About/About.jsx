@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef } from "react";
 import { Compass, Target, ShieldCheck, Calendar, Sparkles } from "lucide-react";
 import gsap from "gsap";
 import PageFrame from "@components/layout/PageFrame";

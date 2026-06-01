@@ -1,4 +1,4 @@
-export default function FloatingSupport() {
+﻿export default function FloatingSupport() {
   return (
     <div
       className="floating-support-container"

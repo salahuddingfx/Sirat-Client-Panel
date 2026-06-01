@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { HelpCircle, ChevronRight } from "lucide-react";
 
 const faqItems = [

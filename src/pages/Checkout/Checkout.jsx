@@ -317,7 +317,7 @@ export default function CheckoutPage() {
                   gap: "1rem"
                 }}>
                   <div style={{ fontSize: "0.85rem", lineHeight: "1.5", color: "var(--sirat-text)" }}>
-                    💡 Please send money (<strong>৳{estimatedTotal}</strong>) to our personal {paymentMethod === "bkash" ? "bKash" : "Nagad"} wallet: 
+                    💡 Please send money (<strong>{'\u09F3'}{estimatedTotal}</strong>) to our personal {paymentMethod === "bkash" ? "bKash" : "Nagad"} wallet: 
                     <strong style={{ display: "block", fontSize: "1rem", color: "var(--sirat-gold-soft)", marginTop: "0.25rem" }}>01700-000000 (Send Money)</strong>
                     Enter your Sender Number and Transaction ID (TxnID) below:
                   </div>
@@ -363,7 +363,7 @@ export default function CheckoutPage() {
                 {cartItems.map((item) => (
                   <div key={`${item.product.id}-${item.variant.id}`} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.88rem" }}>
                     <span>{item.product.name} (x{item.quantity}) - {item.variant.label}</span>
-                    <strong>৳{(item.product.price + item.variant.priceDelta) * item.quantity}</strong>
+                    <strong>{'\u09F3'}{(item.product.price + item.variant.priceDelta) * item.quantity}</strong>
                   </div>
                 ))}
               </div>
@@ -373,12 +373,12 @@ export default function CheckoutPage() {
               <div className="cart-drawer__summary" style={{ gap: "0.50rem" }}>
                 <div className="cart-drawer__summary-row">
                   <span>Subtotal</span>
-                  <span>৳{cartSubtotal}</span>
+                  <span>{'\u09F3'}{cartSubtotal}</span>
                 </div>
                 {discountAmount > 0 && (
                   <div className="cart-drawer__summary-row promo">
                     <span>Discount</span>
-                    <span>-৳{discountAmount}</span>
+                    <span>-{'\u09F3'}{discountAmount}</span>
                   </div>
                 )}
                 <div className="cart-drawer__summary-row">
@@ -387,17 +387,17 @@ export default function CheckoutPage() {
                 </div>
                 <div className="cart-drawer__summary-row">
                   <span>Shipping ({city === "Cox's Bazar" ? "Cox's Bazar" : "Outside"})</span>
-                  <span>৳{shippingCharge}</span>
+                  <span>{'\u09F3'}{shippingCharge}</span>
                 </div>
                 <hr className="product-card-modern__divider" style={{ margin: "0.55rem 0" }} />
                 <div className="cart-drawer__summary-row total" style={{ fontSize: "1.15rem" }}>
                   <span>Estimated Total</span>
-                  <span>৳{estimatedTotal}</span>
+                  <span>{'\u09F3'}{estimatedTotal}</span>
                 </div>
               </div>
 
               <Button type="submit" disabled={isSubmitting} style={{ width: "100%", marginTop: "1.5rem", opacity: isSubmitting ? 0.7 : 1 }}>
-                {isSubmitting ? "Placing Order..." : `Place Order (৳${estimatedTotal})`}
+                {isSubmitting ? "Placing Order..." : `Place Order (${'\u09F3'}${estimatedTotal})`}
               </Button>
 
               

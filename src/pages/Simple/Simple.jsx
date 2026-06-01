@@ -1,4 +1,4 @@
-import PageFrame from "@components/layout/PageFrame";
+﻿import PageFrame from "@components/layout/PageFrame";
 import { Panel } from "@components/ui";
 
 export default function SimplePage({ title, description }) {

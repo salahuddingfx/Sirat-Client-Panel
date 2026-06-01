@@ -60,12 +60,12 @@ export default function OrderSuccessPage() {
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Phone size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Contact Phone:</strong> {phone}</span></div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><MapPin size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Address:</strong> {address}, {city}</span></div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Scale size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Total Weight:</strong> {totalWeight.toFixed(2)} kg</span></div>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Truck size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Shipping Fee:</strong> ৳{shippingCharge}</span></div>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Truck size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Shipping Fee:</strong> {'\u09F3'}{shippingCharge}</span></div>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><CreditCard size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Payment Method:</strong> {paymentMethod.toUpperCase() === "COD" ? "Cash on Delivery (COD)" : `${paymentMethod.toUpperCase().replace("MFS", "bKash/Nagad")} Wallet`}</span></div>
             {paySender && <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Smartphone size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Sender Number:</strong> {paySender}</span></div>}
             {payTxid && <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Key size={14} className="muted" style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Transaction ID:</strong> {payTxid}</span></div>}
             <div style={{ borderTop: "1px solid var(--sirat-border)", paddingTop: "0.75rem", marginTop: "0.3rem", fontSize: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <Coins size={16} style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Total Amount Confirmed:</strong> <strong style={{ color: "var(--sirat-gold-soft)" }}>৳{estimatedTotal}</strong></span>
+              <Coins size={16} style={{ color: "var(--sirat-gold-soft)" }} /> <span><strong>Total Amount Confirmed:</strong> <strong style={{ color: "var(--sirat-gold-soft)" }}>{'\u09F3'}{estimatedTotal}</strong></span>
             </div>
           </div>
         </div>

@@ -7,8 +7,8 @@ import { Button } from "@components/ui";
 
 const sliderSlides = [
   {
-    type: "video",
-    mediaUrl: "https://assets.mixkit.co/videos/preview/mixkit-fashion-woman-modeling-a-yellow-jacket-40539-large.mp4",
+    type: "image",
+    mediaUrl: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1200",
     title: "PREMIUM CUSTOM TEES",
     subtitle: "HIGH-DENSITY PRINTS",
     description: "Explore 100% combed cotton, heavyweight streetwear drops with premium custom print graphics.",

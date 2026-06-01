@@ -1,4 +1,4 @@
-import { SectionHeader } from "@components/ui";
+﻿import { SectionHeader } from "@components/ui";
 import ProductCard from "@features/products/components/ProductCard";
 import { products } from "@data/mockData";
 

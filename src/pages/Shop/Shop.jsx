@@ -3,9 +3,9 @@ import { useSearchParams } from "react-router-dom";
 import { Search, SlidersHorizontal, ArrowUpDown, RefreshCw } from "lucide-react";
 import PageFrame from "@components/layout/PageFrame";
 import ProductCard from "@features/products/components/ProductCard";
-import { Button, Panel } from "@components/ui";
-import { products } from "@data/mockData";
 import SEO from "@components/layout/SEO";
+import { Button, Panel } from "@components/ui";
+import { fetchProducts } from "@api/queries";
 
 const categories = ["All", "Oversized", "Custom Prints", "Screen Prints", "Essentials"];
 const sizes = ["XS", "S", "M", "L", "XL"];
@@ -14,6 +14,7 @@ export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchParamQuery = searchParams.get("q") || "";
 
+  const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(searchParamQuery);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedSizes, setSelectedSizes] = useState([]);
@@ -23,15 +24,23 @@ export default function ShopPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchProducts();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadProducts();
+  }, []);
+
+  useEffect(() => {
     setSearchQuery(searchParamQuery);
   }, [searchParamQuery]);
-
-  // Simulate loading shimmer when filters or options change
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 550);
-    return () => clearTimeout(timer);
-  }, [selectedCategory, searchQuery, selectedSizes, maxPrice, sortBy]);
 
   const toggleSize = (size) => {
     setSelectedSizes((prev) =>
@@ -156,7 +165,7 @@ export default function ShopPage() {
             <div className="sidebar-section">
               <div className="sidebar-section__header">
                 <h4 className="sidebar-section__title">Filter by Price</h4>
-                <span className="price-limit">৳{maxPrice} max</span>
+                <span className="price-limit">{'\u09F3'}{maxPrice} max</span>
               </div>
               <input
                 type="range"
@@ -168,8 +177,8 @@ export default function ShopPage() {
                 className="price-slider"
               />
               <div className="price-range-labels">
-                <span>৳500</span>
-                <span>৳2500</span>
+                <span>{'\u09F3'}500</span>
+                <span>{'\u09F3'}2500</span>
               </div>
             </div>
 

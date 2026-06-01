@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+﻿import { Star } from "lucide-react";
 import PageFrame from "@components/layout/PageFrame";
 import { Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
