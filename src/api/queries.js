@@ -101,6 +101,11 @@ export async function validateCouponCode(code, totalAmount) {
 }
 
 export async function updateProfile(payload) {
-  const response = await clientApi.put("/users/profile", payload);
+  const isFormData = payload instanceof FormData;
+  const response = await clientApi.put("/users/profile", payload, {
+      headers: { 
+          "Content-Type": isFormData ? "multipart/form-data" : "application/json" 
+      }
+  });
   return response.data;
 }
