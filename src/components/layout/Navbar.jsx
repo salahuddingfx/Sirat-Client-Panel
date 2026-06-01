@@ -189,8 +189,12 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
             {isLoggedIn ? (
               <div className="mobile-nav-user-section" style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid var(--sirat-border)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
-                  <div className="navbar-profile-trigger-btn">
-                    {user?.name?.charAt(0) || "U"}
+                  <div className="navbar-profile-trigger-btn" style={{ padding: 0, overflow: "hidden" }}>
+                    {user?.avatar ? (
+                        <img src={user.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    ) : (
+                        user?.name?.charAt(0) || "U"
+                    )}
                   </div>
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <strong style={{ fontSize: "0.9rem" }}>{user?.name}</strong>
