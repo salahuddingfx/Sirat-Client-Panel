@@ -2117,9 +2117,8 @@ section:not(.page-section) {
 
 /* Responsive Mobile Links */
 @media (max-width: 768px) {
-  a:not([class*="nav"]):not([class*="btn"]):not([class*="brand"]) {
-    text-decoration: underline !important;
-    text-underline-offset: 2px;
+  a:not([class*="btn"]):not([class*="brand"]) {
+    text-decoration: none !important;
   }
 }
 
