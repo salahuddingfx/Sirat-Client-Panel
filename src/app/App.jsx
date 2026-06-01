@@ -94,6 +94,7 @@ export function App() {
       <ScrollToTop />
       <FloatingSupport />
       <Toast />
+      <ConfirmDialog />
     </div>
   );
 }
