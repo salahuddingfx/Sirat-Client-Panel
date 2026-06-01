@@ -1,7 +1,7 @@
 ﻿import { createContext, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login as loginAction, register as registerAction, logout as logoutAction } from "../store/authSlice";
-import { loginUser, registerUser as apiRegisterUser } from "../../api/queries";
+import { login as loginAction, register as registerAction, logout as logoutAction, updateUser } from "../store/authSlice";
+import { loginUser, registerUser as apiRegisterUser, updateProfile as apiUpdateProfile } from "../../api/queries";
 
 const AuthContext = createContext(null);
 
@@ -10,24 +10,23 @@ export function AuthProvider({ children }) {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
 
-  const login = async (email, password) => {
+  const login = async (identifier, password) => {
     try {
-      const response = await loginUser({ email, password });
+      const response = await loginUser({ email: identifier, password }); // email here is the 'identifier' in backend
       if (response.success) {
         dispatch(loginAction(response.data));
         return { success: true };
       }
       return { success: false, message: response.message };
     } catch (err) {
-      return { success: false, message: "Login failed" };
+      return { success: false, message: err.response?.data?.message || "Login failed" };
     }
   };
 
-  const register = async (name, email, phone, password) => {
+  const register = async (userData) => {
     try {
-      const response = await apiRegisterUser({ name, email, phone, password });
+      const response = await apiRegisterUser(userData);
       if (response.success) {
-        // Automatically login after register if backend returns token
         if (response.data.token) {
           dispatch(registerAction(response.data));
         }
@@ -35,7 +34,20 @@ export function AuthProvider({ children }) {
       }
       return { success: false, message: response.message };
     } catch (err) {
-      return { success: false, message: "Registration failed" };
+      return { success: false, message: err.response?.data?.message || "Registration failed" };
+    }
+  };
+
+  const updateProfile = async (payload) => {
+    try {
+      const response = await apiUpdateProfile(payload);
+      if (response.success) {
+        dispatch(updateUser(response.data));
+        return { success: true, user: response.data };
+      }
+      return { success: false, message: response.message };
+    } catch (err) {
+      return { success: false, message: err.response?.data?.message || "Update failed" };
     }
   };
 
@@ -44,7 +56,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, register, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, register, updateProfile, logout }}>
       {children}
     </AuthContext.Provider>
   );
