@@ -134,21 +134,21 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
             <div className="hide-on-mobile">
               {isLoggedIn ? (
                 <div className="navbar-profile-dropdown-container">
-                  <button type="button" className="navbar-profile-trigger-btn" aria-label="User Profile Menu" style={{ padding: 0, overflow: "hidden" }}>
+                  <Link to="/account" className="navbar-profile-trigger-btn" aria-label="User Profile Menu" style={{ padding: 0, overflow: "hidden", display: "flex" }}>
                     {user?.avatar ? (
                         <img src={user.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     ) : (
                         user?.name?.charAt(0) || "U"
                     )}
-                  </button>
+                  </Link>
                   <div className="navbar-profile-dropdown-menu">
                     <div className="dropdown-user-info">
                       <strong>{user?.name}</strong>
                       <span>{user?.email}</span>
                     </div>
                     <hr className="product-card-modern__divider" style={{ margin: "0.55rem 0" }} />
-                    <Link to="/account" className="dropdown-item">Dashboard</Link>
-                    <button type="button" className="dropdown-item logout-btn" onClick={logout}>
+                    <Link to="/account" className="dropdown-item" style={{ textDecoration: "none" }}>Dashboard</Link>
+                    <button type="button" className="dropdown-item logout-btn" onClick={logout} style={{ textDecoration: "none" }}>
                       Log Out
                     </button>
                   </div>
