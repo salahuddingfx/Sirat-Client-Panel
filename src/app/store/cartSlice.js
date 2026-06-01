@@ -5,6 +5,7 @@ const initialState = {
   promoCode: "",
   promoError: "",
   discountPercent: 0,
+  discountFixed: 0,
   cartDrawerOpen: false,
   toast: { show: false, message: "", type: "success" }
 };
