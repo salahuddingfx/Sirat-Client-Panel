@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="footer-col brand-col">
             <div className="footer-logo">
               <Link to="/" className="storefront__brand-link footer-brand-link">
-                <img src="/Sirat.jpg" alt="SIRAT Logo" className="storefront__brand-mark footer-brand-mark" />
+                <img src="/Sirat.png" alt="SIRAT Logo" className="storefront__brand-mark footer-brand-mark" />
                 <span className="sirat-brand-text">SIRAT</span>
               </Link>
               <span className="storefront__brand-tagline">

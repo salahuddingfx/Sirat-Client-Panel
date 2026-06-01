@@ -69,7 +69,7 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
           <div className="storefront__brand-group" style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
             <Link to="/" className="storefront__brand-link">
               <img 
-                src="/Sirat.jpg" 
+                src="/Sirat.png" 
                 alt="SIRAT Logo" 
                 className="storefront__brand-mark"
               />
