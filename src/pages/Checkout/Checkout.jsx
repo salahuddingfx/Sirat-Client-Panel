@@ -63,12 +63,12 @@ export default function CheckoutPage() {
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
     if (!name || !email || !phone || !address) {
-      alert("Please fill in all required shipping fields.");
+      triggerToast("Please fill in all required shipping fields.", "warning");
       return;
     }
 
     if ((paymentMethod === "bkash" || paymentMethod === "nagad") && (!paySender || !payTxid)) {
-      alert(`Please enter your ${paymentMethod === "bkash" ? "bKash" : "Nagad"} sender phone and transaction ID.`);
+      triggerToast(`Please enter your ${paymentMethod === "bkash" ? "bKash" : "Nagad"} sender phone and transaction ID.`, "warning");
       return;
     }
 
@@ -103,13 +103,14 @@ export default function CheckoutPage() {
         localStorage.setItem("sirat_orders", JSON.stringify(existingOrders));
 
         clearCart();
+        triggerToast("Order placed successfully!", "success");
         navigate("/order-success", { state: orderDetails });
       } else {
-        alert(response.message || "Failed to place order.");
+        triggerToast(response.message || "Failed to place order.", "error");
       }
     } catch (err) {
       console.error("Order error:", err);
-      alert("Something went wrong. Please try again.");
+      triggerToast("Something went wrong. Please try again.", "error");
     } finally {
       setIsSubmitting(false);
     }
