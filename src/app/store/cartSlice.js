@@ -99,6 +99,7 @@ export const selectCartItems = (state) => state.cart.cartItems;
 export const selectPromoCode = (state) => state.cart.promoCode;
 export const selectPromoError = (state) => state.cart.promoError;
 export const selectDiscountPercent = (state) => state.cart.discountPercent;
+export const selectDiscountFixed = (state) => state.cart.discountFixed;
 export const selectCartDrawerOpen = (state) => state.cart.cartDrawerOpen;
 export const selectToast = (state) => state.cart.toast;
 
@@ -110,7 +111,8 @@ export const selectCartSubtotal = (state) =>
 
 export const selectDiscountAmount = (state) => {
   const subtotal = selectCartSubtotal(state);
-  return (subtotal * state.cart.discountPercent) / 100;
+  const percentDiscount = (subtotal * state.cart.discountPercent) / 100;
+  return percentDiscount + state.cart.discountFixed;
 };
 
 export const selectCartTotal = (state) => {
