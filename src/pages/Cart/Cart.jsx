@@ -110,10 +110,18 @@ export default function CartPage() {
               );
             })}
 
-            <div style={{ marginTop: "1rem" }}>
+            <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <Link to="/shop" className="back-btn" style={{ display: "inline-flex", width: "auto" }}>
                 <ArrowLeft size={14} /> Back to Shop
               </Link>
+              <button 
+                onClick={() => {
+                    if (window.confirm("Clear your entire cart?")) clearCart();
+                }}
+                style={{ background: "none", border: "none", color: "var(--sirat-error)", fontSize: "0.85rem", fontWeight: "700", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.4rem" }}
+              >
+                <Trash2 size={14} /> Clear Entire Cart
+              </button>
             </div>
           </div>
 
