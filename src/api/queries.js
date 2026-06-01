@@ -50,7 +50,7 @@ export async function trackOrder(payload) {
 
 export async function fetchReviews() {
   const response = await clientApi.get("/reviews");
-  return response.data;
+  return response.data.data;
 }
 
 export async function placeOrder(payload) {

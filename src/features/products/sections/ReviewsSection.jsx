@@ -41,11 +41,11 @@ export default function ReviewsSection() {
                 <div key={`${r._id || r.name}-${idx}`} className="sirat-panel page-card review-display-card" style={{ minWidth: 320 }}>
                   <div className="review-rating-stars">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={16} className="star-filled" fill={i < Math.floor(r.stars) ? "currentColor" : "none"} color="var(--sirat-star)" />
+                      <Star key={i} size={16} className="star-filled" fill={i < Math.floor(r.rating) ? "currentColor" : "none"} color="var(--sirat-star)" />
                     ))}
-                    <span className="review-stars-val">{r.stars} rating</span>
+                    <span className="review-stars-val">{r.rating} rating</span>
                   </div>
-                  <p className="review-quote-text">"{r.text}"</p>
+                  <p className="review-quote-text">"{r.comment}"</p>
                   <div className="review-author-meta">
                     <strong>{r.name}</strong>
                     <span className="helper">{r.location || r.country || ''}</span>
