@@ -13,6 +13,7 @@ import {
   selectPromoCode,
   selectPromoError,
   selectDiscountPercent,
+  selectDiscountFixed,
   selectCartDrawerOpen,
   selectToast,
   selectCartSubtotal,
