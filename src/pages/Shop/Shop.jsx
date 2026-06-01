@@ -177,25 +177,25 @@ export default function ShopPage() {
                 />
               </div>
             </div>
-
-            <div className="sidebar-section">
-              <div className="sidebar-section__header">
-                <h4 className="sidebar-section__title">Filter by Price</h4>
-                <span className="price-limit">{'\u09F3'}{maxPrice} max</span>
-              </div>
-              <input
-                type="range"
-                min="500"
-                max="2500"
-                step="100"
-                value={maxPrice}
-                onChange={(e) => setMaxPrice(Number(e.target.value))}
-                className="price-slider"
-              />
-              <div className="price-range-labels">
-                <span>{'\u09F3'}500</span>
-                <span>{'\u09F3'}2500</span>
-              </div>
+const [maxPrice, setMaxPrice] = useState(10000);
+// ...
+            <div className="sidebar-section__header">
+              <h4 className="sidebar-section__title">Filter by Price</h4>
+              <span className="price-limit">{'\u09F3'}{maxPrice} max</span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="20000"
+              step="100"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(Number(e.target.value))}
+              className="price-slider"
+            />
+            <div className="price-range-labels">
+              <span>{'\u09F3'}0</span>
+              <span>{'\u09F3'}20000</span>
+            </div>
             </div>
 
             <div className="sidebar-section">

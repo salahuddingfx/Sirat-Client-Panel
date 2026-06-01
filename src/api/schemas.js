@@ -20,6 +20,7 @@ export const productSchema = z.object({
   currency: z.string().default("BDT"),
   category: z.string().default("Uncategorized"),
   images: z.array(z.string()).default([]),
+  image: z.string().optional().nullable(),
   rating: z.number().default(0),
   featured: z.boolean().default(false),
   variants: z.array(productVariantSchema).default([])
