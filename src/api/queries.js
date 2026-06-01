@@ -100,12 +100,14 @@ export async function validateCouponCode(code, totalAmount) {
   return response.data;
 }
 
-export async function updateProfile(payload) {
+export async function updateProfile(payload, token) {
   const isFormData = payload instanceof FormData;
-  const response = await clientApi.put("/users/profile", payload, {
-      headers: { 
-          "Content-Type": isFormData ? "multipart/form-data" : "application/json" 
-      }
-  });
+  const headers = {
+    "Content-Type": isFormData ? "multipart/form-data" : "application/json"
+  };
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  const response = await clientApi.put("/users/profile", payload, { headers });
   return response.data;
 }

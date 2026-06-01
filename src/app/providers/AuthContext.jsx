@@ -1,4 +1,4 @@
-﻿import { createContext, useContext } from "react";
+import { createContext, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login as loginAction, register as registerAction, logout as logoutAction, updateUser } from "../store/authSlice";
 import { loginUser, registerUser as apiRegisterUser, updateProfile as apiUpdateProfile } from "../../api/queries";
@@ -9,6 +9,7 @@ export function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
 
   const login = async (identifier, password) => {
     try {
@@ -40,7 +41,7 @@ export function AuthProvider({ children }) {
 
   const updateProfile = async (payload) => {
     try {
-      const response = await apiUpdateProfile(payload);
+      const response = await apiUpdateProfile(payload, token);
       if (response.success) {
         dispatch(updateUser(response.data));
         return { success: true, user: response.data };
