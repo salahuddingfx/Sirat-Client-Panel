@@ -117,16 +117,33 @@ export default function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
 
-  // Reviews state with seed data
-  const [reviews, setReviews] = useState([
-    { id: 1, name: "Tanvir Ahmed", rating: 5.0, date: "2026-05-12", comment: "কাপড়ের ফিনিশিং এবং থিকনেস অসাধারণ! কাস্টম প্রিন্ট অনেক চমৎকার লেগেছে।" },
-    { id: 2, name: "Salahuddin", rating: 4.5, date: "2026-05-18", comment: "Comfortable and sits perfectly. Delivery was fast and packed well." }
-  ]);
+  // Reviews state
+  const [reviews, setReviews] = useState([]);
+
+  // Load reviews from API
+  useEffect(() => {
+    if (product?.id) {
+      fetchProductReviews(product.id)
+        .then(data => {
+            if (data && data.length > 0) {
+                setReviews(data);
+            } else {
+                // Fallback seed data if no reviews in DB
+                setReviews([
+                    { _id: 1, name: "Tanvir Ahmed", rating: 5.0, createdAt: "2026-05-12T00:00:00Z", comment: "কাপড়ের ফিনিশিং এবং থিকনেস অসাধারণ! কাস্টম প্রিন্ট অনেক চমৎকার লেগেছে।" },
+                    { _id: 2, name: "Salahuddin", rating: 4.5, createdAt: "2026-05-18T00:00:00Z", comment: "Comfortable and sits perfectly. Delivery was fast and packed well." }
+                ]);
+            }
+        })
+        .catch(err => console.error("Failed to load reviews:", err));
+    }
+  }, [product?.id]);
 
   // New review input states
   const [newReviewName, setNewReviewName] = useState("");
   const [newReviewComment, setNewReviewComment] = useState("");
   const [newReviewRating, setNewReviewRating] = useState(5.0);
+  const [isReviewSubmitting, setIsReviewSubmitting] = useState(false);
 
   // Set default variant selections on product change
   useEffect(() => {
