@@ -31,9 +31,9 @@ export default function VisualsSection() {
       />
       <div style={{ marginTop: "1.5rem" }}>
         <div className="marquee-container">
-          <div className="marquee-track">
+          <div className="marquee-track" style={{ gap: "1.25rem", alignItems: "flex-start" }}>
             {[...featured, ...featured].map((product, idx) => (
-              <div key={`${product.id}-${idx}`} style={{ minWidth: 210, maxWidth: 210 }}>
+              <div key={`${product.id}-${idx}`} style={{ minWidth: 200, maxWidth: 200, display: "flex" }}>
                 <ProductCard product={product} />
               </div>
             ))}

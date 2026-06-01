@@ -922,7 +922,7 @@ section:not(.page-section) {
 .product-card-modern__media {
   position: relative;
   width: 100%; /* Enforce full container width */
-  aspect-ratio: 1.35 / 1; /* Decreased card height aspect ratio */
+  aspect-ratio: 1 / 1.15; /* Increased height for better apparel display */
   background: #F4F3EF; /* Light grey-cream image block background */
   border-bottom: 1px solid var(--sirat-border);
   border-top-left-radius: 11px;
