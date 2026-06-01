@@ -77,9 +77,21 @@ export default function CartDrawer({ isOpen, onClose }) {
                 <ShoppingCart size={20} className="accent" />
                 <h3>Your Cart ({cartItems.reduce((acc, item) => acc + item.quantity, 0)})</h3>
               </div>
-              <button className="cart-drawer__close" aria-label="Close cart" onClick={onClose}>
-                <X size={20} />
-              </button>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                {cartItems.length > 0 && (
+                    <button 
+                        onClick={() => {
+                            if (window.confirm("Clear your entire cart?")) clearCart();
+                        }}
+                        style={{ background: "none", border: "none", color: "var(--sirat-error)", fontSize: "0.75rem", fontWeight: "700", cursor: "pointer", textTransform: "uppercase" }}
+                    >
+                        Clear
+                    </button>
+                )}
+                <button className="cart-drawer__close" aria-label="Close cart" onClick={onClose}>
+                    <X size={20} />
+                </button>
+              </div>
             </div>
 
             <div className="cart-drawer__content">
