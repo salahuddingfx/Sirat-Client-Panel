@@ -1,4 +1,4 @@
-﻿import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart as addToCartAction,
@@ -21,7 +21,8 @@ import {
   selectCartSubtotal,
   selectDiscountAmount,
   selectCartTotal,
-  selectCartCount
+  selectCartCount,
+  selectConfirm
 } from "../store/cartSlice";
 
 const CartContext = createContext(null);
@@ -45,25 +46,8 @@ export function CartProvider({ children }) {
   const cartCount = useSelector(selectCartCount);
   const confirm = useSelector(selectConfirm);
 
-  // ... (triggerToast stays same)
-
-  const triggerConfirm = (message, onConfirm) => {
-    setConfirmCallback(() => onConfirm);
-    dispatch(showConfirmAction({ message }));
-  };
-
-  const handleConfirm = () => {
-    if (confirmCallback) confirmCallback();
-    dispatch(hideConfirmAction());
-    setConfirmCallback(null);
-  };
-
-  const handleCancel = () => {
-    dispatch(hideConfirmAction());
-    setConfirmCallback(null);
-  };
-
-  const addToCart = (product, variant, quantity = 1, openDrawer = true) => {
+  // Sound play and toast scheduling side effect
+  const triggerToast = (message, type = "success") => {
     if (toastTimeout) {
       clearTimeout(toastTimeout);
     }
@@ -95,7 +79,6 @@ export function CartProvider({ children }) {
           osc.start(ctx.currentTime);
           osc.stop(ctx.currentTime + 0.25);
         } else {
-            // Info/Neutral
             osc.type = "sine";
             osc.frequency.setValueAtTime(440, ctx.currentTime);
             gain.gain.setValueAtTime(0.05, ctx.currentTime);
@@ -113,6 +96,22 @@ export function CartProvider({ children }) {
       dispatch(hideToastAction());
     }, 3500);
     setToastTimeout(timeout);
+  };
+
+  const triggerConfirm = (message, onConfirm) => {
+    setConfirmCallback(() => onConfirm);
+    dispatch(showConfirmAction({ message }));
+  };
+
+  const handleConfirm = () => {
+    if (confirmCallback) confirmCallback();
+    dispatch(hideConfirmAction());
+    setConfirmCallback(null);
+  };
+
+  const handleCancel = () => {
+    dispatch(hideConfirmAction());
+    setConfirmCallback(null);
   };
 
   const addToCart = (product, variant, quantity = 1, openDrawer = true) => {
@@ -142,6 +141,7 @@ export function CartProvider({ children }) {
 
   const clearCart = () => {
     dispatch(clearCartAction());
+    triggerToast("ব্যাগ পুরোপুরি খালি করা হয়েছে।", "info");
   };
 
   const setCartDrawerOpen = (isOpen) => {
