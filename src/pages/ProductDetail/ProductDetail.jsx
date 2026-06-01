@@ -230,24 +230,34 @@ export default function ProductDetailPage() {
     product.name.toLowerCase().includes("apex") ? "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=600" :
     "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=600";
 
-  const handleSubmitReview = (e) => {
+  const handleSubmitReview = async (e) => {
     e.preventDefault();
     if (!newReviewName || !newReviewComment) {
       alert("Please fill in your name and comment.");
       return;
     }
-    const newRev = {
-      id: Date.now(),
-      name: newReviewName,
-      rating: newReviewRating,
-      date: new Date().toISOString().split("T")[0],
-      comment: newReviewComment
-    };
-    setReviews((prev) => [newRev, ...prev]);
-    setNewReviewName("");
-    setNewReviewComment("");
-    setNewReviewRating(5.0);
-    triggerToast("রিভিউটি সফলভাবে যুক্ত করা হয়েছে!", "success");
+    
+    setIsReviewSubmitting(true);
+    try {
+        const payload = {
+            product: product.id,
+            name: newReviewName,
+            rating: newReviewRating,
+            comment: newReviewComment
+        };
+        const res = await submitReview(payload);
+        if (res.success) {
+            setNewReviewName("");
+            setNewReviewComment("");
+            setNewReviewRating(5.0);
+            triggerToast("রিভিউটি সফলভাবে পাঠানো হয়েছে! এডমিন অ্যাপ্রুভ করলে এটি দেখা যাবে।", "success");
+        }
+    } catch (err) {
+        console.error("Review submission failed:", err);
+        alert("Failed to submit review. Please try again.");
+    } finally {
+        setIsReviewSubmitting(false);
+    }
   };
 
   return (
@@ -551,8 +561,8 @@ export default function ProductDetailPage() {
                 />
               </div>
 
-              <Button type="submit" style={{ width: "max-content", marginTop: "0.5rem" }}>
-                Submit Review
+              <Button type="submit" disabled={isReviewSubmitting} style={{ width: "max-content", marginTop: "0.5rem" }}>
+                {isReviewSubmitting ? "Submitting..." : "Submit Review"}
               </Button>
             </form>
           </Panel>
@@ -562,11 +572,11 @@ export default function ProductDetailPage() {
         <h3 style={{ margin: "2rem 0 1rem" }}>Customer Reviews ({reviews.length})</h3>
         <div style={{ display: "grid", gap: "1.25rem" }}>
           {reviews.map((rev) => (
-            <Panel key={rev.id} style={{ padding: "clamp(0.85rem, 3vw, 1.25rem)" }}>
+            <Panel key={rev._id} style={{ padding: "clamp(0.85rem, 3vw, 1.25rem)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
                 <div>
                   <strong style={{ display: "block", fontSize: "0.95rem" }}>{rev.name}</strong>
-                  <span style={{ fontSize: "0.78rem", color: "var(--sirat-muted)" }}>{rev.date}</span>
+                  <span style={{ fontSize: "0.78rem", color: "var(--sirat-muted)" }}>{new Date(rev.createdAt).toLocaleDateString()}</span>
                 </div>
                 
                 {/* Review Star Icons */}
