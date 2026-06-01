@@ -2000,22 +2000,33 @@ section:not(.page-section) {
 
 /* Infinite marquee utilities for smooth GPU-accelerated loops */
 .marquee-container {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   width: 100%;
   position: relative;
   display: flex;
   align-items: center;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.marquee-container::-webkit-scrollbar {
+  display: none;
+}
+
 .marquee-track {
   display: flex;
   width: max-content;
-  gap: 1.5rem;
   will-change: transform;
-  animation: marquee-infinite 30s linear infinite;
 }
+
+.marquee-infinite-linear {
+  animation: marquee-infinite 40s linear infinite; /* Slightly slower for premium feel */
+}
+
 .marquee-container:hover .marquee-track {
   animation-play-state: paused;
 }
+
 @keyframes marquee-infinite {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
