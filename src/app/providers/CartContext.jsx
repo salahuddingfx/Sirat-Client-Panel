@@ -29,6 +29,7 @@ const CartContext = createContext(null);
 export function CartProvider({ children }) {
   const dispatch = useDispatch();
   const [toastTimeout, setToastTimeout] = useState(null);
+  const [confirmCallback, setConfirmCallback] = useState(null);
 
   // Redux Selectors
   const cartItems = useSelector(selectCartItems);
@@ -42,9 +43,27 @@ export function CartProvider({ children }) {
   const discountAmount = useSelector(selectDiscountAmount);
   const cartTotal = useSelector(selectCartTotal);
   const cartCount = useSelector(selectCartCount);
+  const confirm = useSelector(selectConfirm);
 
-  // Sound play and toast scheduling side effect
-  const triggerToast = (message, type = "success") => {
+  // ... (triggerToast stays same)
+
+  const triggerConfirm = (message, onConfirm) => {
+    setConfirmCallback(() => onConfirm);
+    dispatch(showConfirmAction({ message }));
+  };
+
+  const handleConfirm = () => {
+    if (confirmCallback) confirmCallback();
+    dispatch(hideConfirmAction());
+    setConfirmCallback(null);
+  };
+
+  const handleCancel = () => {
+    dispatch(hideConfirmAction());
+    setConfirmCallback(null);
+  };
+
+  const addToCart = (product, variant, quantity = 1, openDrawer = true) => {
     if (toastTimeout) {
       clearTimeout(toastTimeout);
     }
@@ -144,6 +163,10 @@ export function CartProvider({ children }) {
         setCartDrawerOpen,
         toast,
         triggerToast,
+        confirm,
+        triggerConfirm,
+        handleConfirm,
+        handleCancel,
         addToCart,
         removeFromCart,
         updateQuantity,
