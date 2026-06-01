@@ -7,7 +7,8 @@ const initialState = {
   discountPercent: 0,
   discountFixed: 0,
   cartDrawerOpen: false,
-  toast: { show: false, message: "", type: "success" }
+  toast: { show: false, message: "", type: "success" },
+  confirm: { show: false, message: "", onConfirm: null }
 };
 
 const cartSlice = createSlice({
@@ -90,6 +91,13 @@ const cartSlice = createSlice({
     },
     hideToast: (state) => {
       state.toast = { show: false, message: "", type: "success" };
+    },
+    showConfirm: (state, action) => {
+      const { message, onConfirm } = action.payload;
+      state.confirm = { show: true, message, onConfirm };
+    },
+    hideConfirm: (state) => {
+      state.confirm = { show: false, message: "", onConfirm: null };
     }
   }
 });
