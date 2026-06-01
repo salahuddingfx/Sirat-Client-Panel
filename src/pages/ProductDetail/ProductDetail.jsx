@@ -86,14 +86,14 @@ function StarRatingSelector({ rating, onChange }) {
 }
 
 export default function ProductDetailPage() {
-  const { productId } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
   const { addToCart, setCartDrawerOpen, triggerToast } = useCart();
 
   // Find current product
   const product = useMemo(() => {
-    return products.find((p) => p.id === productId) || null;
-  }, [productId]);
+    return products.find((p) => p.slug === slug || p.id === slug) || null;
+  }, [slug]);
 
   // Wishlist state
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -406,9 +406,9 @@ export default function ProductDetailPage() {
           <h2>Ratings & Reviews</h2>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2.5rem", marginBottom: "3rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "clamp(1.25rem, 4vw, 2.5rem)", marginBottom: "3rem" }}>
           {/* Rating Summary column */}
-          <Panel style={{ padding: "2rem" }}>
+          <Panel style={{ padding: "clamp(1rem, 4vw, 2rem)" }}>
             <h3 style={{ margin: "0 0 1rem" }}>Product Summary</h3>
             <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "1.5rem" }}>
               <strong style={{ fontSize: "3.5rem", fontWeight: "850", color: "var(--sirat-gold-soft)", lineHeight: "1" }}>
@@ -460,7 +460,7 @@ export default function ProductDetailPage() {
           </Panel>
 
           {/* Review submission form column */}
-          <Panel style={{ padding: "2rem" }}>
+          <Panel style={{ padding: "clamp(1rem, 4vw, 2rem)" }}>
             <h3 style={{ margin: "0 0 1rem" }}>Write a Review</h3>
             <form onSubmit={handleSubmitReview} style={{ display: "grid", gap: "1rem" }}>
               <div className="form-group">
@@ -505,7 +505,7 @@ export default function ProductDetailPage() {
         <h3 style={{ margin: "2rem 0 1rem" }}>Customer Reviews ({reviews.length})</h3>
         <div style={{ display: "grid", gap: "1.25rem" }}>
           {reviews.map((rev) => (
-            <Panel key={rev.id} style={{ padding: "1.25rem" }}>
+            <Panel key={rev.id} style={{ padding: "clamp(0.85rem, 3vw, 1.25rem)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
                 <div>
                   <strong style={{ display: "block", fontSize: "0.95rem" }}>{rev.name}</strong>

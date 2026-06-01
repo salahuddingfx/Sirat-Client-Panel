@@ -158,10 +158,12 @@ section:not(.page-section) {
 .breadcrumb-link {
   color: var(--sirat-muted);
   transition: color 180ms ease;
+  text-decoration: none !important;
 }
 
 .breadcrumb-link:hover {
   color: var(--sirat-gold);
+  text-decoration: none !important;
 }
 
 .breadcrumb-separator {
@@ -2668,6 +2670,11 @@ section:not(.page-section) {
   padding: 1.5rem clamp(1rem, 3vw, 2rem) 4rem;
 }
 
+.product-detail-page section {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 .detail-breadcrumbs {
   display: flex;
   align-items: center;
@@ -2702,8 +2709,15 @@ section:not(.page-section) {
   gap: 0.5rem;
 }
 
+.breadcrumbs-links a {
+  color: var(--sirat-muted);
+  text-decoration: none !important;
+  transition: color 180ms ease;
+}
+
 .breadcrumbs-links a:hover {
   color: var(--sirat-gold);
+  text-decoration: none !important;
 }
 
 .breadcrumbs-links .current-crumb {
