@@ -10,7 +10,7 @@ import { placeOrder } from "@api/queries";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { cartItems, cartSubtotal, discountAmount, clearCart } = useCart();
+  const { cartItems, cartSubtotal, discountAmount, clearCart, triggerToast } = useCart();
   const { isLoggedIn, user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
