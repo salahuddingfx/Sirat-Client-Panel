@@ -1,8 +1,10 @@
 ﻿import { useState } from "react";
 import { ShieldCheck, KeyRound, Eye, EyeOff } from "lucide-react";
 import { Button } from "@components/ui";
+import { useCart } from "../../app/providers/CartContext";
 
 export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin }) {
+  const { triggerToast } = useCart();
   const [activeSubForm, setActiveSubForm] = useState("forgot"); // forgot, otp, reset
   const [email, setEmail] = useState(initialEmail);
   const [otpSentEmail, setOtpSentEmail] = useState("");
@@ -17,18 +19,19 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
   const handleForgot = (e) => {
     e.preventDefault();
     if (!email) {
-      alert("Please enter your registered email address.");
+      triggerToast("Please enter your registered email address.", "warning");
       return;
     }
     setOtpSentEmail(email);
     setActiveSubForm("otp");
+    triggerToast("Verification code sent!", "success");
   };
 
   const handleOtpVerify = (e) => {
     e.preventDefault();
     const fullOtp = otpCode.join("");
     if (fullOtp.length < 6) {
-      alert("Please enter the complete 6-digit verification code.");
+      triggerToast("Please enter the complete 6-digit verification code.", "warning");
       return;
     }
     setActiveSubForm("reset");
@@ -50,10 +53,10 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
   const handleResetPassword = (e) => {
     e.preventDefault();
     if (newPass !== confirmPass) {
-      alert("Passwords do not match!");
+      triggerToast("Passwords do not match!", "error");
       return;
     }
-    alert("Your password has been successfully reset. Please log in with your new credentials.");
+    triggerToast("Your password has been successfully reset. Please log in with your new credentials.", "success");
     onToggleLogin();
   };
 
