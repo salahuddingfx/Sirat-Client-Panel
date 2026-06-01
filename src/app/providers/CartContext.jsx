@@ -9,6 +9,8 @@ import {
   setCartDrawerOpen as setCartDrawerOpenAction,
   showToast as showToastAction,
   hideToast as hideToastAction,
+  showConfirm as showConfirmAction,
+  hideConfirm as hideConfirmAction,
   selectCartItems,
   selectPromoCode,
   selectPromoError,
