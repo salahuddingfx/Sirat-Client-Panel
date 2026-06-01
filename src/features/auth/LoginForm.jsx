@@ -3,7 +3,7 @@ import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@components/ui";
 
 export default function LoginForm({ onLogin, onForgotPassword, onToggleRegister }) {
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState("");
@@ -11,13 +11,13 @@ export default function LoginForm({ onLogin, onForgotPassword, onToggleRegister 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) return;
+    if (!identifier || !password) return;
     setError("");
     setLoading(true);
-    const res = await onLogin(email, password);
+    const res = await onLogin(identifier, password);
     setLoading(false);
     if (res && !res.success) {
-      setError(res.message || "Invalid email or password");
+      setError(res.message || "Invalid credentials");
     }
   };
 
@@ -36,16 +36,16 @@ export default function LoginForm({ onLogin, onForgotPassword, onToggleRegister 
       
       <form onSubmit={handleSubmit} className="auth-form">
         <div className="form-group">
-          <label htmlFor="auth-email">Email Address</label>
+          <label htmlFor="auth-identifier">Email, Username, or Phone</label>
           <input
-            id="auth-email"
-            type="email"
+            id="auth-identifier"
+            type="text"
             required
             disabled={loading}
             className="form-input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="email@example.com"
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
+            placeholder="e.g. user@email.com or 017..."
           />
         </div>
         
@@ -91,7 +91,7 @@ export default function LoginForm({ onLogin, onForgotPassword, onToggleRegister 
             type="button" 
             disabled={loading}
             style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }} 
-            onClick={() => onForgotPassword(email)}
+            onClick={() => onForgotPassword(identifier)}
           >
             Forgot Password?
           </button>
