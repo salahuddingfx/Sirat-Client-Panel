@@ -160,7 +160,7 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
 
             <Button variant="ghost" aria-label="Cart" onClick={onCartToggle} className="navbar-cart-btn">
               <ShoppingCart size={16} />
-              {cartCount > 0 && <span className="navbar-cart-badge">{cartCount}</span>}
+              {cartCount > 0 && <span className="navbar-cart-badge">{cartCount > 99 ? "99+" : cartCount}</span>}
             </Button>
           </div>
 

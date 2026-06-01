@@ -1,4 +1,4 @@
-﻿import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Home, Compass, Truck, ShoppingCart, User } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
 
@@ -50,7 +50,7 @@ export default function BottomNav() {
         <div className="mobile-bottom-nav__icon-wrapper">
           <ShoppingCart size={20} />
           {cartCount > 0 && (
-            <span className="mobile-bottom-nav__badge">{cartCount}</span>
+            <span className="mobile-bottom-nav__badge">{cartCount > 99 ? "99+" : cartCount}</span>
           )}
         </div>
         <span className="mobile-bottom-nav__label">Cart</span>

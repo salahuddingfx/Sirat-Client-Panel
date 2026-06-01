@@ -1908,18 +1908,21 @@ section:not(.page-section) {
 
 .navbar-cart-badge {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -6px;
+  right: -6px;
   background: var(--sirat-gold);
   color: #FFFDFB;
   font-size: 0.62rem;
   font-weight: 800;
-  width: 16px;
+  min-width: 16px;
   height: 16px;
-  border-radius: 50%;
-  display: flex;
+  padding: 0 4px;
+  border-radius: 99px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  white-space: nowrap;
 }
 
 /* Quick View Modal styling */
@@ -4524,12 +4527,16 @@ img, video {
   color: var(--sirat-surface);
   font-size: 0.62rem;
   font-weight: 800;
-  padding: 0.1rem 0.35rem;
+  padding: 0 4px;
   border-radius: 99px;
-  line-height: 1;
   min-width: 14px;
-  text-align: center;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   border: 1px solid var(--sirat-bg);
+  white-space: nowrap;
 }
 
 /* Float WhatsApp support above bottom nav on mobile */

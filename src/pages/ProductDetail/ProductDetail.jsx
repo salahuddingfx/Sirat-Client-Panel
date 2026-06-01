@@ -88,7 +88,7 @@ function StarRatingSelector({ rating, onChange }) {
 export default function ProductDetailPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { addToCart, setCartDrawerOpen, triggerToast } = useCart();
+  const { cartItems, addToCart, updateQuantity, setCartDrawerOpen, triggerToast } = useCart();
 
   // Find current product
   const product = useMemo(() => {
@@ -152,6 +152,14 @@ export default function ProductDetailPage() {
   const activeVariant = useMemo(() => {
     return product.variants?.find((v) => v.label === selectedSize) || product.variants?.[0] || null;
   }, [product, selectedSize]);
+
+  // Find if this variant is already in the cart
+  const cartItem = useMemo(() => {
+    if (!product || !activeVariant) return null;
+    return cartItems.find(
+      (item) => item.product.id === product.id && item.variant.id === activeVariant.id
+    );
+  }, [cartItems, product, activeVariant]);
 
   const currentPrice = product.price + (activeVariant?.priceDelta || 0);
 
@@ -341,11 +349,29 @@ export default function ProductDetailPage() {
             {/* Quantity Selector + Add Actions */}
             <div className="detail-action-row" style={{ marginTop: "1.5rem" }}>
               <div className="quickview-qty-selector">
-                <button type="button" onClick={() => setQuantity((q) => Math.max(1, q - 1))}>
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    if (cartItem) {
+                      updateQuantity(product.id, activeVariant.id, cartItem.quantity - 1);
+                    } else {
+                      setQuantity((q) => Math.max(1, q - 1));
+                    }
+                  }}
+                >
                   <Minus size={12} />
                 </button>
-                <span>{quantity}</span>
-                <button type="button" onClick={() => setQuantity((q) => q + 1)}>
+                <span>{cartItem ? cartItem.quantity : quantity}</span>
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    if (cartItem) {
+                      updateQuantity(product.id, activeVariant.id, cartItem.quantity + 1);
+                    } else {
+                      setQuantity((q) => q + 1);
+                    }
+                  }}
+                >
                   <Plus size={12} />
                 </button>
               </div>
