@@ -4,6 +4,7 @@ import { Button } from "@components/ui";
 
 export default function RegisterForm({ onRegister, onToggleLogin }) {
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -16,10 +17,10 @@ export default function RegisterForm({ onRegister, onToggleLogin }) {
     if (!name || !email || !phone || !password) return;
     setError("");
     setLoading(true);
-    const res = await onRegister(name, email, phone, password);
+    const res = await onRegister({ name, username, email, phone, password });
     setLoading(false);
     if (res && !res.success) {
-      setError(res.message || "Registration failed. Try another email.");
+      setError(res.message || "Registration failed.");
     }
   };
 
@@ -48,6 +49,19 @@ export default function RegisterForm({ onRegister, onToggleLogin }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Salahuddin Ahmed"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="reg-username">Username (Optional)</label>
+          <input
+            id="reg-username"
+            type="text"
+            disabled={loading}
+            className="form-input"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="salahuddin_sirat"
           />
         </div>
         
