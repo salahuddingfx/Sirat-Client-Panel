@@ -1,10 +1,12 @@
-﻿import { useState, useEffect } from "react";
-import { SectionHeader } from "@components/ui";
+﻿import { useState, useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { SectionHeader, Button } from "@components/ui";
 import ProductCard from "@features/products/components/ProductCard";
 import { fetchFeaturedProducts } from "@api/queries";
 
 export default function VisualsSection() {
   const [featured, setFeatured] = useState([]);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     let mounted = true;
@@ -20,6 +22,17 @@ export default function VisualsSection() {
     return () => { mounted = false; };
   }, []);
 
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollTo = direction === 'left' 
+        ? scrollLeft - (clientWidth / 2) 
+        : scrollLeft + (clientWidth / 2);
+      
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+    }
+  };
+
   if (!featured || featured.length === 0) return null;
 
   return (
@@ -28,11 +41,36 @@ export default function VisualsSection() {
         eyebrow="Visual drop specs"
         title="Product Visuals"
         description="Highlighting signature garments crafted in structured textures and futuristic silhouettes."
-      />
+      >
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <button 
+            onClick={() => scroll('left')}
+            className="action-circle-btn" 
+            style={{ width: "40px", height: "40px" }}
+            aria-label="Scroll Left"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button 
+            onClick={() => scroll('right')}
+            className="action-circle-btn" 
+            style={{ width: "40px", height: "40px" }}
+            aria-label="Scroll Right"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
+      </SectionHeader>
+
       <div style={{ marginTop: "1.5rem" }}>
         <div className="marquee-container">
-          <div className="marquee-track" style={{ gap: "1.25rem", alignItems: "flex-start" }}>
-            {[...featured, ...featured].map((product, idx) => (
+          <div 
+            ref={scrollRef}
+            className="marquee-track marquee-infinite-linear" 
+            style={{ gap: "1.25rem", alignItems: "flex-start" }}
+          >
+            {/* Multi-duplicate for truly seamless infinite feel */}
+            {[...featured, ...featured, ...featured, ...featured].map((product, idx) => (
               <div key={`${product.id}-${idx}`} style={{ minWidth: 200, maxWidth: 200, display: "flex" }}>
                 <ProductCard product={product} />
               </div>
