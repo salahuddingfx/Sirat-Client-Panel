@@ -38,6 +38,16 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
               <span className="ticker-item">
                 <Shirt size={11} className="ticker-icon" /> Crafted in 100% premium combed cotton & tactile prints
               </span>
+              {/* Duplicate set for gapless seamless looping */}
+              <span className="ticker-item">
+                <Zap size={11} className="ticker-icon" /> Summer Drop 2026 is LIVE! Use Code: <strong>LAUNCH15</strong> for 15% OFF
+              </span>
+              <span className="ticker-item">
+                <Truck size={11} className="ticker-icon" /> FREE shipping on orders over {'\u09F3'}1500 / $150
+              </span>
+              <span className="ticker-item">
+                <Shirt size={11} className="ticker-icon" /> Crafted in 100% premium combed cotton & tactile prints
+              </span>
             </div>
           </div>
 

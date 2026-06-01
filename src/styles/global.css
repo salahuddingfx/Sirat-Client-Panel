@@ -350,7 +350,7 @@ section:not(.page-section) {
   font-size: 0.75rem;
   font-weight: 600;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.45rem clamp(1rem, 3vw, 2rem);
+  padding: 0.25rem 0;
   z-index: 50;
   position: relative;
 }
@@ -402,12 +402,11 @@ section:not(.page-section) {
   display: inline-flex;
   gap: 3.5rem;
   animation: topbarMarquee 25s linear infinite;
-  padding-left: 100%; /* Start scrolling from off-screen right */
 }
 
 @keyframes topbarMarquee {
   0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-100%, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 .ticker-item {
@@ -1571,6 +1570,13 @@ section:not(.page-section) {
 .faq-item.open .faq-answer {
   max-height: 180px;
   padding: 0 1.5rem 1.25rem;
+}
+
+/* Newsletter Section Wrapper */
+.newsletter-section {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100%;
 }
 
 /* Newsletter Panel */
