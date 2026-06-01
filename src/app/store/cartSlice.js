@@ -52,27 +52,33 @@ const cartSlice = createSlice({
       }
     },
     applyPromoCode: (state, action) => {
-      const code = action.payload.trim().toUpperCase();
-      if (code === "SIRAT10") {
-        state.promoCode = code;
-        state.discountPercent = 10;
-        state.promoError = "";
-      } else if (code === "LAUNCH15") {
-        state.promoCode = code;
-        state.discountPercent = 15;
-        state.promoError = "";
-      } else if (code === "") {
+      // If object payload (from API)
+      if (typeof action.payload === 'object' && action.payload !== null) {
+          const { code, percent = 0, fixed = 0, error = "" } = action.payload;
+          state.promoCode = code;
+          state.discountPercent = percent;
+          state.discountFixed = fixed;
+          state.promoError = error;
+          return;
+      }
+
+      // Legacy string handling (or manual clear)
+      const code = (action.payload || "").trim().toUpperCase();
+      if (code === "") {
         state.promoCode = "";
         state.discountPercent = 0;
+        state.discountFixed = 0;
         state.promoError = "";
       } else {
-        state.promoError = "Invalid code. Try SIRAT10 or LAUNCH15.";
+        // Fallback for manual entry if needed, though usually handled by component + API
+        state.promoError = "Please apply a valid code.";
       }
     },
     clearCart: (state) => {
       state.cartItems = [];
       state.promoCode = "";
       state.discountPercent = 0;
+      state.discountFixed = 0;
       state.promoError = "";
     },
     setCartDrawerOpen: (state, action) => {
