@@ -20,24 +20,49 @@ export const clientApi = axios.create({
   }
 });
 
-export async function fetchFeaturedProducts() {
-  const response = await clientApi.get("/products/featured");
-  return z.array(productSchema).parse(response.data.data);
-}
-
-export async function fetchBestSellerProduct() {
-  const response = await clientApi.get("/products/best-seller");
-  return productSchema.parse(response.data.data);
-}
-
 export async function fetchProducts() {
   const response = await clientApi.get("/products");
-  return z.array(productSchema).parse(response.data.data);
+  const data = response.data.data;
+  if (!Array.isArray(data)) return [];
+
+  return data.map(item => {
+      try {
+          return productSchema.parse(item);
+      } catch (e) {
+          console.warn("Skipping invalid product:", item?._id, e);
+          return null;
+      }
+  }).filter(Boolean);
 }
 
-export async function fetchProductBySlug(slug) {
-  const response = await clientApi.get(`/products/${slug}`);
-  return productSchema.parse(response.data.data);
+export async function fetchFeaturedProducts() {
+  const response = await clientApi.get("/products/featured");
+  const data = response.data.data;
+  if (!Array.isArray(data)) return [];
+
+  return data.map(item => {
+    try {
+        return productSchema.parse(item);
+    } catch (e) {
+        console.warn("Skipping invalid featured product:", item?._id, e);
+        return null;
+    }
+  }).filter(Boolean);
+}
+
+export async function fetchCategories() {
+  const response = await clientApi.get("/categories");
+  const data = response.data.data;
+  if (!Array.isArray(data)) return [];
+
+  return data.map(item => {
+    try {
+        return categorySchema.parse(item);
+    } catch (e) {
+        console.warn("Skipping invalid category:", item?._id, e);
+        return null;
+    }
+  }).filter(Boolean);
 }
 
 export async function submitContactForm(payload) {

@@ -11,16 +11,16 @@ export const productVariantSchema = z.object({
 
 export const productSchema = z.object({
   id: idSchema,
-  name: z.string().min(2),
-  slug: z.string().min(2),
-  description: z.string().min(10),
-  price: z.number().nonnegative(),
-  oldPrice: z.number().nonnegative().optional().nullable(),
-  costPrice: z.number().nonnegative().default(0),
-  currency: z.string().default("USD"),
-  category: z.string().min(1),
-  images: z.array(z.string().url()).default([]),
-  rating: z.number().min(0).max(5).default(0),
+  name: z.string().min(1),
+  slug: z.string().optional().nullable().default(""),
+  description: z.string().default(""),
+  price: z.number().default(0),
+  oldPrice: z.number().optional().nullable(),
+  costPrice: z.number().default(0),
+  currency: z.string().default("BDT"),
+  category: z.string().default("Uncategorized"),
+  images: z.array(z.string()).default([]),
+  rating: z.number().default(0),
   featured: z.boolean().default(false),
   variants: z.array(productVariantSchema).default([])
 });
