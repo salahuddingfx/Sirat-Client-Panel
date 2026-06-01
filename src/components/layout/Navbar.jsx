@@ -134,8 +134,12 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
             <div className="hide-on-mobile">
               {isLoggedIn ? (
                 <div className="navbar-profile-dropdown-container">
-                  <button type="button" className="navbar-profile-trigger-btn" aria-label="User Profile Menu">
-                    {user?.name?.charAt(0) || "U"}
+                  <button type="button" className="navbar-profile-trigger-btn" aria-label="User Profile Menu" style={{ padding: 0, overflow: "hidden" }}>
+                    {user?.avatar ? (
+                        <img src={user.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    ) : (
+                        user?.name?.charAt(0) || "U"
+                    )}
                   </button>
                   <div className="navbar-profile-dropdown-menu">
                     <div className="dropdown-user-info">
