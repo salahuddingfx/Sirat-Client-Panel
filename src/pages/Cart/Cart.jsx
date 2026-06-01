@@ -17,7 +17,9 @@ export default function CartPage() {
     cartTotal,
     updateQuantity,
     removeFromCart,
-    applyPromoCode
+    applyPromoCode,
+    clearCart,
+    triggerConfirm
   } = useCart();
 
   const [promoInput, setPromoInput] = useState("");
@@ -116,7 +118,7 @@ export default function CartPage() {
               </Link>
               <button 
                 onClick={() => {
-                    if (window.confirm("Clear your entire cart?")) clearCart();
+                    triggerConfirm("Clear your entire cart?", clearCart);
                 }}
                 style={{ background: "none", border: "none", color: "var(--sirat-error)", fontSize: "0.85rem", fontWeight: "700", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.4rem" }}
               >
