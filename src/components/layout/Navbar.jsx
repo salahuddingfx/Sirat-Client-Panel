@@ -62,10 +62,8 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
                 src="/Sirat.jpg" 
                 alt="SIRAT Logo" 
                 className="storefront__brand-mark"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }} 
               />
+              <span className="sirat-brand-text">SIRAT</span>
             </Link>
             <span className="storefront__brand-tagline">
               <Compass size={11} /> Purity in Every Step

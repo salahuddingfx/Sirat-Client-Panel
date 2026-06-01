@@ -51,15 +51,29 @@ h1, h2, h3, h4, h5, h6, .sirat-brand, .page-card__title, .section-header h2, .be
 .storefront__brand-mark {
   display: block;
   width: auto;
-  height: 40px;
+  height: 40px !important;
   max-width: min(180px, 42vw);
   object-fit: contain;
   border-radius: 6px;
 }
 
 .footer-brand-mark {
-  height: 36px;
+  height: 36px !important;
   max-width: 160px;
+}
+
+.sirat-brand-text {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: 1.35rem;
+  font-weight: 850 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--sirat-text);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.footer-brand-link .sirat-brand-text {
+  font-size: 1.25rem;
 }
 
 .storefront__brand-tagline,
