@@ -7,6 +7,7 @@ import { products } from "@data/mockData";
 import ProductCard from "@features/products/components/ProductCard";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
+import { fetchProductBySlug } from "@api/queries";
 
 // Custom StarRatingSelector supporting half stars
 function StarRatingSelector({ rating, onChange }) {
@@ -90,9 +91,22 @@ export default function ProductDetailPage() {
   const navigate = useNavigate();
   const { cartItems, addToCart, updateQuantity, setCartDrawerOpen, triggerToast } = useCart();
 
-  // Find current product
-  const product = useMemo(() => {
-    return products.find((p) => p.slug === slug || p.id === slug) || null;
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Find current product from API or mock
+  useEffect(() => {
+    setLoading(true);
+    fetchProductBySlug(slug)
+      .then((data) => {
+        if (data) setProduct(data);
+      })
+      .catch((err) => {
+        console.warn("API fetch failed, trying mock data:", err);
+        const mockProduct = products.find((p) => p.slug === slug || p.id === slug);
+        if (mockProduct) setProduct(mockProduct);
+      })
+      .finally(() => setLoading(false));
   }, [slug]);
 
   // Wishlist state
