@@ -233,7 +233,7 @@ export default function ProductDetailPage() {
   const handleSubmitReview = async (e) => {
     e.preventDefault();
     if (!newReviewName || !newReviewComment) {
-      alert("Please fill in your name and comment.");
+      triggerToast("Please fill in your name and comment.", "warning");
       return;
     }
     
@@ -254,7 +254,7 @@ export default function ProductDetailPage() {
         }
     } catch (err) {
         console.error("Review submission failed:", err);
-        alert("Failed to submit review. Please try again.");
+        triggerToast("Failed to submit review. Please try again.", "error");
     } finally {
         setIsReviewSubmitting(false);
     }
