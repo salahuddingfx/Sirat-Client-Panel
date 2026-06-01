@@ -3987,6 +3987,7 @@ section:not(.page-section) {
   width: 100%;
   border: none;
   background: transparent;
+  text-decoration: none !important; /* Force no underline */
 }
 
 .dropdown-item:hover {
