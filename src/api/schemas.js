@@ -16,6 +16,7 @@ export const productSchema = z.object({
   description: z.string().min(10),
   price: z.number().nonnegative(),
   oldPrice: z.number().nonnegative().optional().nullable(),
+  costPrice: z.number().nonnegative().default(0),
   currency: z.string().default("USD"),
   category: z.string().min(1),
   images: z.array(z.string().url()).default([]),
@@ -50,5 +51,9 @@ export const settingsSchema = z.object({
   instagram: z.string().url().or(z.literal("")),
   whatsapp: z.string().url().or(z.literal("")),
   tagline: z.string().min(1),
-  description: z.string().min(1)
+  description: z.string().min(1),
+  logo: z.string().optional().nullable().or(z.literal("")),
+  bkashNumber: z.string().optional().nullable().or(z.literal("")),
+  nagadNumber: z.string().optional().nullable().or(z.literal("")),
+  rocketNumber: z.string().optional().nullable().or(z.literal(""))
 });
