@@ -3913,6 +3913,7 @@ section:not(.page-section) {
   justify-content: center;
   transition: all 180ms ease;
   box-shadow: 0 2px 8px rgba(212, 175, 55, 0.15);
+  text-decoration: none !important; /* Removed underline */
 }
 
 .navbar-profile-trigger-btn:hover {
