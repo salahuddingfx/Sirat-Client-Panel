@@ -10,6 +10,7 @@ import ScrollToTop from "@components/layout/ScrollToTop";
 import FloatingSupport from "@components/layout/FloatingSupport";
 import IntroLoader from "@components/layout/IntroLoader";
 import Toast from "@components/ui/Toast";
+import ConfirmDialog from "@components/ui/ConfirmDialog";
 
 import CartDrawer from "@features/cart/CartDrawer";
 
