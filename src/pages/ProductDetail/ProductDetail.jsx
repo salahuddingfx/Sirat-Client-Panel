@@ -98,16 +98,15 @@ export default function ProductDetailPage() {
   // Find current product from API or mock
   useEffect(() => {
     setLoading(true);
-    fetchProductBySlug(slug)
-      .then((data) => {
-        if (data) setProduct(data);
-      })
-      .catch((err) => {
-        console.warn("API fetch failed, trying mock data:", err);
+    fetchProductBySlug(slug).then((data) => {
+      if (data) {
+        setProduct(data);
+      } else {
         const mockProduct = products.find((p) => p.slug === slug || p.id === slug);
         if (mockProduct) setProduct(mockProduct);
-      })
-      .finally(() => setLoading(false));
+      }
+      setLoading(false);
+    });
   }, [slug]);
 
   // Wishlist state
