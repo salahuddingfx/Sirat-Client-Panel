@@ -83,12 +83,6 @@
   flex-shrink: 0;
 }
 
-.cat-products-grid .current-price {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .cat-products-grid .product-card-modern__body {
   padding: 0.55rem;
   gap: 0.25rem;
