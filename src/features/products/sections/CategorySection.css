@@ -39,6 +39,8 @@
 /* Products grid - constrained */
 .cat-products-wrapper {
   margin-top: 2rem;
+  width: 100%;
+  overflow: hidden;
 }
 
 .cat-products-grid {
@@ -65,6 +67,26 @@
 .cat-products-grid .product-card-modern {
   min-width: 0;
   max-width: 100%;
+  width: 100%;
+}
+
+.cat-products-grid .product-card-modern__footer {
+  gap: 0.35rem;
+}
+
+.cat-products-grid .price-stack {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.cat-products-grid .card-actions-group {
+  flex-shrink: 0;
+}
+
+.cat-products-grid .current-price {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cat-products-grid .product-card-modern__body {
