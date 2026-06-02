@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Timer, Zap } from "lucide-react";
 import ProductCard from "@features/products/components/ProductCard";
 import { fetchActiveFlashSale } from "@api/queries";
+import "./FlashSaleSection.css";
 
 export default function FlashSaleSection() {
   const [sale, setSale] = useState(null);
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -64,68 +66,54 @@ export default function FlashSaleSection() {
   if (products.length === 0) return null;
 
   return (
-    <section className="flash-sale-section" style={{
-        padding: "4rem 0",
-        background: "linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%)",
-        borderTop: "1px solid rgba(239, 68, 68, 0.1)",
-        borderBottom: "1px solid rgba(239, 68, 68, 0.1)",
-        position: "relative",
-        overflow: "hidden"
-    }}>
-      <div style={{ position: "absolute", top: "-50%", left: "-10%", width: "50%", height: "150%", background: "radial-gradient(ellipse at center, rgba(239, 68, 68, 0.1) 0%, transparent 70%)", zIndex: 0 }} />
-      <div style={{ position: "absolute", bottom: "-50%", right: "-10%", width: "50%", height: "150%", background: "radial-gradient(ellipse at center, rgba(245, 158, 11, 0.1) 0%, transparent 70%)", zIndex: 0 }} />
+    <section className="flash-sale-section">
+      <div className="flash-sale-glow-left" />
+      <div className="flash-sale-glow-right" />
 
-      <div className="container" style={{ position: "relative", zIndex: 1 }}>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "3rem", textAlign: "center" }}>
-            <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    padding: "0.5rem 1rem",
-                    background: "rgba(239, 68, 68, 0.1)",
-                    color: "#EF4444",
-                    borderRadius: "2rem",
-                    fontWeight: "600",
-                    fontSize: "0.875rem",
-                    marginBottom: "1rem"
-                }}
-            >
-                <Zap size={16} fill="currentColor" /> {sale.title || "Flash Sale"}
-            </motion.div>
+      <div className="container flash-sale-inner">
+        <div className="flash-sale-header">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            className="flash-sale-badge"
+          >
+            <Zap size={16} fill="currentColor" /> {sale.title || "Flash Sale"}
+          </motion.div>
 
-            <h2 style={{ fontSize: "2.5rem", fontWeight: "800", marginBottom: "1.5rem", color: "var(--sirat-text-main)", letterSpacing: "-0.02em" }}>
-                Limited Time Offers
-            </h2>
+          <h2 className="flash-sale-heading">Limited Time Offers</h2>
 
-            <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-                <Timer size={24} style={{ color: "var(--sirat-gold)" }} />
-                <div style={{ display: "flex", gap: "0.5rem" }}>
-                    <div style={{ background: "var(--sirat-surface)", border: "1px solid var(--sirat-border)", padding: "0.75rem", borderRadius: "12px", minWidth: "60px" }}>
-                        <span style={{ display: "block", fontSize: "1.5rem", fontWeight: "700", color: "var(--sirat-text-main)" }}>{String(timeLeft.hours).padStart(2, '0')}</span>
-                        <span style={{ fontSize: "0.65rem", color: "var(--sirat-muted)", textTransform: "uppercase", letterSpacing: "1px" }}>Hours</span>
-                    </div>
-                    <span style={{ fontSize: "2rem", fontWeight: "700", color: "var(--sirat-muted)", alignSelf: "flex-start", marginTop: "0.25rem" }}>:</span>
-                    <div style={{ background: "var(--sirat-surface)", border: "1px solid var(--sirat-border)", padding: "0.75rem", borderRadius: "12px", minWidth: "60px" }}>
-                        <span style={{ display: "block", fontSize: "1.5rem", fontWeight: "700", color: "var(--sirat-text-main)" }}>{String(timeLeft.minutes).padStart(2, '0')}</span>
-                        <span style={{ fontSize: "0.65rem", color: "var(--sirat-muted)", textTransform: "uppercase", letterSpacing: "1px" }}>Mins</span>
-                    </div>
-                    <span style={{ fontSize: "2rem", fontWeight: "700", color: "var(--sirat-muted)", alignSelf: "flex-start", marginTop: "0.25rem" }}>:</span>
-                    <div style={{ background: "var(--sirat-surface)", border: "1px solid var(--sirat-border)", padding: "0.75rem", borderRadius: "12px", minWidth: "60px" }}>
-                        <span style={{ display: "block", fontSize: "1.5rem", fontWeight: "700", color: "#EF4444" }}>{String(timeLeft.seconds).padStart(2, '0')}</span>
-                        <span style={{ fontSize: "0.65rem", color: "var(--sirat-muted)", textTransform: "uppercase", letterSpacing: "1px" }}>Secs</span>
-                    </div>
-                </div>
+          <div className="flash-sale-timer">
+            <Timer size={24} className="flash-sale-timer-icon" />
+            <div className="flash-sale-timer-blocks">
+              <div className="time-block">
+                <span className="time-value">{String(timeLeft.hours).padStart(2, '0')}</span>
+                <span className="time-label">Hours</span>
+              </div>
+              <span className="time-sep">:</span>
+              <div className="time-block">
+                <span className="time-value">{String(timeLeft.minutes).padStart(2, '0')}</span>
+                <span className="time-label">Mins</span>
+              </div>
+              <span className="time-sep">:</span>
+              <div className="time-block">
+                <span className="time-value time-value-accent">{String(timeLeft.seconds).padStart(2, '0')}</span>
+                <span className="time-label">Secs</span>
+              </div>
             </div>
+          </div>
         </div>
 
-        <div className="product-grid" style={{ opacity: loading ? 0.6 : 1 }}>
-          {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+        <div className="flash-sale-track-wrapper">
+          <div className="flash-sale-track">
+            <div className="flash-sale-track-inner">
+              {[...products, ...products, ...products].map((product, i) => (
+                <div className="flash-sale-item" key={`${product._id}-${i}`}>
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
