@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { Button } from "@components/ui";
 import { fetchHeroSlides } from "@api/queries";
@@ -78,7 +78,7 @@ export default function HeroSection() {
       <div className="hero-split-container">
         <div className="hero-split-media">
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={activeSlide}
               className="hero-media-wrapper"
               initial={{ opacity: 0, scale: 1.02 }}
@@ -102,7 +102,7 @@ export default function HeroSection() {
                 />
               )}
               <div className="hero-media-overlay" />
-            </motion.div>
+            </m.div>
           </AnimatePresence>
 
           <div className="slider-ctrls-group">
@@ -125,7 +125,7 @@ export default function HeroSection() {
 
         <div className="hero-split-info">
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={activeSlide}
               className="hero-info-wrapper"
               initial={{ opacity: 0, x: 12 }}
@@ -146,7 +146,7 @@ export default function HeroSection() {
                   <Button variant="outline">Browse drop</Button>
                 </Link>
               </div>
-            </motion.div>
+            </m.div>
           </AnimatePresence>
 
           <div className="slider-indicators">
