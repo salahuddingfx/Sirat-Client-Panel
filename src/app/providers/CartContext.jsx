@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import track from "@lib/tracker";
 import {
   addToCart as addToCartAction,
   removeFromCart as removeFromCartAction,
@@ -116,7 +117,49 @@ export function CartProvider({ children }) {
 
   const addToCart = (product, variant, quantity = 1, openDrawer = true) => {
     dispatch(addToCartAction({ product, variant, quantity, openDrawer }));
-    triggerToast(`"${product.name}" (Size: ${variant.label}) ব্যাগ-এ যোগ করা হয়েছে!`, "success");
+    track.event("add_to_cart", {
+      label: product?.name,
+      value: (product?.discountedPrice ?? product?.price ?? 0) * quantity,
+      currency: "BDT",
+      metadata: {
+        productId: product?.id || product?._id,
+        slug: product?.slug,
+        variant: variant?.label,
+        quantity,
+      },
+    });
+    triggerToast(`"${product.name}" (Size: ${variant.label}) ব্যাগ-এ যোগ করা হয়েছে!`, "success");
+  };
+
+  const removeFromCart = (productId, variantId) => {
+    const item = cartItems.find((i) => i.product.id === productId && i.variant.id === variantId);
+    dispatch(removeFromCartAction({ productId, variantId }));
+    if (item) {
+      track.event("remove_from_cart", {
+        label: item?.product?.name,
+        metadata: { productId, variantId },
+      });
+      triggerToast(`"${item.product.name}" ব্যাগ থেকে সরানো হয়েছে!`, "info");
+    }
+  };
+
+  const updateQuantity = (productId, variantId, quantity) => {
+    if (quantity < 1) {
+      removeFromCart(productId, variantId);
+      return;
+    }
+    dispatch(updateQuantityAction({ productId, variantId, quantity }));
+  };
+
+  const applyPromoCode = (payload) => {
+    track.event("apply_promo", { label: payload?.code || "" });
+    dispatch(applyPromoCodeAction(payload));
+  };
+
+  const clearCart = () => {
+    track.event("clear_cart");
+    dispatch(clearCartAction());
+    triggerToast("ব্যাগ পুরোপুরি খালি করা হয়েছে।", "info");
   };
 
   const removeFromCart = (productId, variantId) => {
