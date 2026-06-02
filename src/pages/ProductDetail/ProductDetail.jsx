@@ -243,7 +243,7 @@ export default function ProductDetailPage() {
     setIsReviewSubmitting(true);
     try {
         const payload = {
-            product: product.id,
+            product: product._id || product.id,
             name: newReviewName,
             rating: newReviewRating,
             comment: newReviewComment
@@ -460,9 +460,11 @@ export default function ProductDetailPage() {
 
       {/* Product Reviews Section */}
       <section className="product-reviews-section">
-        <div className="section-header" style={{ marginBottom: "2rem" }}>
-          <p className="section-header__eyebrow">Customer feedback</p>
-          <h2>Ratings & Reviews</h2>
+        <div className="section-header">
+          <div className="section-header__content">
+            <p className="section-header__eyebrow">Customer feedback</p>
+            <h2>Ratings & Reviews</h2>
+          </div>
         </div>
 
         <div className="reviews-grid">
