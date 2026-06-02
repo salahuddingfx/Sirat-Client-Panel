@@ -4344,6 +4344,8 @@ section:not(.page-section) {
 }
 
 .form-input {
+  width: 100%;
+  min-width: 0;
   padding: 0.75rem 1rem;
   border-radius: 99px;
   border: 1px solid var(--sirat-border);
@@ -4353,6 +4355,7 @@ section:not(.page-section) {
   background: var(--sirat-bg);
   color: var(--sirat-text);
   transition: all 180ms ease;
+  box-sizing: border-box;
 }
 
 .form-input:focus {
@@ -4423,6 +4426,50 @@ section:not(.page-section) {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+/* Address Book form (used inside profile-card) */
+.address-form {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: var(--sirat-bg);
+  border: 1px solid var(--sirat-border);
+  border-radius: 14px;
+}
+
+.address-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.address-form__checkbox {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--sirat-text);
+  font-weight: 500;
+}
+
+.address-form__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 480px) {
+  .address-form {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  .address-form__row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
 }
 
 .profile-header {
