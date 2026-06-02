@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { SectionHeader } from "@components/ui";
 import ProductCard from "@features/products/components/ProductCard";
 import { fetchProducts, fetchCategories } from "@api/queries";
@@ -80,7 +80,7 @@ export default function CategorySection() {
 
       <div className="cat-products-wrapper">
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={selectedCategory}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -97,7 +97,7 @@ export default function CategorySection() {
                 <ProductCard key={product.id} product={product} />
               ))
             )}
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
     </section>
