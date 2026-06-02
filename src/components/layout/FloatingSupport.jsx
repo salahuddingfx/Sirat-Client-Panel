@@ -13,12 +13,27 @@
         gap: "0.5rem"
       }}
     >
+      <style>{`
+        @media (max-width: 480px) {
+          .wa-float-btn {
+            width: 42px !important;
+            height: 42px !important;
+            bottom: 16px !important;
+            right: 16px !important;
+          }
+          .wa-float-btn svg {
+            width: 20px !important;
+            height: 20px !important;
+          }
+        }
+      `}</style>
       <a
         href="https://wa.me/8801700000000"
         target="_blank"
         rel="noopener noreferrer"
+        className="wa-float-btn"
         style={{
-          background: "#25D366", // WhatsApp Green
+          background: "#25D366",
           border: "1px solid rgba(255, 255, 255, 0.2)",
           boxShadow: "0 8px 32px rgba(37, 211, 102, 0.3)",
           backdropFilter: "blur(8px)",
