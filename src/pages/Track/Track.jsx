@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, PackageSearch, Package, Truck, ArrowRight, User, MapPin, Calendar, ShieldCheck, Shirt, Check, Clipboard, Settings, Home, CreditCard, Mail, Hash, X, ChevronRight, Eye, ShoppingBag } from "lucide-react";
+import { Search, PackageSearch, Package, Truck, ArrowRight, User, MapPin, Calendar, ShieldCheck, Shirt, Check, Clipboard, Settings, Home, CreditCard, Hash, X, ChevronRight, ShoppingBag } from "lucide-react";
 import PageFrame from "@components/layout/PageFrame";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
