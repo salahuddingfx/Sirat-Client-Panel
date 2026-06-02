@@ -307,7 +307,7 @@ export default function ProductDetailPage() {
                 bestRating: 5,
               }
             : null,
-          reviews: (productReviews || []).slice(0, 5).map((r) => ({
+          reviews: (reviews || []).slice(0, 5).map((r) => ({
             rating: r.rating,
             author: r.user?.name || r.name || "Verified buyer",
             body: r.comment || r.body,
