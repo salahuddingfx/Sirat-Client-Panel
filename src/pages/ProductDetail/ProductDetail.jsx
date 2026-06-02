@@ -150,7 +150,7 @@ export default function ProductDetailPage() {
   useEffect(() => {
     if (product) {
       setSelectedColor(product.colors?.[0] || "");
-      setSelectedSize(product.sizes?.[0] || "");
+      setSelectedSize(product.variants?.[0]?.label || "");
       setQuantity(1);
       window.scrollTo(0, 0);
     }
@@ -360,7 +360,7 @@ export default function ProductDetailPage() {
             )}
 
             {/* Sizes Selection */}
-            {product.sizes && product.sizes.length > 0 && (
+            {product.variants && product.variants.length > 0 && (
               <div className="config-group" style={{ marginTop: "1rem" }}>
                 <span className="config-label">Select Size:</span>
                 <div className="quickview-variants-grid">
