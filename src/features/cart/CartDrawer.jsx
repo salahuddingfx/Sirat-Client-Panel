@@ -113,7 +113,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                       <div key={`${item.product.id}-${item.variant.id}`} className="cart-drawer__item">
                         <div className="cart-drawer__item-media">
                           <img 
-                            src={item.product.image} 
+                            src={item.product.images?.[0] || item.product.image} 
                             alt={item.product.name} 
                             className="cart-drawer__item-media-img" 
                             loading="lazy" 
