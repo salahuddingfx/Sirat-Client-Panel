@@ -360,24 +360,28 @@ export default function TrackPage() {
                       </h4>
 
                       <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1.5rem" }}>
-                        {order.items?.map((item, i) => (
-                          <div key={item.id || i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--sirat-border)", paddingBottom: "0.85rem" }}>
+                        {order.items?.map((item, i) => {
+                          const itemName = item.name || item.product?.name || "Item";
+                          const itemSize = item.variantLabel || item.variant || item.product?.variant || "—";
+                          return (
+                          <div key={item._id || item.id || i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--sirat-border)", paddingBottom: "0.85rem" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                               <div style={{ width: "48px", height: "48px", background: "var(--sirat-surface)", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid var(--sirat-border)", flexShrink: 0 }}>
                                 <Shirt size={20} style={{ color: "var(--sirat-gold)" }} />
                               </div>
                               <div>
-                                <strong style={{ display: "block", fontSize: "0.88rem", textTransform: "uppercase", color: "var(--sirat-text)" }}>{item.name}</strong>
+                                <strong style={{ display: "block", fontSize: "0.88rem", textTransform: "uppercase", color: "var(--sirat-text)" }}>{itemName}</strong>
                                 <span style={{ fontSize: "0.72rem", color: "var(--sirat-muted)", display: "flex", gap: "0.5rem", marginTop: "0.15rem" }}>
                                   <span>QTY: <strong>{item.quantity}</strong></span>
                                   <span>•</span>
-                                  <span>Size: <strong>{item.variantLabel || item.variant}</strong></span>
+                                  <span>Size: <strong>{itemSize}</strong></span>
                                 </span>
                               </div>
                             </div>
                             <strong style={{ fontSize: "0.9rem", color: "var(--sirat-text)" }}>{'\u09F3'}{safe(item.price) * safe(item.quantity)}</strong>
                           </div>
-                        ))}
+                          );
+                        })}
                       </div>
 
                       <div style={{ display: "grid", gap: "0.55rem", fontSize: "0.82rem", borderBottom: "1px solid var(--sirat-border)", paddingBottom: "0.85rem", marginBottom: "1rem" }}>
