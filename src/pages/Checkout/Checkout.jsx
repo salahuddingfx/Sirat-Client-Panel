@@ -76,7 +76,7 @@ export default function CheckoutPage() {
 
     try {
       const payload = {
-        guestInfo: { name, email, phone, address, city },
+        guestInfo: { name, email, phone, address, city, zipCode: zip },
         items: cartItems.map((item) => ({
           product: item.product.id,
           quantity: item.quantity,
