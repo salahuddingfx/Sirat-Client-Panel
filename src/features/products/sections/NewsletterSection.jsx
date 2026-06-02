@@ -4,6 +4,7 @@ import { m } from "framer-motion";
 import { Panel, Button } from "@components/ui";
 import { subscribeNewsletter } from "@api/queries";
 import { useCart } from "@app/providers/CartContext";
+import track from "@lib/tracker";
 
 export default function NewsletterSection() {
   const [newsletterEmail, setNewsletterEmail] = useState("");
@@ -19,6 +20,7 @@ export default function NewsletterSection() {
     try {
         const res = await subscribeNewsletter(newsletterEmail);
         if (res.success) {
+            track.event("newsletter_subscribe", { label: newsletterEmail });
             setNewsletterSubscribed(true);
             setNewsletterEmail("");
             triggerToast("Welcome to the exclusive SIRAT list!", "success");
