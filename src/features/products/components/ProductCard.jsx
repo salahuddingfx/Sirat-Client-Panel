@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Heart, ShoppingCart, Star, Truck } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
 
@@ -30,7 +30,7 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <motion.article
+    <m.article
       whileHover={{ y: -5 }}
       transition={{ duration: 0.18 }}
       className="product-card-modern"
@@ -155,6 +155,6 @@ export default function ProductCard({ product }) {
           </div>
         </div>
       </div>
-    </motion.article>
+    </m.article>
   );
 }
