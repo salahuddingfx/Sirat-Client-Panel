@@ -117,8 +117,8 @@ section {
 }
 
 section:not(.page-section) {
-  padding-left: clamp(1rem, 3vw, 2rem);
-  padding-right: clamp(1rem, 3vw, 2rem);
+  padding-left: clamp(1.5rem, 5vw, 4rem);
+  padding-right: clamp(1.5rem, 5vw, 4rem);
 }
 
 @media (min-width: 768px) {
@@ -134,7 +134,7 @@ section:not(.page-section) {
   margin-left: auto;
   margin-right: auto;
   width: auto;
-  padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1rem, 3vw, 2rem) 4rem;
+  padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4rem) 4rem;
   display: grid;
   gap: 3rem;
 }
