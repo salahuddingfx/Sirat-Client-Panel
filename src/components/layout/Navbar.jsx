@@ -5,6 +5,7 @@ import { Button } from "@components/ui";
 import { useCart } from "@app/providers/CartContext";
 import { useAuth } from "@app/providers/AuthContext";
 import { useSettings } from "@app/providers/settings";
+import track from "@lib/tracker";
 
 export default function Navbar({ navItems, brandNote, onCartToggle }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -103,6 +104,7 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (navbarSearchVal.trim()) {
+                    track.event("search", { label: navbarSearchVal.trim(), metadata: { source: "navbar" } });
                     navigate(`/shop?q=${encodeURIComponent(navbarSearchVal)}`);
                     setNavbarSearchVal("");
                     setSearchOpen(false);
