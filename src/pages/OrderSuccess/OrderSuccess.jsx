@@ -27,17 +27,18 @@ export default function OrderSuccessPage() {
 
   const {
     orderId,
-    name,
-    phone,
-    address,
-    city,
-    totalWeight,
-    shippingCharge,
-    paymentMethod,
-    paySender,
-    payTxid,
-    estimatedTotal
+    guestInfo = {},
+    shippingCharge = 0,
+    totalAmount = 0,
+    paymentMethod = "cod",
+    paymentDetails = {},
+    items = []
   } = orderDetails;
+
+  const { name = "—", phone = "—", address = "—", city = "—" } = guestInfo;
+  const { senderNumber: paySender, txId: payTxid } = paymentDetails;
+  const totalWeight = items.reduce((sum, item) => sum + (item.quantity || 0) * 0.5, 0);
+  const estimatedTotal = totalAmount;
 
   return (
     <PageFrame title="Order Placed" eyebrow="Success">
