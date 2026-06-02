@@ -465,7 +465,7 @@ export default function ProductDetailPage() {
           <h2>Ratings & Reviews</h2>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "clamp(1.25rem, 4vw, 2.5rem)", marginBottom: "3rem" }}>
+        <div className="reviews-grid">
           {/* Rating Summary column */}
           <Panel style={{ padding: "clamp(1rem, 4vw, 2rem)" }}>
             <h3 style={{ margin: "0 0 1rem" }}>Product Summary</h3>
@@ -562,7 +562,7 @@ export default function ProductDetailPage() {
 
         {/* Reviews List */}
         <h3 style={{ margin: "2rem 0 1rem" }}>Customer Reviews ({reviews.length})</h3>
-        <div style={{ display: "grid", gap: "1.25rem" }}>
+        <div className="reviews-list">
           {reviews.map((rev) => (
             <Panel key={rev._id} style={{ padding: "clamp(0.85rem, 3vw, 1.25rem)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
