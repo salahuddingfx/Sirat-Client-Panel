@@ -118,10 +118,10 @@
 /* Infinite horizontal scroll */
 .flash-sale-track-wrapper {
   overflow: hidden;
-  margin-left: calc(-1 * clamp(1.5rem, 5vw, 4rem));
-  margin-right: calc(-1 * clamp(1.5rem, 5vw, 4rem));
-  padding-left: clamp(1.5rem, 5vw, 4rem);
-  padding-right: clamp(1.5rem, 5vw, 4rem);
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
   mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
 }
