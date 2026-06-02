@@ -18,6 +18,7 @@ export default defineConfig({
       "@api": fileURLToPath(new URL("./src/api", import.meta.url)),
       "@styles": fileURLToPath(new URL("./src/styles", import.meta.url)),
       "@data": fileURLToPath(new URL("./src/data", import.meta.url)),
+      "@lib": fileURLToPath(new URL("./src/lib", import.meta.url)),
       "@sirat/ui": fileURLToPath(new URL("./src/components/ui/index.js", import.meta.url)),
       "@sirat/api": fileURLToPath(new URL("./src/api/index.js", import.meta.url))
     }
