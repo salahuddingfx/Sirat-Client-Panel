@@ -53,7 +53,7 @@ export const products = [
       { id: "nova-s", label: "S", priceDelta: 0, stock: 10 },
       { id: "nova-m", label: "M", priceDelta: 0, stock: 10 },
       { id: "nova-l", label: "L", priceDelta: 0, stock: 10 },
-      { id: "nova-xl", label: "XL", priceDelta: 0, stock: false }
+      { id: "nova-xl", label: "XL", priceDelta: 0, stock: 0 }
     ]
   },
   {
