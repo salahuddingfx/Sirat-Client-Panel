@@ -14,6 +14,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   cursor: grab;
+  padding: 0;
 }
 
 .featured-section .marquee-container::-webkit-scrollbar {
@@ -29,8 +30,29 @@
   will-change: transform;
 }
 
-.featured-section .marquee-track > * {
+.featured-section .vis-card-wrap {
   flex-shrink: 0;
+  display: flex;
+  height: 100%;
+  width: 260px;
+}
+
+@media (min-width: 1200px) {
+  .featured-section .vis-card-wrap {
+    width: 280px;
+  }
+}
+
+@media (max-width: 600px) {
+  .featured-section .vis-card-wrap {
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-section .vis-card-wrap {
+    width: 170px;
+  }
 }
 
 @media (max-width: 768px) {
