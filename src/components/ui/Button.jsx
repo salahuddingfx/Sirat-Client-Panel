@@ -1,4 +1,4 @@
-﻿import { motion } from "framer-motion";
+﻿import { m } from "framer-motion";
 
 export const Button = ({ 
   children, 
@@ -7,13 +7,13 @@ export const Button = ({
   ...props 
 }) => {
   return (
-    <motion.button
+    <m.button
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       className={`sirat-button sirat-button--${variant} ${className}`}
       {...props}
     >
       {children}
-    </motion.button>
+    </m.button>
   );
 };
