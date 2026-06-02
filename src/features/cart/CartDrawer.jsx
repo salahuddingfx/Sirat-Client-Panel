@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { X, Plus, Minus, Trash2, ShoppingCart, Tag } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
 import { Button } from "@components/ui";
@@ -58,7 +58,7 @@ export default function CartDrawer({ isOpen, onClose }) {
       {isOpen && (
         <>
           {/* Backdrop overlay */}
-          <motion.div
+          <m.div
             className="cart-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.5 }}
@@ -67,7 +67,7 @@ export default function CartDrawer({ isOpen, onClose }) {
           />
 
           {/* Drawer container */}
-          <motion.aside
+          <m.aside
             className="cart-drawer sirat-panel"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
@@ -229,7 +229,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                 </div>
               </div>
             )}
-          </motion.aside>
+          </m.aside>
         </>
       )}
     </AnimatePresence>
