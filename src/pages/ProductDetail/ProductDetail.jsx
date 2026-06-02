@@ -578,7 +578,7 @@ export default function ProductDetailPage() {
 
         <div className="reviews-grid">
           {/* Rating Summary column */}
-          <Panel style={{ padding: "clamp(1rem, 4vw, 2rem)" }}>
+          <Panel className="review-summary-panel">
             <h3 style={{ margin: "0 0 1rem" }}>Product Summary</h3>
             <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "1.5rem" }}>
               <strong style={{ fontSize: "3.5rem", fontWeight: "850", color: "var(--sirat-gold-soft)", lineHeight: "1" }}>
@@ -630,43 +630,61 @@ export default function ProductDetailPage() {
           </Panel>
 
           {/* Review submission form column */}
-          <Panel style={{ padding: "clamp(1rem, 4vw, 2rem)" }}>
-            <h3 style={{ margin: "0 0 1rem" }}>Write a Review</h3>
-            <form onSubmit={handleSubmitReview} style={{ display: "grid", gap: "1rem" }}>
-              <div className="form-group">
-                <span style={{ fontSize: "0.85rem", fontWeight: "700", display: "block", marginBottom: "0.45rem" }}>Rating * (Half-stars supported)</span>
-                <StarRatingSelector rating={newReviewRating} onChange={setNewReviewRating} />
+          <Panel className="review-form-panel">
+            <div className="review-form-panel__header">
+              <h3>Write a Review</h3>
+              <p>Share your honest experience to help other buyers.</p>
+            </div>
+            <form onSubmit={handleSubmitReview} className="review-form">
+              <div className="review-form__field">
+                <span className="review-form__label">
+                  Your Rating <span className="review-form__required">*</span>
+                </span>
+                <div className="review-form__rating-row">
+                  <StarRatingSelector rating={newReviewRating} onChange={setNewReviewRating} />
+                  <span className="review-form__rating-hint">Click left/right of a star for half-ratings</span>
+                </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="rev-name" style={{ fontSize: "0.85rem", fontWeight: "700", display: "block", marginBottom: "0.45rem" }}>Your Name *</label>
+              <div className="review-form__field">
+                <label htmlFor="rev-name" className="review-form__label">
+                  Your Name <span className="review-form__required">*</span>
+                </label>
                 <input
                   id="rev-name"
                   type="text"
                   required
-                  style={{ width: "100%", padding: "0.6rem 0.8rem", borderRadius: "8px", border: "1px solid var(--sirat-border)", background: "var(--sirat-surface)" }}
+                  className="review-form__input"
                   placeholder="e.g. Tanvir Ahmed"
                   value={newReviewName}
                   onChange={(e) => setNewReviewName(e.target.value)}
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="rev-comment" style={{ fontSize: "0.85rem", fontWeight: "700", display: "block", marginBottom: "0.45rem" }}>Review Comments *</label>
+              <div className="review-form__field">
+                <label htmlFor="rev-comment" className="review-form__label">
+                  Review Comments <span className="review-form__required">*</span>
+                </label>
                 <textarea
                   id="rev-comment"
                   required
-                  rows={3}
-                  style={{ width: "100%", padding: "0.6rem 0.8rem", borderRadius: "8px", border: "1px solid var(--sirat-border)", background: "var(--sirat-surface)", resize: "vertical" }}
-                  placeholder="Share your thoughts about this garment..."
+                  rows={4}
+                  className="review-form__textarea"
+                  placeholder="What did you like or dislike? How's the fit, fabric, and print quality?"
                   value={newReviewComment}
                   onChange={(e) => setNewReviewComment(e.target.value)}
                 />
               </div>
 
-              <Button type="submit" disabled={isReviewSubmitting} style={{ width: "max-content", marginTop: "0.5rem" }}>
-                {isReviewSubmitting ? "Submitting..." : "Submit Review"}
-              </Button>
+              <div className="review-form__footer">
+                <span className="review-form__note">
+                  Your review will be visible after admin approval.
+                </span>
+                <button type="submit" className="review-form__submit" disabled={isReviewSubmitting}>
+                  <Send size={15} className="review-form__submit-icon" />
+                  {isReviewSubmitting ? "Submitting..." : "Submit Review"}
+                </button>
+              </div>
             </form>
           </Panel>
         </div>
