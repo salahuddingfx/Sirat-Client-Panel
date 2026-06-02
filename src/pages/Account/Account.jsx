@@ -218,13 +218,13 @@ export default function AccountPage() {
 
                 <div style={{ display: "grid", gap: "0.75rem" }}>
                     {user.addresses?.map((addr, idx) => (
-                        <div key={idx} style={{ padding: "0.75rem", border: "1px solid var(--sirat-border)", borderRadius: "8px", position: "relative" }}>
-                            {addr.isDefault && <span style={{ position: "absolute", top: "0.5rem", right: "0.5rem", color: "var(--sirat-gold)", fontSize: "0.7rem", fontWeight: "700" }}>DEFAULT</span>}
-                            <p style={{ margin: 0, fontSize: "0.85rem", fontWeight: "600" }}>{addr.street}</p>
-                            <p style={{ margin: 0, fontSize: "0.8rem", color: "var(--sirat-muted)" }}>{addr.city}, {addr.zipCode}</p>
-                            <div style={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
-                                {!addr.isDefault && <button onClick={() => handleSetDefault(idx)} style={{ background: "none", border: "none", color: "var(--sirat-gold-soft)", fontSize: "0.75rem", cursor: "pointer", padding: 0 }}>Set Default</button>}
-                                <button onClick={() => handleDeleteAddress(idx)} style={{ background: "none", border: "none", color: "var(--sirat-error)", fontSize: "0.75rem", cursor: "pointer", padding: 0 }}>Remove</button>
+                        <div key={idx} className="address-item">
+                            {addr.isDefault && <span className="address-item__default-badge">DEFAULT</span>}
+                            <p className="address-item__street">{addr.street}</p>
+                            <p className="address-item__city">{addr.city}, {addr.zipCode}</p>
+                            <div className="address-item__actions">
+                                {!addr.isDefault && <button onClick={() => handleSetDefault(idx)} className="address-item__btn address-item__btn--default">Set Default</button>}
+                                <button onClick={() => handleDeleteAddress(idx)} className="address-item__btn address-item__btn--remove">Remove</button>
                             </div>
                         </div>
                     ))}
