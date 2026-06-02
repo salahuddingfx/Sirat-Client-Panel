@@ -94,7 +94,7 @@ export default function ShopPage() {
     // 4. Size checkbox filter
     if (selectedSizes.length > 0) {
       result = result.filter((p) =>
-        p.variants?.some((v) => selectedSizes.includes(v.label) && v.inStock)
+        p.variants?.some((v) => selectedSizes.includes(v.label) && v.stock > 0)
       );
     }
 
