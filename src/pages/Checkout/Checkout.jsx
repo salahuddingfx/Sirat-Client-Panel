@@ -7,6 +7,8 @@ import PageFrame from "@components/layout/PageFrame";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
 import { placeOrder } from "@api/queries";
+import track from "@lib/tracker";
+import { useTrackOnMount } from "@lib/useTracker";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -33,6 +35,12 @@ export default function CheckoutPage() {
       setPhone(user.phone || "");
     }
   }, [isLoggedIn, user]);
+
+  useTrackOnMount("checkout_start", {
+    value: cartSubtotal - discountAmount,
+    currency: "BDT",
+    metadata: { itemCount: cartItems.length },
+  });
 
   // Calculate order weight
   const totalWeight = useMemo(() => {
@@ -96,7 +104,18 @@ export default function CheckoutPage() {
 
       if (response.success) {
         const orderDetails = response.data;
-        
+
+        track.event("purchase", {
+          label: orderDetails?._id || orderDetails?.orderId || "order",
+          value: orderDetails?.totalAmount || estimatedTotal,
+          currency: "BDT",
+          metadata: {
+            orderId: orderDetails?._id || orderDetails?.orderId,
+            paymentMethod,
+            itemCount: cartItems.length,
+          },
+        });
+
         // Save to local for guest tracking convenience
         const existingOrders = JSON.parse(localStorage.getItem("sirat_orders") || "[]");
         existingOrders.push(orderDetails);
