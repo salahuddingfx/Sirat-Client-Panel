@@ -231,18 +231,8 @@ export default function ProductDetailPage() {
     navigate("/checkout");
   };
 
-  // Determine Unsplash image for OG sharing preview
-  const previewImage =
-    product.name.toLowerCase().includes("lumina") ? "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=600" :
-    product.name.toLowerCase().includes("nova") ? "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=600" :
-    product.name.toLowerCase().includes("orbit") ? "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600" :
-    product.name.toLowerCase().includes("vector") ? "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=600" :
-    product.name.toLowerCase().includes("zenith") ? "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=600" :
-    product.name.toLowerCase().includes("helix") ? "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=600" :
-    product.name.toLowerCase().includes("chrono") ? "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=600" :
-    product.name.toLowerCase().includes("matrix") ? "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600" :
-    product.name.toLowerCase().includes("apex") ? "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=600" :
-    "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=600";
+  // OG sharing preview
+  const previewImage = product.images?.[0] || "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=600";
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
