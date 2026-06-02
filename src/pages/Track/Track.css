@@ -168,3 +168,216 @@
     height: 44px;
   }
 }
+
+/* ==========================================================================
+   ORDER LIST (Compact Cards) & DETAILS
+   ========================================================================== */
+.track-results {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.track-results__count {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--sirat-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.track-results__list {
+  display: grid;
+  gap: 1rem;
+}
+
+.track-order-card {
+  width: 100%;
+  text-align: left;
+  background: var(--sirat-surface);
+  border: 1.5px solid var(--sirat-border);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  font-family: inherit;
+}
+
+.track-order-card:hover {
+  border-color: var(--sirat-gold);
+  box-shadow: 0 8px 24px rgba(197, 160, 89, 0.1);
+  transform: translateY(-2px);
+}
+
+.track-order-card--selected {
+  border-color: var(--sirat-gold);
+  background: linear-gradient(135deg, var(--sirat-surface) 0%, var(--sirat-surface-strong) 100%);
+  box-shadow: 0 10px 30px rgba(197, 160, 89, 0.15);
+}
+
+.track-order-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.track-order-card__id {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--sirat-gold-soft);
+  letter-spacing: -0.01em;
+}
+
+.track-order-card__icon {
+  color: var(--sirat-gold);
+}
+
+.track-order-card__status {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 99px;
+}
+
+.track-order-card__middle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0;
+  border-top: 1px dashed var(--sirat-border);
+  border-bottom: 1px dashed var(--sirat-border);
+}
+
+.track-order-card__customer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.track-order-card__customer strong {
+  font-size: 0.95rem;
+  color: var(--sirat-text);
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track-order-card__customer span {
+  font-size: 0.78rem;
+  color: var(--sirat-muted);
+}
+
+.track-order-card__meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.track-order-card__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--sirat-muted);
+  font-weight: 500;
+}
+
+.track-order-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.track-order-card__total {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.track-order-card__total span {
+  font-size: 0.7rem;
+  color: var(--sirat-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.track-order-card__total strong {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  color: var(--sirat-gold-soft);
+  font-weight: 800;
+}
+
+.track-order-card__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--sirat-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 0.9rem;
+  border-radius: 99px;
+  background: rgba(197, 160, 89, 0.1);
+  transition: background 180ms ease, gap 180ms ease;
+}
+
+.track-order-card:hover .track-order-card__action {
+  gap: 0.55rem;
+  background: rgba(197, 160, 89, 0.18);
+}
+
+.track-order-details {
+  animation: track-details-fade-in 320ms ease;
+}
+
+@keyframes track-details-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .track-order-card {
+    padding: 1rem 1.1rem;
+  }
+  .track-order-card__id {
+    font-size: 0.95rem;
+  }
+  .track-order-card__customer strong {
+    font-size: 0.88rem;
+  }
+  .track-order-card__total strong {
+    font-size: 1.2rem;
+  }
+  .track-order-card__middle,
+  .track-order-card__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+  .track-order-card__action {
+    align-self: flex-start;
+  }
+}
