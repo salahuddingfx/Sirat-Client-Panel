@@ -458,6 +458,115 @@ export default function ProductDetailPage() {
         </div>
       </div>
 
+      {/* Product Quality & Details Section */}
+      <section className="product-quality-section">
+        <div className="section-header">
+          <div className="section-header__content">
+            <p className="section-header__eyebrow">Crafted with care</p>
+            <h2>Product Quality & Details</h2>
+            <p className="section-header__description">
+              Every piece is built with intention — premium fabric, considered details, and a finish that holds up wash after wash.
+            </p>
+          </div>
+        </div>
+
+        <div className="quality-grid">
+          {/* Fabric & Material column */}
+          <Panel className="quality-card quality-card--fabric">
+            <div className="quality-card__header">
+              <Sparkles size={20} className="quality-card__icon" />
+              <h3>Fabric & Material</h3>
+            </div>
+            <ul className="quality-spec-list">
+              <li>
+                <span className="quality-spec-list__label">Fabric</span>
+                <span className="quality-spec-list__value">100% Combed Cotton</span>
+              </li>
+              <li>
+                <span className="quality-spec-list__label">GSM</span>
+                <span className="quality-spec-list__value">180 GSM (Premium Mid-weight)</span>
+              </li>
+              <li>
+                <span className="quality-spec-list__label">Print Method</span>
+                <span className="quality-spec-list__value">Direct-to-Garment (DTG)</span>
+              </li>
+              <li>
+                <span className="quality-spec-list__label">Stitch</span>
+                <span className="quality-spec-list__value">Double-needle hem, reinforced shoulders</span>
+              </li>
+              <li>
+                <span className="quality-spec-list__label">Care</span>
+                <span className="quality-spec-list__value">Cold wash, inside out. Do not bleach.</span>
+              </li>
+            </ul>
+          </Panel>
+
+          {/* Quality Trust Badges column */}
+          <Panel className="quality-card quality-card--badges">
+            <div className="quality-card__header">
+              <ShieldCheck size={20} className="quality-card__icon" />
+              <h3>Quality You Can Trust</h3>
+            </div>
+            <div className="quality-badges">
+              <div className="quality-badge">
+                <div className="quality-badge__dot">✓</div>
+                <div>
+                  <strong>Pre-shrunk</strong>
+                  <span>Holds its size wash after wash</span>
+                </div>
+              </div>
+              <div className="quality-badge">
+                <div className="quality-badge__dot">✓</div>
+                <div>
+                  <strong>Color-fast Ink</strong>
+                  <span>No fading, no cracking over time</span>
+                </div>
+              </div>
+              <div className="quality-badge">
+                <div className="quality-badge__dot">✓</div>
+                <div>
+                  <strong>Breathable Weave</strong>
+                  <span>Comfortable across Bangladesh's climate</span>
+                </div>
+              </div>
+              <div className="quality-badge">
+                <div className="quality-badge__dot">✓</div>
+                <div>
+                  <strong>Eco-friendly Ink</strong>
+                  <span>Water-based, non-toxic pigments</span>
+                </div>
+              </div>
+            </div>
+          </Panel>
+        </div>
+
+        {/* Shipping & Returns */}
+        <Panel className="quality-card quality-card--shipping">
+          <div className="quality-card__header">
+            <Truck size={20} className="quality-card__icon" />
+            <h3>Shipping & Returns</h3>
+          </div>
+          <div className="shipping-grid">
+            <div className="shipping-item">
+              <strong>Delivery Time</strong>
+              <span>Dhaka: 1–2 business days. Outside Dhaka: 2–4 business days.</span>
+            </div>
+            <div className="shipping-item">
+              <strong>Delivery Charge</strong>
+              <span>Free shipping on orders above ৳1,500. Flat ৳80 nationwide otherwise.</span>
+            </div>
+            <div className="shipping-item">
+              <strong>Returns</strong>
+              <span>3-day easy return for unused products in original packaging.</span>
+            </div>
+            <div className="shipping-item">
+              <strong>Exchanges</strong>
+              <span>Size exchanges are free within 7 days. Color/swap exchanges subject to stock.</span>
+            </div>
+          </div>
+        </Panel>
+      </section>
+
       {/* Product Reviews Section */}
       <section className="product-reviews-section">
         <div className="section-header">
