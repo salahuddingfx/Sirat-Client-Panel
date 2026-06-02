@@ -93,15 +93,8 @@ export default function CategorySection() {
                 <p>No items released in this category yet. Check back next drop.</p>
               </div>
             ) : (
-              categoryProducts.map((product) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, delay: 0.05 }}
-                >
-                  <ProductCard product={product} />
-                </motion.div>
+              categoryProducts.slice(0, 8).map((product) => (
+                <ProductCard key={product.id} product={product} />
               ))
             )}
           </motion.div>
