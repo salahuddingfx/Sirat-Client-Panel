@@ -611,6 +611,7 @@ section:not(.page-section) {
   display: grid;
   gap: 4.5rem;
   padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) 4rem;
+  overflow: hidden;
 }
 
 /* Editorial Split Hero Layout */
