@@ -4,6 +4,7 @@ import { Search, PackageSearch, Package, Truck, ArrowRight, User, MapPin, Calend
 import PageFrame from "@components/layout/PageFrame";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
+import track from "@lib/tracker";
 import "./Track.css";
 
 // Initial Seed Mock Orders to test different statuses and payment methods immediately
@@ -96,6 +97,8 @@ export default function TrackPage() {
       setSelectedOrderId(null);
       return;
     }
+
+    track.event("order_track", { label: val.trim() });
 
     const allOrders = getMergedOrders();
     const matches = allOrders.filter((order) => {
