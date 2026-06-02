@@ -1,0 +1,170 @@
+.track-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 2.5rem 0 3rem;
+  padding-left: 32px;
+}
+
+.track-timeline-line {
+  position: absolute;
+  top: 22px;
+  left: 40px;
+  height: 3px;
+  background: var(--sirat-gold);
+  transition: width 0.4s ease;
+  display: none;
+}
+
+.track-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 0;
+  position: relative;
+}
+
+.track-step::before {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 28px;
+  bottom: 0;
+  width: 2px;
+  background: rgba(197, 160, 89, 0.15);
+}
+
+.track-step:last-child::before {
+  display: none;
+}
+
+.track-step.completed::before {
+  background: var(--sirat-gold);
+}
+
+.track-step-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  background: var(--sirat-surface);
+  border: 2px solid var(--sirat-border-strong);
+  color: var(--sirat-muted);
+  transition: all 0.3s ease;
+}
+
+.track-step.completed .track-step-dot {
+  background: var(--sirat-gold);
+  border-color: transparent;
+  color: #fff;
+}
+
+.track-step.active .track-step-dot {
+  background: var(--sirat-text);
+  border-color: transparent;
+  color: #fff;
+}
+
+.track-step-glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: rgba(20, 19, 17, 0.15);
+  animation: track-pulse 2s infinite;
+}
+
+@keyframes track-pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.25); opacity: 0.2; }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+
+.track-step-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-top: 0.35rem;
+}
+
+.track-step-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--sirat-muted);
+}
+
+.track-step.active .track-step-label {
+  color: var(--sirat-text);
+}
+
+.track-step.completed .track-step-label {
+  color: var(--sirat-text);
+}
+
+.track-step-status {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.status-active {
+  color: #F57C00;
+}
+
+.status-done {
+  color: #10B981;
+}
+
+.status-pending {
+  color: var(--sirat-muted);
+}
+
+@media (min-width: 768px) {
+  .track-timeline {
+    flex-direction: row;
+    padding-left: 0;
+    gap: 0;
+    margin: 3rem 0 4.5rem;
+    justify-content: space-between;
+  }
+
+  .track-timeline-line {
+    display: block;
+  }
+
+  .track-step {
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    gap: 0.75rem;
+  }
+
+  .track-step::before {
+    display: none;
+  }
+
+  .track-step-info {
+    align-items: center;
+    padding-top: 0;
+  }
+
+  .track-step-label {
+    text-align: center;
+    font-size: 0.76rem;
+  }
+
+  .track-step-status {
+    text-align: center;
+  }
+
+  .track-step-dot {
+    width: 44px;
+    height: 44px;
+  }
+}
