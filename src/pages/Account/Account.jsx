@@ -201,16 +201,18 @@ export default function AccountPage() {
                 </div>
 
                 {showAddressForm && (
-                    <form onSubmit={handleAddAddress} style={{ display: "grid", gap: "0.75rem", marginBottom: "1.5rem", padding: "1rem", background: "var(--sirat-bg-alt)", borderRadius: "8px" }}>
+                    <form onSubmit={handleAddAddress} className="address-form">
                         <input className="form-input" placeholder="Street Address" value={addressForm.street} onChange={e => setProfileAddressForm({...addressForm, street: e.target.value})} required />
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
+                        <div className="address-form__row">
                             <input className="form-input" placeholder="City" value={addressForm.city} onChange={e => setProfileAddressForm({...addressForm, city: e.target.value})} required />
                             <input className="form-input" placeholder="Zip" value={addressForm.zipCode} onChange={e => setProfileAddressForm({...addressForm, zipCode: e.target.value})} required />
                         </div>
-                        <label style={{ fontSize: "0.8rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                        <label className="address-form__checkbox">
                             <input type="checkbox" checked={addressForm.isDefault} onChange={e => setProfileAddressForm({...addressForm, isDefault: e.target.checked})} /> Set as Default
                         </label>
-                        <Button type="submit" size="sm" disabled={isUpdating}>Add Address</Button>
+                        <div className="address-form__actions">
+                            <Button type="submit" size="sm" disabled={isUpdating}>Add Address</Button>
+                        </div>
                     </form>
                 )}
 
