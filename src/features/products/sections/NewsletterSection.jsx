@@ -1,6 +1,6 @@
 ﻿import { useState } from "react";
 import { Mail, CheckCircle2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Panel, Button } from "@components/ui";
 import { subscribeNewsletter } from "@api/queries";
 import { useCart } from "@app/providers/CartContext";
@@ -33,7 +33,7 @@ export default function NewsletterSection() {
 
   return (
     <section className="newsletter-section">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -41,7 +41,7 @@ export default function NewsletterSection() {
       >
         <Panel className="page-card newsletter-panel">
           <div className="newsletter-inner">
-            <motion.div 
+            <m.div 
               className="newsletter-copy"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -55,8 +55,8 @@ export default function NewsletterSection() {
               <p className="page-section__text">
                 Subscribe to receive early catalog access keys, shipping waivers, and private collections drops notification.
               </p>
-            </motion.div>
-            <motion.div 
+            </m.div>
+            <m.div 
               className="newsletter-action"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -64,7 +64,7 @@ export default function NewsletterSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               {newsletterSubscribed ? (
-                <motion.div 
+                <m.div 
                   className="newsletter-success"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -75,7 +75,7 @@ export default function NewsletterSection() {
                     <strong>Welcome to the drop queue</strong>
                     <p className="helper">Early access key has been queued for your inbox.</p>
                   </div>
-                </motion.div>
+                </m.div>
               ) : (
                 <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
                   <input
@@ -88,10 +88,10 @@ export default function NewsletterSection() {
                   <Button type="submit">Subscribe</Button>
                 </form>
               )}
-            </motion.div>
+            </m.div>
           </div>
         </Panel>
-      </motion.div>
+      </m.div>
     </section>
   );
 }
