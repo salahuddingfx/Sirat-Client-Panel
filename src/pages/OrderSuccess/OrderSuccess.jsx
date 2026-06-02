@@ -12,7 +12,7 @@ export default function OrderSuccessPage() {
   if (!orderDetails) {
     return (
       <PageFrame title="Order Success" eyebrow="Success">
-        <SEO title="Order Received" description="Your streetwear order has been received." />
+        <SEO title="Order Received" description="Your streetwear order has been received." noindex />
         <Panel className="shop-empty-state" style={{ padding: "4rem 2rem", textAlign: "center" }}>
           <ShoppingCart size={48} className="muted" style={{ margin: "0 auto 1.5rem", color: "var(--sirat-gold)" }} />
           <h3>No order details found</h3>
