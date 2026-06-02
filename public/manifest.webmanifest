@@ -1,25 +1,90 @@
 {
-  "name": "Sirat Clothing",
+  "name": "Sirat — Luxury Combed Cotton Streetwear",
   "short_name": "Sirat",
+  "description": "Premium custom printed streetwear from Bangladesh. Heavyweight combed cotton tees, hoodies, and zip-ups.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
   "background_color": "#FAF9F5",
   "theme_color": "#C5A059",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["shopping", "lifestyle", "fashion"],
+  "iarc_rating_id": "",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Shop",
+      "short_name": "Shop",
+      "description": "Browse the latest drops",
+      "url": "/shop",
+      "icons": [
+        {
+          "src": "Sirat.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Track Order",
+      "short_name": "Track",
+      "description": "Track your order",
+      "url": "/track",
+      "icons": [
+        {
+          "src": "Sirat.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "short_name": "Reviews",
+      "description": "Read customer reviews",
+      "url": "/reviews",
+      "icons": [
+        {
+          "src": "Sirat.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "sizes": "64x64 32x32 24x32 16x16",
+      "type": "image/x-icon",
+      "purpose": "any"
     },
     {
       "src": "Sirat.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any"
     },
     {
       "src": "Sirat.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "Sirat.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "Sirat.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Sirat home page"
     }
   ]
 }
