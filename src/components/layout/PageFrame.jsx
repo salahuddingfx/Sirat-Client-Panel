@@ -1,9 +1,9 @@
 ﻿import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function PageFrame({ eyebrow, title, description, children }) {
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -22,6 +22,6 @@ export default function PageFrame({ eyebrow, title, description, children }) {
         <p className="page-section__text">{description}</p>
       </div>
       {children}
-    </motion.section>
+    </m.section>
   );
 }
