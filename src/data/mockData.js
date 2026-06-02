@@ -22,10 +22,10 @@ export const products = [
       "https://images.unsplash.com/photo-1581655353564-df123a1eb820?q=80&w=600"
     ],
     variants: [
-      { id: "lumina-s", label: "S", priceDelta: 0, inStock: true },
-      { id: "lumina-m", label: "M", priceDelta: 0, inStock: true },
-      { id: "lumina-l", label: "L", priceDelta: 0, inStock: true },
-      { id: "lumina-xl", label: "XL", priceDelta: 0, inStock: true }
+      { id: "lumina-s", label: "S", priceDelta: 0, stock: 10 },
+      { id: "lumina-m", label: "M", priceDelta: 0, stock: 10 },
+      { id: "lumina-l", label: "L", priceDelta: 0, stock: 10 },
+      { id: "lumina-xl", label: "XL", priceDelta: 0, stock: 10 }
     ]
   },
   {
@@ -50,10 +50,10 @@ export const products = [
       "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=600"
     ],
     variants: [
-      { id: "nova-s", label: "S", priceDelta: 0, inStock: true },
-      { id: "nova-m", label: "M", priceDelta: 0, inStock: true },
-      { id: "nova-l", label: "L", priceDelta: 0, inStock: true },
-      { id: "nova-xl", label: "XL", priceDelta: 0, inStock: false }
+      { id: "nova-s", label: "S", priceDelta: 0, stock: 10 },
+      { id: "nova-m", label: "M", priceDelta: 0, stock: 10 },
+      { id: "nova-l", label: "L", priceDelta: 0, stock: 10 },
+      { id: "nova-xl", label: "XL", priceDelta: 0, stock: false }
     ]
   },
   {
@@ -77,10 +77,10 @@ export const products = [
       "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?q=80&w=600"
     ],
     variants: [
-      { id: "orbit-s", label: "S", priceDelta: 0, inStock: true },
-      { id: "orbit-m", label: "M", priceDelta: 0, inStock: true },
-      { id: "orbit-l", label: "L", priceDelta: 0, inStock: true },
-      { id: "orbit-xl", label: "XL", priceDelta: 0, inStock: true }
+      { id: "orbit-s", label: "S", priceDelta: 0, stock: 10 },
+      { id: "orbit-m", label: "M", priceDelta: 0, stock: 10 },
+      { id: "orbit-l", label: "L", priceDelta: 0, stock: 10 },
+      { id: "orbit-xl", label: "XL", priceDelta: 0, stock: 10 }
     ]
   },
   {
@@ -104,9 +104,9 @@ export const products = [
       "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600"
     ],
     variants: [
-      { id: "vector-m", label: "M", priceDelta: 0, inStock: true },
-      { id: "vector-l", label: "L", priceDelta: 0, inStock: true },
-      { id: "vector-xl", label: "XL", priceDelta: 0, inStock: true }
+      { id: "vector-m", label: "M", priceDelta: 0, stock: 10 },
+      { id: "vector-l", label: "L", priceDelta: 0, stock: 10 },
+      { id: "vector-xl", label: "XL", priceDelta: 0, stock: 10 }
     ]
   },
   {
@@ -130,9 +130,9 @@ export const products = [
       "https://images.unsplash.com/photo-1554568218-0f1715e72254?q=80&w=600"
     ],
     variants: [
-      { id: "zenith-s", label: "S", priceDelta: 0, inStock: true },
-      { id: "zenith-m", label: "M", priceDelta: 0, inStock: true },
-      { id: "zenith-l", label: "L", priceDelta: 0, inStock: true }
+      { id: "zenith-s", label: "S", priceDelta: 0, stock: 10 },
+      { id: "zenith-m", label: "M", priceDelta: 0, stock: 10 },
+      { id: "zenith-l", label: "L", priceDelta: 0, stock: 10 }
     ]
   },
   {
@@ -156,10 +156,10 @@ export const products = [
       "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?q=80&w=600"
     ],
     variants: [
-      { id: "helix-s", label: "S", priceDelta: 0, inStock: true },
-      { id: "helix-m", label: "M", priceDelta: 0, inStock: true },
-      { id: "helix-l", label: "L", priceDelta: 0, inStock: true },
-      { id: "helix-xl", label: "XL", priceDelta: 0, inStock: true }
+      { id: "helix-s", label: "S", priceDelta: 0, stock: 10 },
+      { id: "helix-m", label: "M", priceDelta: 0, stock: 10 },
+      { id: "helix-l", label: "L", priceDelta: 0, stock: 10 },
+      { id: "helix-xl", label: "XL", priceDelta: 0, stock: 10 }
     ]
   },
   {
@@ -183,9 +183,9 @@ export const products = [
       "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=600"
     ],
     variants: [
-      { id: "chrono-s", label: "S", priceDelta: 0, inStock: true },
-      { id: "chrono-m", label: "M", priceDelta: 0, inStock: true },
-      { id: "chrono-l", label: "L", priceDelta: 0, inStock: true }
+      { id: "chrono-s", label: "S", priceDelta: 0, stock: 10 },
+      { id: "chrono-m", label: "M", priceDelta: 0, stock: 10 },
+      { id: "chrono-l", label: "L", priceDelta: 0, stock: 10 }
     ]
   },
   {
@@ -209,9 +209,9 @@ export const products = [
       "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=600"
     ],
     variants: [
-      { id: "matrix-m", label: "M", priceDelta: 0, inStock: true },
-      { id: "matrix-l", label: "L", priceDelta: 0, inStock: true },
-      { id: "matrix-xl", label: "XL", priceDelta: 0, inStock: true }
+      { id: "matrix-m", label: "M", priceDelta: 0, stock: 10 },
+      { id: "matrix-l", label: "L", priceDelta: 0, stock: 10 },
+      { id: "matrix-xl", label: "XL", priceDelta: 0, stock: 10 }
     ]
   },
   {
@@ -235,9 +235,9 @@ export const products = [
       "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=600"
     ],
     variants: [
-      { id: "apex-s", label: "S", priceDelta: 0, inStock: true },
-      { id: "apex-m", label: "M", priceDelta: 0, inStock: true },
-      { id: "apex-l", label: "L", priceDelta: 0, inStock: true }
+      { id: "apex-s", label: "S", priceDelta: 0, stock: 10 },
+      { id: "apex-m", label: "M", priceDelta: 0, stock: 10 },
+      { id: "apex-l", label: "L", priceDelta: 0, stock: 10 }
     ]
   }
 ];
