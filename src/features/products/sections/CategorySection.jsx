@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeader } from "@components/ui";
 import ProductCard from "@features/products/components/ProductCard";
 import { fetchProducts, fetchCategories } from "@api/queries";
+import "./CategorySection.css";
 
 export default function CategorySection() {
   const [products, setProducts] = useState([]);
@@ -19,7 +20,6 @@ export default function CategorySection() {
           fetchCategories()
         ]);
         setProducts(productsData);
-        // Prefer featured categories; fallback to all if none are featured
         const featuredCats = categoriesData.filter(c => c.featured);
         const useCats = featuredCats.length > 0 ? featuredCats : categoriesData;
         setCategoryData(useCats);
@@ -42,7 +42,7 @@ export default function CategorySection() {
 
   if (isLoading) {
     return (
-      <section className="controllable-categories-section">
+      <section className="cat-section">
         <SectionHeader
           eyebrow="Curated Styles"
           title="Browse by Category"
@@ -53,21 +53,21 @@ export default function CategorySection() {
   }
 
   return (
-    <section className="controllable-categories-section">
+    <section className="cat-section">
       <SectionHeader
         eyebrow="Curated Styles"
         title="Browse by Category"
         description="Click a category below to explore our premium collection."
       />
-      
-      <div className="homepage-category-selector" style={{ marginTop: "1.5rem" }}>
-        <div className="marquee-container">
-          <div className="marquee-track">
-            {[...categoryData, ...categoryData].map((cat, idx) => (
+
+      <div className="cat-tabs-wrapper">
+        <div className="cat-tabs-track">
+          <div className="cat-tabs-inner">
+            {[...categoryData, ...categoryData, ...categoryData].map((cat, idx) => (
               <button
                 key={`${cat.name}-${idx}`}
                 type="button"
-                className={["hp-category-tab", selectedCategory === cat.name ? "active" : ""].filter(Boolean).join(" ")}
+                className={`hp-category-tab ${selectedCategory === cat.name ? "active" : ""}`}
                 onClick={() => setSelectedCategory(cat.name)}
               >
                 <div className="hp-category-tab__preview" style={{ backgroundImage: `url(${cat.image})` }} />
@@ -78,7 +78,7 @@ export default function CategorySection() {
         </div>
       </div>
 
-      <div className="category-product-wrapper" style={{ marginTop: "1.5rem" }}>
+      <div className="cat-products-wrapper">
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedCategory}
@@ -86,15 +86,22 @@ export default function CategorySection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.4 }}
-            className="product-grid"
+            className="cat-products-grid"
           >
             {categoryProducts.length === 0 ? (
-              <div className="shop-empty-state sirat-panel" style={{ gridColumn: "1 / -1", padding: "3rem" }}>
-                <p className="page-section__text">No items released in this category yet. Check back next drop.</p>
+              <div className="cat-empty">
+                <p>No items released in this category yet. Check back next drop.</p>
               </div>
             ) : (
               categoryProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: 0.05 }}
+                >
+                  <ProductCard product={product} />
+                </motion.div>
               ))
             )}
           </motion.div>
