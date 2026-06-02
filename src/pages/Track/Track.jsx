@@ -236,7 +236,7 @@ export default function TrackPage() {
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
             <span style={{ fontSize: "0.5rem", opacity: 0.6, textTransform: "uppercase" }}>{cardTitle}</span>
             <strong style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "100px" }}>
-              {order.paymentMethod === "cod" ? "Collect Cash" : `TxID: ${order.payTxid || order.payTxid || ""}`}
+              {order.paymentMethod === "cod" ? "Collect Cash" : `TxID: ${order.payTxid || "N/A"}`}
             </strong>
           </div>
         </div>
