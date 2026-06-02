@@ -25,11 +25,15 @@
           transform: scale(1.1) translateY(-4px);
           box-shadow: 0 12px 36px rgba(37, 211, 102, 0.55);
         }
+        @media (max-width: 767px) {
+          .wa-float-btn {
+            bottom: 82px;
+          }
+        }
         @media (max-width: 480px) {
           .wa-float-btn {
             width: 42px !important;
             height: 42px !important;
-            bottom: 16px !important;
             right: 16px !important;
           }
           .wa-float-btn svg {
