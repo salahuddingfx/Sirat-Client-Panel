@@ -13,6 +13,8 @@ import Toast from "@components/ui/Toast";
 import ConfirmDialog from "@components/ui/ConfirmDialog";
 
 import CartDrawer from "@features/cart/CartDrawer";
+import { usePageTracking } from "@lib/useTracker";
+import track from "@lib/tracker";
 
 // Lazy load pages for performance optimization
 const HomePage = lazy(() => import("@pages/Home/Home"));
@@ -59,6 +61,8 @@ export function App() {
     return !sessionStorage.getItem("sirat_loader_shown");
   });
 
+  usePageTracking();
+
   useEffect(() => {
     const lenis = new Lenis();
     function raf(time) {
@@ -66,6 +70,10 @@ export function App() {
       requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
+  }, []);
+
+  useEffect(() => {
+    track.init();
   }, []);
 
   return (
