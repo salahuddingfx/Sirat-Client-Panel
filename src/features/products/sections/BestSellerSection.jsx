@@ -79,12 +79,12 @@ export default function BestSellerSection() {
                 <button
                   key={v.id}
                   type="button"
-                  disabled={!v.inStock}
+                  disabled={!v.stock || v.stock < 1}
                   className={["quickview-variant-btn", bestSellerSize === v.label ? "active" : ""].filter(Boolean).join(" ")}
                   onClick={() => setBestSellerSize(v.label)}
                 >
                   {v.label}
-                  {!v.inStock && <span className="sold-out">Out</span>}
+                  {(!v.stock || v.stock < 1) && <span className="sold-out">Out</span>}
                 </button>
               ))}
             </div>
