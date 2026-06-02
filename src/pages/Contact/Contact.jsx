@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Mail, Phone, BadgePercent, Send, Plus, MessageSquare, MapPin, Clock, Compass } from "lucide-react";
 import PageFrame from "../../components/layout/PageFrame";
 import { Panel } from "../../components/ui";
@@ -36,7 +36,7 @@ function AccordionItem({ item, isOpen, onToggle }) {
           <Plus size={18} style={{ transform: isOpen ? "rotate(45deg)" : "none", transition: "transform 0.2s ease" }} />
         </span>
       </button>
-      <motion.div
+      <m.div
         initial={false}
         animate={{ height: isOpen ? "auto" : 0 }}
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
@@ -45,7 +45,7 @@ function AccordionItem({ item, isOpen, onToggle }) {
         <div className="faq-answer">
           {item.answer}
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }
