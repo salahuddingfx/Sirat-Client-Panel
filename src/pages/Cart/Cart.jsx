@@ -51,7 +51,7 @@ export default function CartPage() {
 
   return (
     <PageFrame title="Your Bag" eyebrow="Cart">
-      <SEO title="Shopping Bag" description="Review items and customize printed clothing choices before checking out." />
+      <SEO title="Shopping Bag" description="Review items and customize printed clothing choices before checking out." noindex />
 
       {cartItems.length === 0 ? (
         <Panel className="shop-empty-state" style={{ padding: "4rem 2rem", textAlign: "center" }}>
