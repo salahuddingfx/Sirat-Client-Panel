@@ -262,7 +262,7 @@ export default function TrackPage() {
             <Search size={18} style={{ position: "absolute", left: "1.25rem", top: "50%", transform: "translateY(-50%)", color: "var(--sirat-muted)" }} />
             <input
               type="text"
-              placeholder="Order ID (e.g. SRT-26CHO-WIYH) or Phone Number..."
+              placeholder="Order ID, Email, or Phone Number..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               style={{
