@@ -40,7 +40,7 @@ export default function ProductCard({ product }) {
       {/* Product Image Frame */}
       <div className="product-card-modern__media">
         <img 
-          src={product.image} 
+          src={product.images?.[0] || product.image} 
           alt={product.name} 
           className="product-card-modern__image" 
           loading="lazy" 
