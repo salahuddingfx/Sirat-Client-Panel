@@ -368,12 +368,12 @@ export default function ProductDetailPage() {
                     <button
                       key={v.id}
                       type="button"
-                      disabled={!v.inStock}
+                      disabled={!v.stock || v.stock < 1}
                       className={["quickview-variant-btn", selectedSize === v.label ? "active" : ""].filter(Boolean).join(" ")}
                       onClick={() => setSelectedSize(v.label)}
                     >
                       {v.label}
-                      {!v.inStock && <span className="sold-out">Out</span>}
+                      {(!v.stock || v.stock < 1) && <span className="sold-out">Out</span>}
                     </button>
                   ))}
                 </div>
@@ -414,7 +414,7 @@ export default function ProductDetailPage() {
                 variant="outline"
                 style={{ flex: 1, minHeight: "48px" }}
                 onClick={handleAddToCart}
-                disabled={activeVariant && !activeVariant.inStock}
+                disabled={activeVariant && (!activeVariant.stock || activeVariant.stock < 1)}
               >
                 <ShoppingCart size={16} style={{ marginRight: "8px" }} /> Add to Cart
               </Button>
@@ -422,7 +422,7 @@ export default function ProductDetailPage() {
               <Button
                 style={{ flex: 1, minHeight: "48px", display: "flex", alignItems: "center", justifyContent: "center" }}
                 onClick={handleBuyNow}
-                disabled={activeVariant && !activeVariant.inStock}
+                disabled={activeVariant && (!activeVariant.stock || activeVariant.stock < 1)}
               >
                 <Truck size={16} style={{ marginRight: "8px" }} /> Order Now
               </Button>
