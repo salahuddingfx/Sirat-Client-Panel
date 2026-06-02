@@ -297,7 +297,11 @@ export default function TrackPage() {
           {foundOrders.map((order) => {
             const safe = (n) => isNaN(Number(n)) ? 0 : Number(n);
             const activeStepIndex = STATUS_STEPS.indexOf(order.status);
-            
+            const gi = order.guestInfo || order;
+            const itemTotal = order.items?.reduce((sum, i) => sum + safe(i.price) * safe(i.quantity), 0) || 0;
+            const discount = Math.max(0, itemTotal + safe(order.shippingCharge) - safe(order.estimatedTotal));
+            const isPaid = order.paymentMethod && order.paymentMethod !== "cod";
+
             return (
               <Panel key={order.orderId} style={{ padding: "2.5rem clamp(1.25rem, 4vw, 2.5rem)", borderRadius: "24px", border: "1px solid var(--sirat-border)", boxShadow: "0 10px 40px rgba(0,0,0,0.02)" }}>
                 {/* 1. Timeline Header */}
@@ -356,8 +360,8 @@ export default function TrackPage() {
                       </h4>
 
                       <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1.5rem" }}>
-                        {order.items?.map((item) => (
-                          <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--sirat-border)", paddingBottom: "0.85rem" }}>
+                        {order.items?.map((item, i) => (
+                          <div key={item.id || i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--sirat-border)", paddingBottom: "0.85rem" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                               <div style={{ width: "48px", height: "48px", background: "var(--sirat-surface)", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid var(--sirat-border)", flexShrink: 0 }}>
                                 <Shirt size={20} style={{ color: "var(--sirat-gold)" }} />
@@ -367,7 +371,7 @@ export default function TrackPage() {
                                 <span style={{ fontSize: "0.72rem", color: "var(--sirat-muted)", display: "flex", gap: "0.5rem", marginTop: "0.15rem" }}>
                                   <span>QTY: <strong>{item.quantity}</strong></span>
                                   <span>•</span>
-                                  <span>Size: <strong>{item.variantLabel}</strong></span>
+                                  <span>Size: <strong>{item.variantLabel || item.variant}</strong></span>
                                 </span>
                               </div>
                             </div>
@@ -379,19 +383,25 @@ export default function TrackPage() {
                       <div style={{ display: "grid", gap: "0.55rem", fontSize: "0.82rem", borderBottom: "1px solid var(--sirat-border)", paddingBottom: "0.85rem", marginBottom: "1rem" }}>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                           <span style={{ color: "var(--sirat-muted)" }}>Subtotal</span>
-                          <strong>{'\u09F3'}{safe(order.estimatedTotal) - safe(order.shippingCharge)}</strong>
+                          <strong>{'\u09F3'}{itemTotal}</strong>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                           <span style={{ color: "var(--sirat-muted)" }}>Delivery Fee</span>
-                          <strong>{'\u09F3'}{order.shippingCharge}</strong>
+                          <strong>{'\u09F3'}{safe(order.shippingCharge)}</strong>
                         </div>
+                        {discount > 0 && (
+                          <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <span style={{ color: "#10B981" }}>Discount</span>
+                            <strong style={{ color: "#10B981" }}>-{'\u09F3'}{discount}</strong>
+                          </div>
+                        )}
                       </div>
 
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
                         <div>
-                          <span style={{ fontSize: "0.75rem", color: "var(--sirat-muted)" }}>Total Payable</span>
+                          <span style={{ fontSize: "0.75rem", color: "var(--sirat-muted)" }}>{isPaid ? "Total Paid" : "Total Payable"}</span>
                           <strong style={{ display: "block", fontSize: "1.5rem", color: "var(--sirat-gold-soft)", fontFamily: "Space Grotesk, sans-serif" }}>
-                            {'\u09F3'}{order.estimatedTotal}
+                            {'\u09F3'}{safe(order.estimatedTotal)}
                           </strong>
                         </div>
                         {renderPaymentCard(order)}
@@ -416,8 +426,8 @@ export default function TrackPage() {
                           </div>
                           <div>
                             <span style={{ fontSize: "0.68rem", color: "var(--sirat-muted)", display: "block" }}>Recipient Name</span>
-                            <strong style={{ fontSize: "0.9rem" }}>{order.name}</strong>
-                            <span style={{ display: "block", fontSize: "0.8rem", color: "var(--sirat-muted)", marginTop: "0.05rem" }}>{order.phone}</span>
+                            <strong style={{ fontSize: "0.9rem" }}>{gi.name}</strong>
+                            <span style={{ display: "block", fontSize: "0.8rem", color: "var(--sirat-muted)", marginTop: "0.05rem" }}>{gi.phone}</span>
                           </div>
                         </div>
 
@@ -428,8 +438,8 @@ export default function TrackPage() {
                           </div>
                           <div>
                             <span style={{ fontSize: "0.68rem", color: "var(--sirat-muted)", display: "block" }}>Delivery Address</span>
-                            <strong style={{ fontSize: "0.9rem" }}>{order.address}</strong>
-                            <span style={{ display: "block", fontSize: "0.8rem", color: "var(--sirat-muted)", marginTop: "0.05rem" }}>{order.city}</span>
+                            <strong style={{ fontSize: "0.9rem" }}>{gi.address}</strong>
+                            <span style={{ display: "block", fontSize: "0.8rem", color: "var(--sirat-muted)", marginTop: "0.05rem" }}>{gi.city}</span>
                           </div>
                         </div>
 
@@ -440,7 +450,7 @@ export default function TrackPage() {
                           </div>
                           <div>
                             <span style={{ fontSize: "0.68rem", color: "var(--sirat-muted)", display: "block" }}>Order Date</span>
-                            <strong style={{ fontSize: "0.9rem" }}>{order.date}</strong>
+                            <strong style={{ fontSize: "0.9rem" }}>{order.date || new Date(order.createdAt).toLocaleDateString()}</strong>
                           </div>
                         </div>
                       </div>
