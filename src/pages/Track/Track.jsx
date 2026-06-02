@@ -4,6 +4,7 @@ import { Search, PackageSearch, Package, Truck, ArrowRight, User, MapPin, Calend
 import PageFrame from "@components/layout/PageFrame";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
+import "./Track.css";
 
 // Initial Seed Mock Orders to test different statuses and payment methods immediately
 const MOCK_ORDERS = [
@@ -103,6 +104,7 @@ export default function TrackPage() {
 
       const cleanOrderId = orderIdStr.toLowerCase().replace("srt-", "");
       const cleanSearch = val.replace("srt-", "").replace("#", "");
+      const safe = (n) => isNaN(Number(n)) ? 0 : Number(n);
       
       const idMatch = cleanOrderId === cleanSearch || orderIdStr.toLowerCase() === val;
       const phoneMatch = phoneStr.toLowerCase().includes(val);
@@ -156,13 +158,13 @@ export default function TrackPage() {
   };
 
   const renderPaymentCard = (order) => {
+    const safe = (n) => isNaN(Number(n)) ? 0 : Number(n);
     let cardBg = "linear-gradient(135deg, #1A1816 0%, #2A2622 100%)";
     let cardTitle = "Cash on Delivery";
     let cardNum = "****  ****  ****  COD";
     let cardStatus = "UNPAID";
     let statusBg = "rgba(239, 68, 68, 0.15)";
     let statusColor = "#EF4444";
-    let extraDetails = "Collect Cash";
 
     if (order.paymentMethod === "bkash") {
       cardBg = "linear-gradient(135deg, #E2136E 0%, #A00C4D 100%)";
@@ -171,7 +173,6 @@ export default function TrackPage() {
       cardStatus = "PAID";
       statusBg = "rgba(16, 185, 129, 0.18)";
       statusColor = "#10B981";
-      extraDetails = `TxID: ${order.payTxid || "N/A"}`;
     } else if (order.paymentMethod === "nagad") {
       cardBg = "linear-gradient(135deg, #F57C00 0%, #B85F00 100%)";
       cardTitle = "Nagad Wallet";
@@ -179,7 +180,6 @@ export default function TrackPage() {
       cardStatus = "PAID";
       statusBg = "rgba(16, 185, 129, 0.18)";
       statusColor = "#10B981";
-      extraDetails = `TxID: ${order.payTxid || "N/A"}`;
     }
 
     return (
@@ -235,7 +235,9 @@ export default function TrackPage() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
             <span style={{ fontSize: "0.5rem", opacity: 0.6, textTransform: "uppercase" }}>{cardTitle}</span>
-            <strong style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "100px" }}>{extraDetails}</strong>
+            <strong style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "100px" }}>
+              {order.paymentMethod === "cod" ? "Collect Cash" : `TxID: ${order.payTxid || order.payTxid || ""}`}
+            </strong>
           </div>
         </div>
       </div>
@@ -293,6 +295,7 @@ export default function TrackPage() {
       {foundOrders.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", gap: "4rem" }}>
           {foundOrders.map((order) => {
+            const safe = (n) => isNaN(Number(n)) ? 0 : Number(n);
             const activeStepIndex = STATUS_STEPS.indexOf(order.status);
             
             return (
@@ -313,61 +316,29 @@ export default function TrackPage() {
                   </div>
                 </div>
 
-                {/* 2. Visual Horizontal Progress Timeline */}
-                <div style={{ position: "relative", margin: "3rem 0 4.5rem", width: "100%", overflowX: "auto" }}>
-                  <div style={{ minWidth: "640px", padding: "0 1rem", position: "relative" }}>
-                    {/* Connecting background progress track */}
-                    <div style={{
-                      position: "absolute",
-                      top: "22px",
-                      left: "8%",
-                      right: "8%",
-                      height: "3px",
-                      background: "rgba(197, 160, 89, 0.12)",
-                      zIndex: 1
-                    }}>
-                      <div style={{
-                        width: `${(activeStepIndex / (STATUS_STEPS.length - 1)) * 100}%`,
-                        height: "100%",
-                        background: "var(--sirat-gold)",
-                        transition: "width 0.4s ease"
-                      }} />
-                    </div>
+                {/* 2. Progress Timeline */}
+                <div className="track-timeline">
+                  <div className="track-timeline-line" style={{ width: `${(activeStepIndex / (STATUS_STEPS.length - 1)) * 100}%` }} />
 
-                    {/* Stage Nodes */}
-                    <div style={{ display: "flex", justifyContent: "space-between", position: "relative", zIndex: 2 }}>
-                      {STATUS_STEPS.map((step, idx) => {
-                        const isCompleted = idx < activeStepIndex;
-                        const isActive = idx === activeStepIndex;
-                        
-                        return (
-                          <div key={step} style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100px" }}>
-                            <div style={{
-                              width: "44px",
-                              height: "44px",
-                              borderRadius: "50%",
-                              background: isActive ? "var(--sirat-text)" : isCompleted ? "var(--sirat-gold)" : "var(--sirat-surface)",
-                              border: `2px solid ${isActive || isCompleted ? "transparent" : "var(--sirat-border-strong)"}`,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              color: isActive || isCompleted ? "#FFFFFF" : "var(--sirat-muted)",
-                              boxShadow: isActive ? "0 0 15px rgba(20, 19, 17, 0.18)" : "none",
-                              transition: "all 0.3s ease"
-                            }}>
-                              {isCompleted ? <Check size={16} strokeWidth={2.5} /> : getStepIcon(step)}
-                            </div>
-                            <span style={{ fontSize: "0.76rem", fontWeight: "700", textTransform: "uppercase", marginTop: "0.75rem", letterSpacing: "0.02em", color: isActive ? "var(--sirat-text)" : "var(--sirat-muted)", textAlign: "center", display: "block" }}>
-                              {getStepLabel(step)}
-                            </span>
-                            <span style={{ fontSize: "0.65rem", fontWeight: "800", color: isActive ? "#F57C00" : isCompleted ? "#10B981" : "var(--sirat-muted)", marginTop: "0.25rem", textTransform: "uppercase" }}>
-                              {isActive ? "In Progress" : isCompleted ? "Completed" : "Pending"}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  {STATUS_STEPS.map((step, idx) => {
+                    const isCompleted = idx < activeStepIndex;
+                    const isActive = idx === activeStepIndex;
+
+                    return (
+                      <div key={step} className={`track-step ${isActive ? "active" : ""} ${isCompleted ? "completed" : ""}`}>
+                        <div className="track-step-dot">
+                          {isCompleted ? <Check size={16} strokeWidth={2.5} /> : getStepIcon(step)}
+                          {isActive && <div className="track-step-glow" />}
+                        </div>
+                        <div className="track-step-info">
+                          <span className="track-step-label">{getStepLabel(step)}</span>
+                          <span className={`track-step-status ${isActive ? "status-active" : isCompleted ? "status-done" : "status-pending"}`}>
+                            {isActive ? "In Progress" : isCompleted ? "Completed" : "Pending"}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 {/* 3. Detailed Stats Grid Split */}
@@ -400,7 +371,7 @@ export default function TrackPage() {
                                 </span>
                               </div>
                             </div>
-                            <strong style={{ fontSize: "0.9rem", color: "var(--sirat-text)" }}>{'\u09F3'}{item.price * item.quantity}</strong>
+                            <strong style={{ fontSize: "0.9rem", color: "var(--sirat-text)" }}>{'\u09F3'}{safe(item.price) * safe(item.quantity)}</strong>
                           </div>
                         ))}
                       </div>
@@ -408,7 +379,7 @@ export default function TrackPage() {
                       <div style={{ display: "grid", gap: "0.55rem", fontSize: "0.82rem", borderBottom: "1px solid var(--sirat-border)", paddingBottom: "0.85rem", marginBottom: "1rem" }}>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                           <span style={{ color: "var(--sirat-muted)" }}>Subtotal</span>
-                          <strong>{'\u09F3'}{order.estimatedTotal - order.shippingCharge}</strong>
+                          <strong>{'\u09F3'}{safe(order.estimatedTotal) - safe(order.shippingCharge)}</strong>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                           <span style={{ color: "var(--sirat-muted)" }}>Delivery Fee</span>
