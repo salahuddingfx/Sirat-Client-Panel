@@ -296,8 +296,92 @@ export default function TrackPage() {
       )}
 
       {foundOrders.length > 0 && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "4rem" }}>
-          {foundOrders.map((order) => {
+        <div className="track-results">
+          {/* Compact order list */}
+          <div className="track-results__list">
+            <p className="track-results__count">
+              {foundOrders.length} {foundOrders.length === 1 ? "order" : "orders"} found
+            </p>
+            {foundOrders.map((order) => {
+              const safe = (n) => isNaN(Number(n)) ? 0 : Number(n);
+              const totalVal = order.totalAmount ?? order.estimatedTotal ?? 0;
+              const itemCount = order.items?.length || 0;
+              const isSelected = selectedOrderId === order.orderId;
+              const isPaid = order.paymentMethod && order.paymentMethod !== "cod";
+              const statusColors = {
+                received: { bg: "rgba(197, 160, 89, 0.12)", fg: "#8A6F2C" },
+                processed: { bg: "rgba(59, 130, 246, 0.12)", fg: "#1E40AF" },
+                packaged: { bg: "rgba(168, 85, 247, 0.12)", fg: "#6B21A8" },
+                shipping: { bg: "rgba(245, 158, 11, 0.12)", fg: "#B45309" },
+                delivered: { bg: "rgba(16, 185, 129, 0.12)", fg: "#065F46" }
+              };
+              const sc = statusColors[order.status] || statusColors.received;
+
+              return (
+                <button
+                  type="button"
+                  key={order.orderId}
+                  className={`track-order-card ${isSelected ? "track-order-card--selected" : ""}`}
+                  onClick={() => setSelectedOrderId(isSelected ? null : order.orderId)}
+                >
+                  <div className="track-order-card__top">
+                    <div className="track-order-card__id">
+                      <Hash size={14} className="track-order-card__icon" />
+                      <span>#{order.orderId}</span>
+                    </div>
+                    <span
+                      className="track-order-card__status"
+                      style={{ background: sc.bg, color: sc.fg }}
+                    >
+                      {getStatusTitle(order.status)}
+                    </span>
+                  </div>
+
+                  <div className="track-order-card__middle">
+                    <div className="track-order-card__customer">
+                      <strong>{order.name || order.guestInfo?.name}</strong>
+                      <span>{order.phone || order.guestInfo?.phone}</span>
+                    </div>
+                    <div className="track-order-card__meta">
+                      <div className="track-order-card__meta-item">
+                        <ShoppingBag size={12} />
+                        <span>{itemCount} {itemCount === 1 ? "item" : "items"}</span>
+                      </div>
+                      <div className="track-order-card__meta-item">
+                        <Calendar size={12} />
+                        <span>{order.date || new Date(order.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="track-order-card__bottom">
+                    <div className="track-order-card__total">
+                      <span>{isPaid ? "Paid" : "Payable"}</span>
+                      <strong>{'\u09F3'}{safe(totalVal)}</strong>
+                    </div>
+                    <div className="track-order-card__action">
+                      {isSelected ? (
+                        <>
+                          <span>Hide Details</span>
+                          <X size={14} />
+                        </>
+                      ) : (
+                        <>
+                          <span>View Details</span>
+                          <ChevronRight size={14} />
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Full details for selected order */}
+          {selectedOrderId && (() => {
+            const order = foundOrders.find((o) => o.orderId === selectedOrderId);
+            if (!order) return null;
             const safe = (n) => isNaN(Number(n)) ? 0 : Number(n);
             const activeStepIndex = STATUS_STEPS.indexOf(order.status);
             const gi = order.guestInfo || order;
@@ -307,7 +391,7 @@ export default function TrackPage() {
             const isPaid = order.paymentMethod && order.paymentMethod !== "cod";
 
             return (
-              <Panel key={order.orderId} style={{ padding: "2.5rem clamp(1.25rem, 4vw, 2.5rem)", borderRadius: "24px", border: "1px solid var(--sirat-border)", boxShadow: "0 10px 40px rgba(0,0,0,0.02)" }}>
+              <Panel className="track-order-details" style={{ padding: "2.5rem clamp(1.25rem, 4vw, 2.5rem)", borderRadius: "24px", border: "1px solid var(--sirat-border)", boxShadow: "0 10px 40px rgba(0,0,0,0.02)" }}>
                 {/* 1. Timeline Header */}
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "1.5rem", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--sirat-border)", paddingBottom: "1.75rem", marginBottom: "2.5rem" }}>
                   <div>
@@ -316,7 +400,7 @@ export default function TrackPage() {
                       {getStatusTitle(order.status)}
                     </strong>
                   </div>
-                  <div style={{ textAlign: "left", mdTextAlign: "right" }}>
+                  <div style={{ textAlign: "left" }}>
                     <span style={{ fontSize: "0.75rem", color: "var(--sirat-muted)", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em", display: "block" }}>Tracking ID</span>
                     <strong style={{ fontSize: "1.35rem", color: "var(--sirat-gold-soft)", fontFamily: "Space Grotesk, sans-serif" }}>
                       #{order.orderId}
@@ -351,7 +435,7 @@ export default function TrackPage() {
 
                 {/* 3. Detailed Stats Grid Split */}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem", marginTop: "2rem" }}>
-                  
+
                   {/* Left Column: Order Content */}
                   <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
                     <Panel style={{ padding: "1.75rem", borderRadius: "16px", background: "var(--sirat-bg)", border: "1px solid var(--sirat-border)", flex: 1 }}>
@@ -419,7 +503,6 @@ export default function TrackPage() {
 
                   {/* Right Column: Shipping & Verification */}
                   <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-                    {/* Shipping info */}
                     <Panel style={{ padding: "1.75rem", borderRadius: "16px", background: "var(--sirat-bg)", border: "1px solid var(--sirat-border)" }}>
                       <h4 style={{ display: "flex", alignItems: "center", gap: "0.5rem", margin: "0 0 1.5rem", borderBottom: "1px solid var(--sirat-border)", paddingBottom: "0.75rem" }}>
                         <MapPin size={18} style={{ color: "var(--sirat-gold)" }} />
@@ -427,7 +510,6 @@ export default function TrackPage() {
                       </h4>
 
                       <div style={{ display: "grid", gap: "1.2rem" }}>
-                        {/* Customer */}
                         <div style={{ display: "flex", gap: "0.75rem" }}>
                           <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--sirat-surface)", border: "1px solid var(--sirat-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--sirat-gold)", flexShrink: 0 }}>
                             <User size={16} />
@@ -439,7 +521,6 @@ export default function TrackPage() {
                           </div>
                         </div>
 
-                        {/* Address */}
                         <div style={{ display: "flex", gap: "0.75rem" }}>
                           <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--sirat-surface)", border: "1px solid var(--sirat-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--sirat-gold)", flexShrink: 0 }}>
                             <MapPin size={16} />
@@ -451,7 +532,6 @@ export default function TrackPage() {
                           </div>
                         </div>
 
-                        {/* Order Date */}
                         <div style={{ display: "flex", gap: "0.75rem" }}>
                           <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--sirat-surface)", border: "1px solid var(--sirat-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--sirat-gold)", flexShrink: 0 }}>
                             <Calendar size={16} />
@@ -464,7 +544,6 @@ export default function TrackPage() {
                       </div>
                     </Panel>
 
-                    {/* Authenticity badge */}
                     <div style={{
                       background: "rgba(16, 185, 129, 0.06)",
                       border: "1px solid rgba(16, 185, 129, 0.2)",
@@ -487,7 +566,7 @@ export default function TrackPage() {
                 </div>
               </Panel>
             );
-          })}
+          })()}
         </div>
       )}
     </PageFrame>
