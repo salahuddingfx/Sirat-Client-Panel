@@ -120,7 +120,14 @@ export default function ShopPage() {
       title="Sirat Custom Drops"
       description="Browse our collection of premium custom printed combed cotton t-shirts. Filter by sizes, prices, and styles."
     >
-      <SEO title="Shop" description="Browse all Sirat drops: premium combed cotton oversized tees, custom designs, and exclusive puff print releases." />
+      <SEO
+        title="Shop"
+        description="Browse all Sirat drops: premium combed cotton oversized tees, hoodies, zip-ups, and exclusive puff print releases. Filter by size, price, and category. Free delivery in Cox's Bazar."
+        breadcrumb={[
+          { name: "Home", url: "/" },
+          { name: "Shop", url: "/shop" },
+        ]}
+      />
       {/* Category Tabs & Toolbar */}
       <div className="shop-toolbar">
         <div className="shop-categories">
