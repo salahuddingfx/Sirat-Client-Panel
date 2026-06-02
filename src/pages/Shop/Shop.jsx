@@ -6,6 +6,7 @@ import ProductCard from "@features/products/components/ProductCard";
 import SEO from "@components/layout/SEO";
 import { Button, Panel } from "@components/ui";
 import { fetchProducts, fetchCategories } from "@api/queries";
+import track from "@lib/tracker";
 
 const sizes = ["XS", "S", "M", "L", "XL"];
 
@@ -135,6 +136,7 @@ export default function ShopPage() {
                 if (q) params.q = q;
                 if (cat !== "All") params.category = cat;
                 setSearchParams(params);
+                track.event("category_view", { label: cat });
               }}
             >
               {cat}
@@ -176,6 +178,11 @@ export default function ShopPage() {
                   placeholder="Type keyword..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && searchQuery.trim().length >= 2) {
+                      track.event("search", { label: searchQuery.trim() });
+                    }
+                  }}
                 />
               </div>
             </div>
