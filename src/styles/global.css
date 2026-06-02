@@ -2051,7 +2051,11 @@ section:not(.page-section) {
 .marquee-container {
   overflow-x: auto;
   overflow-y: hidden;
-  width: 100%;
+  width: auto;
+  margin-left: calc(-1 * clamp(1.5rem, 5vw, 4rem));
+  margin-right: calc(-1 * clamp(1.5rem, 5vw, 4rem));
+  padding-left: clamp(1.5rem, 5vw, 4rem);
+  padding-right: clamp(1.5rem, 5vw, 4rem);
   position: relative;
   display: flex;
   align-items: center;
