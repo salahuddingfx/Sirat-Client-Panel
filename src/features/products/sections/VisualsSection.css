@@ -1,0 +1,40 @@
+.featured-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.featured-section .marquee-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+}
+
+.featured-section .marquee-container::-webkit-scrollbar {
+  display: none;
+}
+
+.featured-section .marquee-container:active {
+  cursor: grabbing;
+}
+
+.featured-section .marquee-track {
+  display: flex;
+  will-change: transform;
+}
+
+.featured-section .marquee-track > * {
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .featured-section {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+}
