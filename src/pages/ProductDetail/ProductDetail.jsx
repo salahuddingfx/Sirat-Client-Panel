@@ -8,6 +8,7 @@ import ProductCard from "@features/products/components/ProductCard";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
 import { fetchProductBySlug, fetchProductReviews, submitReview } from "@api/queries";
+import ProductImageGallery from "./ProductImageGallery";
 
 // Custom StarRatingSelector supporting half stars
 function StarRatingSelector({ rating, onChange }) {
@@ -293,18 +294,7 @@ export default function ProductDetailPage() {
       {/* Main product spec sheet */}
       <div className="product-detail-grid">
         {/* Left media visual panel */}
-        <div className="product-detail-media">
-          <div className="detail-media-frame">
-            <img 
-              src={product.image} 
-              alt={product.name} 
-              className="detail-image" 
-            />
-            {product.bestSeller && (
-              <span className="detail-bestseller-badge">BEST SELLER</span>
-            )}
-          </div>
-        </div>
+        <ProductImageGallery images={product.images} productName={product.name} />
 
         {/* Right product configuration panel */}
         <div className="product-detail-info">
