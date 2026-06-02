@@ -15,7 +15,12 @@ export const products = [
     weight: "0.35",
     colors: ["#1E1915", "#FAF7F2", "#7F1D1D"],
     sizes: ["S", "M", "L", "XL"],
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=600",
+    images: [
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=600",
+      "https://images.unsplash.com/photo-1554568218-0f1715e72254?q=80&w=600",
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=600",
+      "https://images.unsplash.com/photo-1581655353564-df123a1eb820?q=80&w=600"
+    ],
     variants: [
       { id: "lumina-s", label: "S", priceDelta: 0, inStock: true },
       { id: "lumina-m", label: "M", priceDelta: 0, inStock: true },
@@ -38,7 +43,12 @@ export const products = [
     weight: "0.32",
     colors: ["#2C302E", "#FAF7F2"],
     sizes: ["S", "M", "L", "XL"],
-    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=600",
+    images: [
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=600",
+      "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?q=80&w=600",
+      "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=600",
+      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=600"
+    ],
     variants: [
       { id: "nova-s", label: "S", priceDelta: 0, inStock: true },
       { id: "nova-m", label: "M", priceDelta: 0, inStock: true },
@@ -60,7 +70,12 @@ export const products = [
     weight: "0.28",
     colors: ["#1E1915", "#FAF7F2", "#7E7873"],
     sizes: ["S", "M", "L", "XL"],
-    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=600",
+    images: [
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=600",
+      "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=600",
+      "https://images.unsplash.com/photo-1608236415052-f1e43c1349ec?q=80&w=600",
+      "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?q=80&w=600"
+    ],
     variants: [
       { id: "orbit-s", label: "S", priceDelta: 0, inStock: true },
       { id: "orbit-m", label: "M", priceDelta: 0, inStock: true },
@@ -82,7 +97,12 @@ export const products = [
     weight: "0.34",
     colors: ["#1E1915", "#7E7873"],
     sizes: ["M", "L", "XL"],
-    image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=600",
+    images: [
+      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=600",
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=600",
+      "https://images.unsplash.com/photo-1542125387-c71274bbb9c2?q=80&w=600",
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600"
+    ],
     variants: [
       { id: "vector-m", label: "M", priceDelta: 0, inStock: true },
       { id: "vector-l", label: "L", priceDelta: 0, inStock: true },
@@ -103,7 +123,12 @@ export const products = [
     weight: "0.42",
     colors: ["#1E1915", "#7F1D1D"],
     sizes: ["S", "M", "L"],
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=600",
+    images: [
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=600",
+      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=600",
+      "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=600",
+      "https://images.unsplash.com/photo-1554568218-0f1715e72254?q=80&w=600"
+    ],
     variants: [
       { id: "zenith-s", label: "S", priceDelta: 0, inStock: true },
       { id: "zenith-m", label: "M", priceDelta: 0, inStock: true },
@@ -124,7 +149,12 @@ export const products = [
     weight: "0.30",
     colors: ["#1E1915", "#FAF7F2", "#7E7873"],
     sizes: ["S", "M", "L", "XL"],
-    image: "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=600",
+    images: [
+      "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=600",
+      "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=600",
+      "https://images.unsplash.com/photo-1581655353564-df123a1eb820?q=80&w=600",
+      "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?q=80&w=600"
+    ],
     variants: [
       { id: "helix-s", label: "S", priceDelta: 0, inStock: true },
       { id: "helix-m", label: "M", priceDelta: 0, inStock: true },
@@ -146,7 +176,12 @@ export const products = [
     weight: "0.33",
     colors: ["#1E1915", "#7E7873"],
     sizes: ["S", "M", "L"],
-    image: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=600",
+    images: [
+      "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=600",
+      "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=600",
+      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=600",
+      "https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=600"
+    ],
     variants: [
       { id: "chrono-s", label: "S", priceDelta: 0, inStock: true },
       { id: "chrono-m", label: "M", priceDelta: 0, inStock: true },
@@ -167,7 +202,12 @@ export const products = [
     weight: "0.31",
     colors: ["#1E1915"],
     sizes: ["M", "L", "XL"],
-    image: "https://images.unsplash.com/photo-1509281373149-e957c6296406?q=80&w=600",
+    images: [
+      "https://images.unsplash.com/photo-1509281373149-e957c6296406?q=80&w=600",
+      "https://images.unsplash.com/photo-1608236415052-f1e43c1349ec?q=80&w=600",
+      "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?q=80&w=600",
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=600"
+    ],
     variants: [
       { id: "matrix-m", label: "M", priceDelta: 0, inStock: true },
       { id: "matrix-l", label: "L", priceDelta: 0, inStock: true },
@@ -188,7 +228,12 @@ export const products = [
     weight: "0.27",
     colors: ["#1E1915", "#7E7873"],
     sizes: ["S", "M", "L"],
-    image: "https://images.unsplash.com/photo-1479064555552-3ef4979f8908?q=80&w=600",
+    images: [
+      "https://images.unsplash.com/photo-1479064555552-3ef4979f8908?q=80&w=600",
+      "https://images.unsplash.com/photo-1542125387-c71274bbb9c2?q=80&w=600",
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600",
+      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=600"
+    ],
     variants: [
       { id: "apex-s", label: "S", priceDelta: 0, inStock: true },
       { id: "apex-m", label: "M", priceDelta: 0, inStock: true },
