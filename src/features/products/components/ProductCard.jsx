@@ -107,14 +107,6 @@ export default function ProductCard({ product }) {
               >
                 {v.label}
               </button>
-              <button
-                key={sz}
-                type="button"
-                className={["size-pill", selectedSize === sz ? "active" : ""].filter(Boolean).join(" ")}
-                onClick={() => setSelectedSize(sz)}
-              >
-                {sz}
-              </button>
             ))}
           </div>
         )}
