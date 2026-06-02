@@ -137,7 +137,7 @@ export default function CheckoutPage() {
 
   return (
     <PageFrame title="Checkout" eyebrow="Secure Checkout">
-      <SEO title="Checkout" description="Enter shipping coordinates and select payments to check out." />
+      <SEO title="Checkout" description="Enter shipping coordinates and select payments to check out." noindex />
 
       {cartItems.length === 0 ? (
         <Panel className="shop-empty-state" style={{ padding: "4rem 2rem", textAlign: "center" }}>
