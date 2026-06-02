@@ -116,7 +116,7 @@ export default function AccountPage() {
 
   return (
     <PageFrame title={isLoggedIn ? "Account Dashboard" : "Customer Portal"} eyebrow="My Account">
-      <SEO title="User Profile" description="Access order history, tracking credentials, and update details." />
+      <SEO title="User Profile" description="Access order history, tracking credentials, and update details." noindex />
 
       {isLoggedIn ? (
         <div className="dashboard-grid">
