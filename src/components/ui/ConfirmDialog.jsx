@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { AlertTriangle, X } from "lucide-react";
 import { useCart } from "../../app/providers/CartContext";
 
@@ -11,7 +11,7 @@ export default function ConfirmDialog() {
       {show && (
         <>
           {/* Backdrop */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -26,7 +26,7 @@ export default function ConfirmDialog() {
           />
 
           {/* Dialog Container */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.9, x: "-50%", y: "-40%" }}
             animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
             exit={{ opacity: 0, scale: 0.9, x: "-50%", y: "-40%" }}
@@ -121,7 +121,7 @@ export default function ConfirmDialog() {
             >
               <X size={18} />
             </button>
-          </motion.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>
