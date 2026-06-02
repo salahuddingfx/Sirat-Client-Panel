@@ -78,6 +78,16 @@ export default function TrackPage() {
   const [searchAttempted, setSearchAttempted] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
+  // Load all merged orders (local storage + mock seed data)
+  const getMergedOrders = () => {
+    try {
+      const local = JSON.parse(localStorage.getItem("sirat_orders") || "[]");
+      return [...local, ...MOCK_ORDERS];
+    } catch (e) {
+      return MOCK_ORDERS;
+    }
+  };
+
   const handleSearch = (searchVal) => {
     const val = searchVal.trim().toLowerCase();
     if (!val) {
@@ -119,37 +129,6 @@ export default function TrackPage() {
     } catch (e) {
       return MOCK_ORDERS;
     }
-  };
-
-  const handleSearch = (searchVal) => {
-    const val = searchVal.trim().toLowerCase();
-    if (!val) {
-      setFoundOrders([]);
-      setSearchAttempted(false);
-      return;
-    }
-
-    const allOrders = getMergedOrders();
-    const matches = allOrders.filter((order) => {
-      const orderIdStr = order.orderId || "";
-      const phoneStr = order.phone || "";
-      const emailStr = order.email || "";
-      const nameStr = order.name || "";
-
-      const cleanOrderId = orderIdStr.toLowerCase().replace("srt-", "");
-      const cleanSearch = val.replace("srt-", "").replace("#", "");
-      const safe = (n) => isNaN(Number(n)) ? 0 : Number(n);
-      
-      const idMatch = cleanOrderId === cleanSearch || orderIdStr.toLowerCase() === val;
-      const phoneMatch = phoneStr.toLowerCase().includes(val);
-      const emailMatch = emailStr.toLowerCase().includes(val);
-      const nameMatch = nameStr.toLowerCase().includes(val);
-      
-      return idMatch || phoneMatch || emailMatch || nameMatch;
-    });
-
-    setFoundOrders(matches);
-    setSearchAttempted(true);
   };
 
   useEffect(() => {
