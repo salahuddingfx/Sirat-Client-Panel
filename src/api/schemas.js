@@ -6,7 +6,7 @@ export const productVariantSchema = z.object({
   id: idSchema,
   label: z.string().min(1),
   priceDelta: z.number().default(0),
-  inStock: z.boolean().default(true)
+  stock: z.number().default(0)
 });
 
 export const productSchema = z.object({
