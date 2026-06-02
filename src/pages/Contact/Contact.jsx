@@ -6,6 +6,7 @@ import { Panel } from "../../components/ui";
 import { contactFormSchema } from "@sirat/api";
 import SEO from "../../components/layout/SEO";
 import { submitContact } from "@api/queries";
+import track from "@lib/tracker";
 import { useCart } from "../../app/providers/CartContext";
 
 const FAQ_ITEMS = [
@@ -65,6 +66,7 @@ export default function ContactPage() {
       setIsSubmitting(true);
       try {
         await submitContact(result.data);
+        track.event("contact_submit", { label: result.data.email });
         setStatus(`Thank you, ${result.data.name}. We will get back to you at ${result.data.email} within 24 hours.`);
         setForm({ name: "", email: "", message: "" });
         triggerToast("Message sent successfully!", "success");
