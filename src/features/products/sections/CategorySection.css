@@ -108,7 +108,8 @@
 /* Responsive */
 @media (max-width: 768px) {
   .cat-section {
-    padding: 2.5rem 0;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
   }
   .cat-tabs-inner {
     gap: 0.5rem;

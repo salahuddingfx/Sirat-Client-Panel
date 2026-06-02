@@ -1,5 +1,6 @@
 .flash-sale-section {
-  padding: 4rem 0;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
   background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%);
   border-top: 1px solid rgba(239, 68, 68, 0.1);
   border-bottom: 1px solid rgba(239, 68, 68, 0.1);
@@ -152,9 +153,10 @@
 
 @media (max-width: 768px) {
   .flash-sale-section {
-    padding: 2.5rem 0;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
   }
-  .flash-sale-heading {
+  .flash-sale-header {
     font-size: 1.75rem;
   }
   .flash-sale-timer-blocks {
