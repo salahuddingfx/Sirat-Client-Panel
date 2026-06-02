@@ -162,31 +162,6 @@ export function CartProvider({ children }) {
     triggerToast("ব্যাগ পুরোপুরি খালি করা হয়েছে।", "info");
   };
 
-  const removeFromCart = (productId, variantId) => {
-    const item = cartItems.find((i) => i.product.id === productId && i.variant.id === variantId);
-    dispatch(removeFromCartAction({ productId, variantId }));
-    if (item) {
-      triggerToast(`"${item.product.name}" ব্যাগ থেকে সরানো হয়েছে!`, "info");
-    }
-  };
-
-  const updateQuantity = (productId, variantId, quantity) => {
-    if (quantity < 1) {
-      removeFromCart(productId, variantId);
-      return;
-    }
-    dispatch(updateQuantityAction({ productId, variantId, quantity }));
-  };
-
-  const applyPromoCode = (payload) => {
-    dispatch(applyPromoCodeAction(payload));
-  };
-
-  const clearCart = () => {
-    dispatch(clearCartAction());
-    triggerToast("ব্যাগ পুরোপুরি খালি করা হয়েছে।", "info");
-  };
-
   const setCartDrawerOpen = (isOpen) => {
     dispatch(setCartDrawerOpenAction(isOpen));
   };
