@@ -4428,6 +4428,12 @@ section:not(.page-section) {
   gap: 1rem;
 }
 
+@media (max-width: 480px) {
+  .profile-card {
+    padding: 1.15rem;
+  }
+}
+
 /* Address Book form (used inside profile-card) */
 .address-form {
   display: grid;
