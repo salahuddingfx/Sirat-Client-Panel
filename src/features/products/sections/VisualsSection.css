@@ -1,6 +1,7 @@
 .featured-section {
   padding-top: 4rem;
   padding-bottom: 4rem;
+  position: relative;
 }
 
 .featured-section .marquee-container {
