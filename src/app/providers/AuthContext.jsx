@@ -1,7 +1,8 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login as loginAction, register as registerAction, logout as logoutAction, updateUser } from "../store/authSlice";
 import { loginUser, registerUser as apiRegisterUser, updateProfile as apiUpdateProfile } from "../../api/queries";
+import track from "@lib/tracker";
 
 const AuthContext = createContext(null);
 
@@ -11,11 +12,20 @@ export function AuthProvider({ children }) {
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
 
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      track.identify({ id: user._id || user.id, email: user.email });
+    } else {
+      track.identify(null);
+    }
+  }, [isLoggedIn, user]);
+
   const login = async (identifier, password) => {
     try {
-      const response = await loginUser({ email: identifier, password }); // email here is the 'identifier' in backend
+      const response = await loginUser({ email: identifier, password });
       if (response.success) {
         dispatch(loginAction(response.data));
+        track.event("login", { label: identifier });
         return { success: true };
       }
       return { success: false, message: response.message };
@@ -31,6 +41,7 @@ export function AuthProvider({ children }) {
         if (response.data.token) {
           dispatch(registerAction(response.data));
         }
+        track.event("signup", { label: userData?.email || "" });
         return { success: true };
       }
       return { success: false, message: response.message };
@@ -53,6 +64,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
+    track.event("logout");
     dispatch(logoutAction());
   };
 
