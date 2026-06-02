@@ -459,7 +459,7 @@ export default function ProductDetailPage() {
       </div>
 
       {/* Product Reviews Section */}
-      <section className="product-reviews-section" style={{ marginTop: "4rem" }}>
+      <section className="product-reviews-section">
         <div className="section-header" style={{ marginBottom: "2rem" }}>
           <p className="section-header__eyebrow">Customer feedback</p>
           <h2>Ratings & Reviews</h2>
