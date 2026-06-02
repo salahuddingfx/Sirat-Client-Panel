@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { Compass, Target, ShieldCheck, Calendar, Sparkles } from "lucide-react";
 import PageFrame from "@components/layout/PageFrame";
 import { Panel } from "@components/ui";
@@ -111,7 +111,7 @@ export default function AboutPage() {
 
           <div className="timeline-container" ref={containerRef}>
             <div className="timeline-line">
-              <motion.div
+              <m.div
                 style={{ scaleY, originY: 0, width: "100%", height: "100%", background: "var(--sirat-border-strong)" }}
               />
             </div>
@@ -120,7 +120,7 @@ export default function AboutPage() {
               {timelineItems.map((item, idx) => (
                 <div key={item.year} className="timeline-item">
                   <div className="timeline-node">
-                    <motion.div
+                    <m.div
                       initial={{ scale: 0, opacity: 0 }}
                       whileInView={{ scale: 1, opacity: 1 }}
                       viewport={{ once: true }}
@@ -128,7 +128,7 @@ export default function AboutPage() {
                       style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
                     >
                       <Calendar size={14} />
-                    </motion.div>
+                    </m.div>
                   </div>
                   <div className="timeline-content-wrapper">
                     <Panel
