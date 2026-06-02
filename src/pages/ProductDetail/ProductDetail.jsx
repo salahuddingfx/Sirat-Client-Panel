@@ -284,7 +284,43 @@ export default function ProductDetailPage() {
 
   return (
     <div className="storefront__content product-detail-page">
-      <SEO title={`${product.name}`} description={product.description} image={previewImage} />
+      <SEO
+        title={product.name}
+        description={product.description}
+        image={previewImage}
+        type="product"
+        product={{
+          name: product.name,
+          description: product.description,
+          image: product.images?.[0] || previewImage,
+          images: product.images,
+          sku: product.sku || product._id || product.id,
+          mpn: product.sku,
+          category: product.category,
+          price: product.discountedPrice ?? product.price,
+          currency: "BDT",
+          inStock: (product.variants || []).some((v) => (v.stock || 0) > 0),
+          aggregateRating: product.rating
+            ? {
+                ratingValue: product.rating,
+                reviewCount: product.reviewCount || 0,
+                bestRating: 5,
+              }
+            : null,
+          reviews: (productReviews || []).slice(0, 5).map((r) => ({
+            rating: r.rating,
+            author: r.user?.name || r.name || "Verified buyer",
+            body: r.comment || r.body,
+            date: r.createdAt,
+          })),
+        }}
+        breadcrumb={[
+          { name: "Home", url: "/" },
+          { name: "Shop", url: "/shop" },
+          { name: product.name, url: `/product/${product.slug || product.id}` },
+        ]}
+        modifiedTime={product.updatedAt}
+      />
       {/* Breadcrumbs Navigation */}
       <nav className="detail-breadcrumbs">
         <button onClick={() => navigate(-1)} className="back-btn">
