@@ -2,26 +2,45 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Timer, Zap } from "lucide-react";
 import ProductCard from "@features/products/components/ProductCard";
-import { fetchProducts } from "@api/queries";
+import { fetchActiveFlashSale } from "@api/queries";
 
 export default function FlashSaleSection() {
-  const [products, setProducts] = useState([]);
+  const [sale, setSale] = useState(null);
   const [loading, setLoading] = useState(true);
-  
-  // Flash sale timer state
-  const [timeLeft, setTimeLeft] = useState({
-    hours: 12,
-    minutes: 45,
-    seconds: 30
-  });
+  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    // Simulated countdown timer
+    (async () => {
+      try {
+        const res = await fetchActiveFlashSale();
+        if (res.success && res.data) {
+          setSale(res.data);
+          computeRemaining(res.data.remainingSeconds);
+        } else {
+          setSale(null);
+        }
+      } catch (err) {
+        console.error("Failed to load flash sale:", err);
+        setSale(null);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  const computeRemaining = (secs) => {
+    const h = Math.floor(secs / 3600);
+    const m = Math.floor((secs % 3600) / 60);
+    const s = secs % 60;
+    setTimeLeft({ hours: h, minutes: m, seconds: s });
+  };
+
+  useEffect(() => {
+    if (!sale) return;
     const timer = setInterval(() => {
-      setTimeLeft(prev => {
+      setTimeLeft((prev) => {
         let { hours, minutes, seconds } = prev;
         if (hours === 0 && minutes === 0 && seconds === 0) return prev;
-        
         if (seconds > 0) {
           seconds--;
         } else {
@@ -37,65 +56,51 @@ export default function FlashSaleSection() {
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [sale]);
 
-  useEffect(() => {
-    fetchProducts()
-      .then((data) => {
-        if (data && data.length > 0) {
-          // Find products that actually have a discount, or fallback to first 4
-          let discounted = data.filter(p => p.oldPrice && p.oldPrice > p.price);
-          if (discounted.length === 0) {
-              discounted = data.slice(0, 4); // Fallback
-          }
-          setProducts(discounted.slice(0, 4));
-        }
-      })
-      .catch((err) => console.error("Failed to fetch products:", err))
-      .finally(() => setLoading(false));
-  }, []);
+  if (loading || !sale) return null;
 
-  if (!loading && products.length === 0) return null;
+  const products = sale.products || [];
+  if (products.length === 0) return null;
 
   return (
-    <section className="flash-sale-section" style={{ 
-        padding: "4rem 0", 
+    <section className="flash-sale-section" style={{
+        padding: "4rem 0",
         background: "linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%)",
         borderTop: "1px solid rgba(239, 68, 68, 0.1)",
         borderBottom: "1px solid rgba(239, 68, 68, 0.1)",
         position: "relative",
         overflow: "hidden"
     }}>
-      {/* Background glow effects */}
       <div style={{ position: "absolute", top: "-50%", left: "-10%", width: "50%", height: "150%", background: "radial-gradient(ellipse at center, rgba(239, 68, 68, 0.1) 0%, transparent 70%)", zIndex: 0 }} />
       <div style={{ position: "absolute", bottom: "-50%", right: "-10%", width: "50%", height: "150%", background: "radial-gradient(ellipse at center, rgba(245, 158, 11, 0.1) 0%, transparent 70%)", zIndex: 0 }} />
-      
+
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "3rem", textAlign: "center" }}>
-            <motion.div 
-                initial={{ scale: 0.9, opacity: 0 }} 
-                whileInView={{ scale: 1, opacity: 1 }} 
+            <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
                 viewport={{ once: true }}
-                style={{ 
-                    display: "inline-flex", 
-                    alignItems: "center", 
-                    gap: "0.5rem", 
-                    padding: "0.5rem 1rem", 
-                    background: "rgba(239, 68, 68, 0.1)", 
-                    color: "#EF4444", 
-                    borderRadius: "2rem", 
-                    fontWeight: "600", 
+                style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    padding: "0.5rem 1rem",
+                    background: "rgba(239, 68, 68, 0.1)",
+                    color: "#EF4444",
+                    borderRadius: "2rem",
+                    fontWeight: "600",
                     fontSize: "0.875rem",
                     marginBottom: "1rem"
                 }}
             >
-                <Zap size={16} fill="currentColor" /> Flash Sale
+                <Zap size={16} fill="currentColor" /> {sale.title || "Flash Sale"}
             </motion.div>
-            
+
             <h2 style={{ fontSize: "2.5rem", fontWeight: "800", marginBottom: "1.5rem", color: "var(--sirat-text-main)", letterSpacing: "-0.02em" }}>
                 Limited Time Offers
             </h2>
-            
+
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                 <Timer size={24} style={{ color: "var(--sirat-gold)" }} />
                 <div style={{ display: "flex", gap: "0.5rem" }}>
@@ -119,7 +124,7 @@ export default function FlashSaleSection() {
 
         <div className="product-grid" style={{ opacity: loading ? 0.6 : 1 }}>
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>
