@@ -27,19 +27,26 @@ export default function VisualsSection() {
 
   useEffect(() => {
     if (!featured.length || isHovered) return;
-    autoScrollRef.current = setInterval(() => {
-      if (scrollRef.current && !isHovered) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-        const maxScroll = scrollWidth - clientWidth;
-        const next = scrollLeft + 2;
-        if (next >= maxScroll) {
-          scrollRef.current.scrollTo({ left: 0, behavior: "instant" });
-        } else {
-          scrollRef.current.scrollTo({ left: next, behavior: "instant" });
-        }
+    let smoothId;
+    let pos = 0;
+    const step = () => {
+      if (!scrollRef.current || isHovered) {
+        smoothId = requestAnimationFrame(step);
+        return;
       }
-    }, 30);
-    return () => clearInterval(autoScrollRef.current);
+      const { scrollWidth, clientWidth } = scrollRef.current;
+      const maxScroll = scrollWidth - clientWidth;
+      pos += 1.5;
+      if (pos >= maxScroll) {
+        pos = 0;
+        scrollRef.current.scrollLeft = 0;
+      } else {
+        scrollRef.current.scrollLeft = pos;
+      }
+      smoothId = requestAnimationFrame(step);
+    };
+    smoothId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(smoothId);
   }, [featured, isHovered]);
 
   const scroll = useCallback((direction) => {
@@ -89,14 +96,14 @@ export default function VisualsSection() {
       <div style={{ marginTop: "1.5rem" }}>
         <div
           ref={scrollRef}
-          className="marquee-container edge-bleed"
+          className="marquee-container"
         >
           <div
             className="marquee-track"
             style={{ gap: "1.25rem", alignItems: "flex-start" }}
           >
-            {[...featured, ...featured, ...featured, ...featured].map((product, idx) => (
-              <div key={`${product.id}-${idx}`} style={{ minWidth: 260, maxWidth: 260, display: "flex", height: "100%" }}>
+            {[...featured, ...featured, ...featured].map((product, idx) => (
+              <div key={`${product.id}-${idx}`} className="vis-card-wrap">
                 <ProductCard product={product} />
               </div>
             ))}
