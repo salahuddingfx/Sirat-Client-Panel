@@ -211,3 +211,8 @@ export async function subscribeNewsletter(email) {
   const response = await clientApi.post("/newsletter/subscribe", { email });
   return response.data;
 }
+
+export async function fetchActiveFlashSale() {
+  const response = await clientApi.get("/flash-sale/active");
+  return response.data;
+}
