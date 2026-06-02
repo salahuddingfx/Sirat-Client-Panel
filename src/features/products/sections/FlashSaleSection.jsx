@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Timer, Zap } from "lucide-react";
 import ProductCard from "@features/products/components/ProductCard";
 import { fetchActiveFlashSale } from "@api/queries";
@@ -72,14 +72,14 @@ export default function FlashSaleSection() {
 
       <div className="container flash-sale-inner">
         <div className="flash-sale-header">
-          <motion.div
+          <m.div
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             className="flash-sale-badge"
           >
             <Zap size={16} fill="currentColor" /> {sale.title || "Flash Sale"}
-          </motion.div>
+          </m.div>
 
           <h2 className="flash-sale-heading">Limited Time Offers</h2>
 
