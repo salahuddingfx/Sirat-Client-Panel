@@ -23,7 +23,11 @@ export default function HomePage() {
       transition={{ duration: 0.35 }}
       className="storefront__content"
     >
-      <SEO title="Home" description="Sirat specializes in premium custom printed garments made from 100% combed cotton. Explore our latest heavyweight streetwear drops." />
+      <SEO
+        title="Home"
+        description="Sirat specializes in premium custom printed garments made from 100% combed cotton. Explore our latest heavyweight streetwear drops, limited puff print collections, and signature oversized fits."
+        keywords="streetwear Bangladesh, custom printed tee, combed cotton, heavyweight oversized t-shirt, puff print, hoodies, zip-ups, premium clothing brand"
+      />
       {/* 1. Hero media slider */}
       <HeroSection />
 
