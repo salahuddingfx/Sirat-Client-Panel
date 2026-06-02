@@ -21,5 +21,18 @@ export default defineConfig({
       "@sirat/ui": fileURLToPath(new URL("./src/components/ui/index.js", import.meta.url)),
       "@sirat/api": fileURLToPath(new URL("./src/api/index.js", import.meta.url))
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-motion": ["framer-motion"],
+          "vendor-gsap": ["gsap"],
+          "vendor-utils": ["axios", "zod", "lenis"],
+          "vendor-redux": ["@reduxjs/toolkit", "react-redux"]
+        }
+      }
+    }
   }
 });
