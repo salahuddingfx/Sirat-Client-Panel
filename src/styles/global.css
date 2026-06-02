@@ -4730,19 +4730,19 @@ body {
 }
 
 /* 1. CONTAINER SYSTEM (Mobile First) */
-.page-section, .storefront__content {
+.page-section, .storefront__content, .storefront__header-inner, .storefront__top-bar-inner, .storefront__footer-container {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-left: 16px !important;
   padding-right: 16px !important;
 }
-@media (min-width: 480px) { .page-section, .storefront__content { padding-left: 20px !important; padding-right: 20px !important; } }
-@media (min-width: 640px) { .page-section, .storefront__content { padding-left: 24px !important; padding-right: 24px !important; } }
-@media (min-width: 768px) { .page-section, .storefront__content { padding-left: 32px !important; padding-right: 32px !important; } }
-@media (min-width: 1024px) { .page-section, .storefront__content { max-width: 1280px !important; } }
-@media (min-width: 1440px) { .page-section, .storefront__content { max-width: 1440px !important; } }
-@media (min-width: 1920px) { .page-section, .storefront__content { max-width: 1600px !important; } }
+@media (min-width: 480px) { .page-section, .storefront__content, .storefront__header-inner, .storefront__top-bar-inner, .storefront__footer-container { padding-left: 20px !important; padding-right: 20px !important; } }
+@media (min-width: 640px) { .page-section, .storefront__content, .storefront__header-inner, .storefront__top-bar-inner, .storefront__footer-container { padding-left: 24px !important; padding-right: 24px !important; } }
+@media (min-width: 768px) { .page-section, .storefront__content, .storefront__header-inner, .storefront__top-bar-inner, .storefront__footer-container { padding-left: 32px !important; padding-right: 32px !important; } }
+@media (min-width: 1024px) { .page-section, .storefront__content, .storefront__header-inner, .storefront__top-bar-inner, .storefront__footer-container { max-width: 1280px !important; } }
+@media (min-width: 1440px) { .page-section, .storefront__content, .storefront__header-inner, .storefront__top-bar-inner, .storefront__footer-container { max-width: 1440px !important; } }
+@media (min-width: 1920px) { .page-section, .storefront__content, .storefront__header-inner, .storefront__top-bar-inner, .storefront__footer-container { max-width: 1600px !important; } }
 
 /* 2. RESPONSIVE TYPOGRAPHY (Mobile First) */
 .hero-slide__title, h1.hero-title, h1 {
