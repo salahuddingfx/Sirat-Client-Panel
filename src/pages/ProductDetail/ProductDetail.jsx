@@ -8,6 +8,7 @@ import ProductCard from "@features/products/components/ProductCard";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
 import { fetchProductBySlug, fetchProductReviews, submitReview } from "@api/queries";
+import track from "@lib/tracker";
 import ProductImageGallery from "./ProductImageGallery";
 
 // Custom StarRatingSelector supporting half stars
@@ -101,9 +102,27 @@ export default function ProductDetailPage() {
     fetchProductBySlug(slug).then((data) => {
       if (data) {
         setProduct(data);
+        track.event("product_view", {
+          label: data.name,
+          value: data.discountedPrice ?? data.price ?? 0,
+          currency: "BDT",
+          metadata: {
+            productId: data._id || data.id,
+            slug: data.slug,
+            category: data.category,
+          },
+        });
       } else {
         const mockProduct = products.find((p) => p.slug === slug || p.id === slug);
-        if (mockProduct) setProduct(mockProduct);
+        if (mockProduct) {
+          setProduct(mockProduct);
+          track.event("product_view", {
+            label: mockProduct.name,
+            value: mockProduct.discountedPrice ?? mockProduct.price ?? 0,
+            currency: "BDT",
+            metadata: { slug: mockProduct.slug, category: mockProduct.category, source: "mock" },
+          });
+        }
       }
       setLoading(false);
     });
