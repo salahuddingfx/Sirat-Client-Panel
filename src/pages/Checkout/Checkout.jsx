@@ -76,7 +76,7 @@ export default function CheckoutPage() {
 
     try {
       const payload = {
-        guestInfo: !isLoggedIn ? { name, email, phone, address, city } : undefined,
+        guestInfo: { name, email, phone, address, city },
         items: cartItems.map((item) => ({
           product: item.product.id,
           quantity: item.quantity,
