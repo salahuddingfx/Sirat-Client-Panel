@@ -98,7 +98,15 @@ export default function ProductCard({ product }) {
         {/* Size details */}
         {product.variants && product.variants.length > 0 && (
           <div className="product-card-modern__sizes" onClick={(e) => e.stopPropagation()}>
-            {product.sizes.map((sz) => (
+            {product.variants.map((v) => (
+              <button
+                key={v._id || v.id || v.label}
+                type="button"
+                className={["size-pill", selectedSize === v.label ? "active" : ""].filter(Boolean).join(" ")}
+                onClick={() => setSelectedSize(v.label)}
+              >
+                {v.label}
+              </button>
               <button
                 key={sz}
                 type="button"
