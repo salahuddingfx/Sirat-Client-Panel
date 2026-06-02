@@ -246,7 +246,12 @@ export default function AccountPage() {
                     <span className="order-date">Placed on {new Date(ord.createdAt).toLocaleDateString()}</span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-                    <strong style={{ fontSize: "1rem" }}>{'\u09F3'}{ord.totalAmount}</strong>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.25rem" }}>
+                      <strong style={{ fontSize: "1rem" }}>{'\u09F3'}{ord.totalAmount}</strong>
+                      <span style={{ fontSize: "0.7rem", color: ord.paymentStatus === 'approved' ? 'var(--sirat-success)' : 'var(--sirat-gold-soft)' }}>
+                        {ord.paymentStatus === 'approved' ? 'Paid' : 'Unpaid'}
+                      </span>
+                    </div>
                     <span className={["order-status", ord.status].filter(Boolean).join(" ")}>
                       {ord.status}
                     </span>
