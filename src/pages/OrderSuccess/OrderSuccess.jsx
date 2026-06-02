@@ -42,7 +42,7 @@ export default function OrderSuccessPage() {
 
   return (
     <PageFrame title="Order Placed" eyebrow="Success">
-      <SEO title="Order Success" description="Your streetwear order has been received successfully." />
+      <SEO title="Order Success" description="Your streetwear order has been received successfully." noindex />
       <Panel className="shop-empty-state" style={{ padding: "4rem 2rem", textAlign: "center", maxWidth: "650px", margin: "0 auto" }}>
         <CheckCircle size={56} style={{ color: "#10B981", margin: "0 auto 1.5rem" }} />
         <h2>Thank you for your order!</h2>
