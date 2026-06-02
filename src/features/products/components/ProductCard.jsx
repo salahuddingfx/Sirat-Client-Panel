@@ -18,13 +18,13 @@ export default function ProductCard({ product }) {
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    const selectedVariant = product.variants?.find((v) => v.label === selectedSize) || product.variants?.[0] || { id: "default", label: "M", priceDelta: 0, inStock: true };
+    const selectedVariant = product.variants?.find((v) => v.label === selectedSize) || product.variants?.[0] || { id: "default", label: "M", priceDelta: 0, stock: 0 };
     addToCart(product, selectedVariant, 1);
   };
 
   const handleBuyNow = (e) => {
     e.stopPropagation();
-    const selectedVariant = product.variants?.find((v) => v.label === selectedSize) || product.variants?.[0] || { id: "default", label: "M", priceDelta: 0, inStock: true };
+    const selectedVariant = product.variants?.find((v) => v.label === selectedSize) || product.variants?.[0] || { id: "default", label: "M", priceDelta: 0, stock: 0 };
     addToCart(product, selectedVariant, 1, false);
     navigate("/checkout");
   };
