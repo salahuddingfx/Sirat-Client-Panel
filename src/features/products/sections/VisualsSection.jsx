@@ -63,7 +63,7 @@ export default function VisualsSection() {
       </SectionHeader>
 
       <div style={{ marginTop: "1.5rem" }}>
-        <div className="marquee-container">
+        <div className="marquee-container edge-bleed">
           <div 
             ref={scrollRef}
             className="marquee-track marquee-infinite-linear" 
