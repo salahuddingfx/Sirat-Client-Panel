@@ -121,16 +121,6 @@ export default function TrackPage() {
     setSelectedOrderId(null);
   };
 
-  // Load all merged orders (local storage + mock seed data)
-  const getMergedOrders = () => {
-    try {
-      const local = JSON.parse(localStorage.getItem("sirat_orders") || "[]");
-      return [...local, ...MOCK_ORDERS];
-    } catch (e) {
-      return MOCK_ORDERS;
-    }
-  };
-
   useEffect(() => {
     if (initialId) {
       handleSearch(initialId);
