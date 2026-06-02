@@ -9,7 +9,7 @@ export default function ProductCard({ product }) {
   const { addToCart, setCartDrawerOpen } = useCart();
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || "");
-  const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || "");
+  const [selectedSize, setSelectedSize] = useState(product.variants?.[0]?.label || "");
 
   const handleWishlist = (e) => {
     e.stopPropagation();
@@ -96,7 +96,7 @@ export default function ProductCard({ product }) {
         )}
 
         {/* Size details */}
-        {product.sizes && product.sizes.length > 0 && (
+        {product.variants && product.variants.length > 0 && (
           <div className="product-card-modern__sizes" onClick={(e) => e.stopPropagation()}>
             {product.sizes.map((sz) => (
               <button
