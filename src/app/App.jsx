@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect, lazy, Suspense } from "react";
 import { Route, Routes, useLocation, Navigate } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { LazyMotion, domAnimation, AnimatePresence } from "framer-motion";
 import Lenis from "lenis";
 
 import Navbar from "@components/layout/Navbar";
@@ -69,41 +69,43 @@ export function App() {
   }, []);
 
   return (
-    <div className="storefront">
-      {loaderActive && <IntroLoader onComplete={() => setLoaderActive(false)} />}
-      <Navbar navItems={navItems || []} onCartToggle={() => setCartDrawerOpen(true)} />
-      <CartDrawer isOpen={cartDrawerOpen} onClose={() => setCartDrawerOpen(false)} />
-      
-      <Suspense fallback={<PageLoader />}>
-        <Routes location={location}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/shop" element={<ShopPage />} />
-          <Route path="/track" element={<TrackPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/reviews" element={<ReviewsPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/refund" element={<RefundPage />} />
-          <Route path="/cookie" element={<CookiePage />} />
-          <Route path="/product/:slug" element={<ProductDetailPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/order-success" element={<OrderSuccessPage />} />
-          <Route path="/faq" element={<FaqPage />} />
-          <Route path="/sizing" element={<SizingPage />} />
-          <Route path="/page/:slug" element={<SimplePage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Suspense>
+    <LazyMotion features={domAnimation} strict>
+      <div className="storefront">
+        {loaderActive && <IntroLoader onComplete={() => setLoaderActive(false)} />}
+        <Navbar navItems={navItems || []} onCartToggle={() => setCartDrawerOpen(true)} />
+        <CartDrawer isOpen={cartDrawerOpen} onClose={() => setCartDrawerOpen(false)} />
+        
+        <Suspense fallback={<PageLoader />}>
+          <Routes location={location}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route path="/track" element={<TrackPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/reviews" element={<ReviewsPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/refund" element={<RefundPage />} />
+            <Route path="/cookie" element={<CookiePage />} />
+            <Route path="/product/:slug" element={<ProductDetailPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/order-success" element={<OrderSuccessPage />} />
+            <Route path="/faq" element={<FaqPage />} />
+            <Route path="/sizing" element={<SizingPage />} />
+            <Route path="/page/:slug" element={<SimplePage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
 
-      <Footer />
-      <BottomNav />
-      <ScrollToTop />
-      <FloatingSupport />
-      <Toast />
-      <ConfirmDialog />
-    </div>
+        <Footer />
+        <BottomNav />
+        <ScrollToTop />
+        <FloatingSupport />
+        <Toast />
+        <ConfirmDialog />
+      </div>
+    </LazyMotion>
   );
 }
