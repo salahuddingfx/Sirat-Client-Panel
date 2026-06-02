@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, PackageSearch, Package, Truck, ArrowRight, User, MapPin, Calendar, ShieldCheck, Shirt, Check, Clipboard, Settings, Home, CreditCard } from "lucide-react";
+import { Search, PackageSearch, Package, Truck, ArrowRight, User, MapPin, Calendar, ShieldCheck, Shirt, Check, Clipboard, Settings, Home, CreditCard, Mail, Hash, X, ChevronRight, Eye, ShoppingBag } from "lucide-react";
 import PageFrame from "@components/layout/PageFrame";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
@@ -76,6 +76,40 @@ export default function TrackPage() {
   const [query, setQuery] = useState(initialId);
   const [foundOrders, setFoundOrders] = useState([]);
   const [searchAttempted, setSearchAttempted] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+  const handleSearch = (searchVal) => {
+    const val = searchVal.trim().toLowerCase();
+    if (!val) {
+      setFoundOrders([]);
+      setSearchAttempted(false);
+      setSelectedOrderId(null);
+      return;
+    }
+
+    const allOrders = getMergedOrders();
+    const matches = allOrders.filter((order) => {
+      const orderIdStr = order.orderId || "";
+      const phoneStr = order.phone || "";
+      const emailStr = order.email || "";
+      const nameStr = order.name || "";
+
+      const cleanOrderId = orderIdStr.toLowerCase().replace("srt-", "");
+      const cleanSearch = val.replace("srt-", "").replace("#", "");
+      const safe = (n) => isNaN(Number(n)) ? 0 : Number(n);
+      
+      const idMatch = cleanOrderId === cleanSearch || orderIdStr.toLowerCase() === val;
+      const phoneMatch = phoneStr.toLowerCase().includes(val);
+      const emailMatch = emailStr.toLowerCase().includes(val);
+      const nameMatch = nameStr.toLowerCase().includes(val);
+      
+      return idMatch || phoneMatch || emailMatch || nameMatch;
+    });
+
+    setFoundOrders(matches);
+    setSearchAttempted(true);
+    setSelectedOrderId(null);
+  };
 
   // Load all merged orders (local storage + mock seed data)
   const getMergedOrders = () => {
