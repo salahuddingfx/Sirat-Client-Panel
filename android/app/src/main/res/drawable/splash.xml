@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/splash_background" />
+    <item android:gravity="center">
+        <vector
+            android:width="120dp"
+            android:height="120dp"
+            android:viewportHeight="108"
+            android:viewportWidth="108">
+            <path
+                android:fillColor="#C5A059"
+                android:pathData="M72,38 C72,30 64,24 54,24 C44,24 36,30 36,38 C36,46 44,52 54,54 C64,56 72,62 72,70 C72,78 64,84 54,84 C44,84 36,78 36,70"
+                android:strokeColor="#C5A059"
+                android:strokeWidth="8"
+                android:strokeLineCap="round" />
+        </vector>
+    </item>
+</layer-list>
