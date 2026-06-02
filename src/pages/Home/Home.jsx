@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import HeroSection from "@features/products/sections/HeroSection";
 import FlashSaleSection from "@features/products/sections/FlashSaleSection";
 import VisualsSection from "@features/products/sections/VisualsSection";
@@ -16,7 +16,7 @@ import SEO from "@components/layout/SEO";
 
 export default function HomePage() {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -44,7 +44,7 @@ export default function HomePage() {
 
       {/* Value proposition points */}
       <section className="story-section">
-        <motion.div 
+        <m.div 
           className="info-grid"
           initial="hidden"
           whileInView="visible"
@@ -62,7 +62,7 @@ export default function HomePage() {
           {storyPoints.map((point) => {
             const Icon = point.icon;
             return (
-              <motion.div
+              <m.div
                 key={point.title}
                 variants={{
                   hidden: { opacity: 0, y: 30 },
@@ -80,10 +80,10 @@ export default function HomePage() {
                     {point.copy}
                   </p>
                 </Panel>
-              </motion.div>
+              </m.div>
             );
           })}
-        </motion.div>
+        </m.div>
       </section>
 
       {/* 6. Animated reviews carousel */}
@@ -97,6 +97,6 @@ export default function HomePage() {
 
       {/* Newsletter signup card */}
       <NewsletterSection />
-    </motion.div>
+    </m.div>
   );
 }
