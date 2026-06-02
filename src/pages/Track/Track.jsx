@@ -20,7 +20,7 @@ const MOCK_ORDERS = [
     paymentMethod: "cod",
     paySender: "",
     payTxid: "",
-    estimatedTotal: 320,
+    totalAmount: 320,
     date: "May 31, 2026 09:55 PM",
     status: "received",
     items: [
@@ -39,7 +39,7 @@ const MOCK_ORDERS = [
     paymentMethod: "bkash",
     paySender: "01711223344",
     payTxid: "BKSH98765432",
-    estimatedTotal: 1840,
+    totalAmount: 1840,
     date: "May 30, 2026 04:20 PM",
     status: "shipping",
     items: [
@@ -59,7 +59,7 @@ const MOCK_ORDERS = [
     paymentMethod: "nagad",
     paySender: "01851075537",
     payTxid: "NGD55443322",
-    estimatedTotal: 930,
+    totalAmount: 930,
     date: "May 29, 2026 10:15 AM",
     status: "delivered",
     items: [
@@ -299,7 +299,8 @@ export default function TrackPage() {
             const activeStepIndex = STATUS_STEPS.indexOf(order.status);
             const gi = order.guestInfo || order;
             const itemTotal = order.items?.reduce((sum, i) => sum + safe(i.price) * safe(i.quantity), 0) || 0;
-            const discount = Math.max(0, itemTotal + safe(order.shippingCharge) - safe(order.estimatedTotal));
+            const totalVal = order.totalAmount ?? order.estimatedTotal ?? 0;
+            const discount = Math.max(0, itemTotal + safe(order.shippingCharge) - safe(totalVal));
             const isPaid = order.paymentMethod && order.paymentMethod !== "cod";
 
             return (
@@ -405,7 +406,7 @@ export default function TrackPage() {
                         <div>
                           <span style={{ fontSize: "0.75rem", color: "var(--sirat-muted)" }}>{isPaid ? "Total Paid" : "Total Payable"}</span>
                           <strong style={{ display: "block", fontSize: "1.5rem", color: "var(--sirat-gold-soft)", fontFamily: "Space Grotesk, sans-serif" }}>
-                            {'\u09F3'}{safe(order.estimatedTotal)}
+                            {'\u09F3'}{safe(totalVal)}
                           </strong>
                         </div>
                         {renderPaymentCard(order)}
