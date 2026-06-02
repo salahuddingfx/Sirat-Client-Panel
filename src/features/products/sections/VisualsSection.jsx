@@ -71,7 +71,7 @@ export default function VisualsSection() {
           >
             {/* Multi-duplicate for truly seamless infinite feel */}
             {[...featured, ...featured, ...featured, ...featured].map((product, idx) => (
-              <div key={`${product.id}-${idx}`} style={{ minWidth: 200, maxWidth: 200, display: "flex" }}>
+              <div key={`${product.id}-${idx}`} style={{ minWidth: 260, maxWidth: 260, display: "flex", height: "100%" }}>
                 <ProductCard product={product} />
               </div>
             ))}
