@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { m } from "framer-motion";
-import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles } from "lucide-react";
+import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, Send } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
 import { products } from "@data/mockData";
 import ProductCard from "@features/products/components/ProductCard";
