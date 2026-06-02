@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { CheckCircle, AlertCircle, Info, XCircle, X } from "lucide-react";
 import { useCart } from "../../app/providers/CartContext";
 import { useDispatch } from "react-redux";
@@ -25,7 +25,7 @@ export default function Toast() {
       {show && (
         <>
           {/* Backdrop for center toast */}
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -33,7 +33,7 @@ export default function Toast() {
             style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 9998, backdropFilter: 'blur(4px)' }}
           />
           
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.8, x: "-50%", y: "-40%" }}
             animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
             exit={{ opacity: 0, scale: 0.8, x: "-50%", y: "-40%" }}
@@ -54,13 +54,13 @@ export default function Toast() {
               <X size={20} />
             </button>
             
-            <motion.div 
+            <m.div 
               className="toast-progress" 
               initial={{ width: "100%" }}
               animate={{ width: "0%" }}
               transition={{ duration: 3.5, ease: "linear" }}
             />
-          </motion.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>
