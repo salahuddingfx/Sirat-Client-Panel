@@ -67,9 +67,10 @@ export default function CartPage() {
           {/* Left items column */}
           <div className="cart-items-container">
             {cartItems.map((item) => {
+              const productId = item.product.id || item.product._id;
               const price = item.product.price + item.variant.priceDelta;
               return (
-                <div key={`${item.product.id}-${item.variant.id}`} className="cart-page-item">
+                <div key={`${productId}-${item.variant.id}`} className="cart-page-item">
                   <div 
                     className="cart-page-item-img" 
                     style={{ backgroundImage: `url(${getProductImage(item.product.name)})` }} 
@@ -85,14 +86,14 @@ export default function CartPage() {
                     <div className="quickview-qty-selector">
                       <button 
                         type="button" 
-                        onClick={() => updateQuantity(item.product.id, item.variant.id, item.quantity - 1)}
+                        onClick={() => updateQuantity(productId, item.variant.id, item.quantity - 1)}
                       >
                         <Minus size={11} />
                       </button>
                       <span>{item.quantity}</span>
                       <button 
                         type="button" 
-                        onClick={() => updateQuantity(item.product.id, item.variant.id, item.quantity + 1)}
+                        onClick={() => updateQuantity(productId, item.variant.id, item.quantity + 1)}
                       >
                         <Plus size={11} />
                       </button>
@@ -102,7 +103,7 @@ export default function CartPage() {
                       type="button" 
                       className="action-circle-btn" 
                       style={{ color: "#EF4444" }}
-                      onClick={() => removeFromCart(item.product.id, item.variant.id)}
+                      onClick={() => removeFromCart(productId, item.variant.id)}
                       title="Remove item"
                     >
                       <Trash2 size={13} />
@@ -112,7 +113,7 @@ export default function CartPage() {
               );
             })}
 
-            <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ marginTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
               <Link to="/shop" className="back-btn" style={{ display: "inline-flex", width: "auto" }}>
                 <ArrowLeft size={14} /> Back to Shop
               </Link>
