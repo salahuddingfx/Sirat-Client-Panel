@@ -4304,9 +4304,9 @@ section:not(.page-section) {
 
 /* Auth Page and Dashboard Styles */
 .auth-container {
-  max-width: 680px;
+  max-width: 750px;
   margin: 2rem auto;
-  padding: 2.5rem;
+  padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
   border-radius: var(--sirat-radius-lg);
   border: 1px solid var(--sirat-border);
   background: var(--sirat-surface);
