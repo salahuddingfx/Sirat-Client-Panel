@@ -5234,6 +5234,7 @@ html {
   margin: 0;
   padding: 0;
   width: 100%;
+  background-color: var(--sirat-bg);
 }
 
 body {
@@ -5241,6 +5242,8 @@ body {
   padding: 0;
   overflow-x: hidden;
   width: 100%;
+  background-color: var(--sirat-bg);
+  color: var(--sirat-text);
 }
 
 .storefront {
