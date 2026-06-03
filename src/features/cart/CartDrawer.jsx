@@ -108,9 +108,10 @@ export default function CartDrawer({ isOpen, onClose }) {
               ) : (
                 <div className="cart-drawer__items">
                   {cartItems.map((item) => {
+                    const productId = item.product.id || item.product._id;
                     const price = item.product.price + item.variant.priceDelta;
                     return (
-                      <div key={`${item.product.id}-${item.variant.id}`} className="cart-drawer__item">
+                      <div key={`${productId}-${item.variant.id}`} className="cart-drawer__item">
                         <div className="cart-drawer__item-media">
                           <img 
                             src={item.product.images?.[0] || item.product.image} 
@@ -133,14 +134,14 @@ export default function CartDrawer({ isOpen, onClose }) {
                           <div className="cart-drawer__item-qty">
                             <button
                               type="button"
-                              onClick={() => updateQuantity(item.product.id, item.variant.id, item.quantity - 1)}
+                              onClick={() => updateQuantity(productId, item.variant.id, item.quantity - 1)}
                             >
                               <Minus size={12} />
                             </button>
                             <span>{item.quantity}</span>
                             <button
                               type="button"
-                              onClick={() => updateQuantity(item.product.id, item.variant.id, item.quantity + 1)}
+                              onClick={() => updateQuantity(productId, item.variant.id, item.quantity + 1)}
                             >
                               <Plus size={12} />
                             </button>
@@ -148,7 +149,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                           <button
                             type="button"
                             className="cart-drawer__item-remove"
-                            onClick={() => removeFromCart(item.product.id, item.variant.id)}
+                            onClick={() => removeFromCart(productId, item.variant.id)}
                             title="Remove item"
                           >
                             <Trash2 size={14} />
