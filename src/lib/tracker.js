@@ -59,7 +59,7 @@ const safeStorage = {
 };
 
 const send = (path, body, useBeacon = false) => {
-  const url = `${API_BASE}/api/track${path}`;
+  const url = API_BASE.endsWith("/api") ? `${API_BASE}/track${path}` : `${API_BASE}/api/track${path}`;
 
   if (useBeacon && typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
     try {
