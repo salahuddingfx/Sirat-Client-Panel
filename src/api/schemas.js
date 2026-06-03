@@ -18,8 +18,28 @@ export const productSchema = z.object({
   oldPrice: z.number().optional().nullable(),
   costPrice: z.number().default(0),
   currency: z.string().default("BDT"),
-  category: z.string().default("Uncategorized"),
-  images: z.array(z.string()).default([]),
+  category: z.preprocess(
+    (val) => {
+      if (val && typeof val === "object" && typeof val.name === "string") {
+        return val.name;
+      }
+      return val;
+    },
+    z.string().default("Uncategorized")
+  ),
+  images: z.preprocess(
+    (val) => {
+      if (Array.isArray(val)) {
+        return val.map((item) => {
+          if (typeof item === "string") return item;
+          if (item && typeof item === "object" && typeof item.url === "string") return item.url;
+          return "";
+        }).filter(Boolean);
+      }
+      return val;
+    },
+    z.array(z.string()).default([])
+  ),
   image: z.string().optional().nullable(),
   rating: z.number().default(0),
   featured: z.boolean().default(false),
@@ -66,6 +86,6 @@ export const settingsSchema = z.object({
 export const categorySchema = z.object({
   id: idSchema,
   name: z.string().min(1),
-  image: z.string().url(),
+  image: z.string(),
   featured: z.boolean().default(false)
 });
