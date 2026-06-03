@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@components/ui";
 
@@ -48,7 +48,7 @@ export default function RegisterForm({ onRegister, onToggleLogin }) {
             className="form-input"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Salahuddin Ahmed"
+            placeholder="John Doe"
           />
         </div>
 
@@ -61,7 +61,7 @@ export default function RegisterForm({ onRegister, onToggleLogin }) {
             className="form-input"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="salahuddin_sirat"
+            placeholder="johndoe"
           />
         </div>
         
@@ -75,7 +75,7 @@ export default function RegisterForm({ onRegister, onToggleLogin }) {
             className="form-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="salahuddin@example.com"
+            placeholder="johndoe@example.com"
           />
         </div>
         
@@ -89,7 +89,7 @@ export default function RegisterForm({ onRegister, onToggleLogin }) {
             className="form-input"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="+880 1711-223344"
+            placeholder="+1 (202) 555-0143"
           />
         </div>
         

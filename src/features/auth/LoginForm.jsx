@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@components/ui";
 
@@ -45,7 +45,7 @@ export default function LoginForm({ onLogin, onForgotPassword, onToggleRegister 
             className="form-input"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
-            placeholder="e.g. user@email.com or 017..."
+            placeholder="johndoe@example.com or +12025550143"
           />
         </div>
         

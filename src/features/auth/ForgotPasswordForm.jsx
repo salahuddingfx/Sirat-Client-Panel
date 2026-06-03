@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { ShieldCheck, KeyRound, Eye, EyeOff } from "lucide-react";
 import { Button } from "@components/ui";
 import { useCart } from "../../app/providers/CartContext";
@@ -80,7 +80,7 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
                 className="form-input"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="salahuddin@example.com"
+                placeholder="johndoe@example.com"
               />
             </div>
 
