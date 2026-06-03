@@ -6,7 +6,13 @@ export default defineConfig({
   plugins: [react()],
   base: process.env.CAPACITOR_BUILD === "true" ? "./" : "/",
   server: {
-    port: 5173
+    port: 5173,
+    watch: {
+      ignored: ["**/android/**"]
+    }
+  },
+  optimizeDeps: {
+    include: ["@emotion/is-prop-valid"]
   },
   resolve: {
     alias: {
