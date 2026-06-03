@@ -4720,6 +4720,30 @@ section:not(.page-section) {
   gap: 1rem;
 }
 
+@media (max-width: 600px) {
+  .cart-page-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    align-items: start;
+  }
+  .cart-page-item-img {
+    width: 80px;
+    height: 80px;
+  }
+  .cart-page-item-qty-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--sirat-border);
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+    width: 100%;
+  }
+}
+
 /* Checkout Page Styles */
 .checkout-grid {
   display: grid;
