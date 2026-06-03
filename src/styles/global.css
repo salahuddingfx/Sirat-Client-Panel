@@ -5972,3 +5972,12 @@ img, video {
   color: var(--sirat-muted);
 }
 
+/* Avoid cumulative double padding on mobile devices for general sections */
+@media (max-width: 767px) {
+  section:not(.page-section) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+
