@@ -1,4 +1,4 @@
-﻿import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   cartItems: [],
@@ -17,8 +17,9 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const { product, variant, quantity = 1, openDrawer = true } = action.payload;
+      const pId = product.id || product._id;
       const existingItemIndex = state.cartItems.findIndex(
-        (item) => item.product.id === product.id && item.variant.id === variant.id
+        (item) => (item.product.id === pId || item.product._id === pId) && item.variant.id === variant.id
       );
 
       if (existingItemIndex > -1) {
@@ -34,18 +35,18 @@ const cartSlice = createSlice({
     removeFromCart: (state, action) => {
       const { productId, variantId } = action.payload;
       state.cartItems = state.cartItems.filter(
-        (item) => !(item.product.id === productId && item.variant.id === variantId)
+        (item) => !((item.product.id === productId || item.product._id === productId) && item.variant.id === variantId)
       );
     },
     updateQuantity: (state, action) => {
       const { productId, variantId, quantity } = action.payload;
       if (quantity < 1) {
         state.cartItems = state.cartItems.filter(
-          (item) => !(item.product.id === productId && item.variant.id === variantId)
+          (item) => !((item.product.id === productId || item.product._id === productId) && item.variant.id === variantId)
         );
       } else {
         const item = state.cartItems.find(
-          (item) => item.product.id === productId && item.variant.id === variantId
+          (item) => (item.product.id === productId || item.product._id === productId) && item.variant.id === variantId
         );
         if (item) {
           item.quantity = quantity;
