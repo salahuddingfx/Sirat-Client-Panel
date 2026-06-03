@@ -3,77 +3,77 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
-    <loc>https://siratclothing.com/</loc>
+    <loc>https://sirat.salahuddin.codes/</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://siratclothing.com/Sirat.png</image:loc>
+      <image:loc>https://sirat.salahuddin.codes/Sirat.png</image:loc>
       <image:title>Sirat — Luxury Combed Cotton Streetwear</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://siratclothing.com/shop</loc>
+    <loc>https://sirat.salahuddin.codes/shop</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://siratclothing.com/about</loc>
+    <loc>https://sirat.salahuddin.codes/about</loc>
     <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://siratclothing.com/reviews</loc>
+    <loc>https://sirat.salahuddin.codes/reviews</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://siratclothing.com/contact</loc>
+    <loc>https://sirat.salahuddin.codes/contact</loc>
     <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://siratclothing.com/track</loc>
+    <loc>https://sirat.salahuddin.codes/track</loc>
     <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://siratclothing.com/sizing</loc>
+    <loc>https://sirat.salahuddin.codes/sizing</loc>
     <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://siratclothing.com/faq</loc>
+    <loc>https://sirat.salahuddin.codes/faq</loc>
     <lastmod>2026-05-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://siratclothing.com/terms</loc>
+    <loc>https://sirat.salahuddin.codes/terms</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://siratclothing.com/privacy</loc>
+    <loc>https://sirat.salahuddin.codes/privacy</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://siratclothing.com/refund</loc>
+    <loc>https://sirat.salahuddin.codes/refund</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://siratclothing.com/cookie</loc>
+    <loc>https://sirat.salahuddin.codes/cookie</loc>
     <lastmod>2026-04-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
