@@ -4,7 +4,7 @@ import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig({
   plugins: [react()],
-  base: "./",
+  base: process.env.CAPACITOR_BUILD === "true" ? "./" : "/",
   server: {
     port: 5173
   },
