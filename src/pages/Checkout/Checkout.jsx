@@ -86,7 +86,7 @@ export default function CheckoutPage() {
       const payload = {
         guestInfo: { name, email, phone, address, city, zipCode: zip },
         items: cartItems.map((item) => ({
-          product: item.product.id,
+          product: item.product.id || item.product._id,
           quantity: item.quantity,
           variant: item.variant.label,
           price: item.product.price + item.variant.priceDelta,
@@ -381,7 +381,7 @@ export default function CheckoutPage() {
               
               <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.5rem" }}>
                 {cartItems.map((item) => (
-                  <div key={`${item.product.id}-${item.variant.id}`} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.88rem" }}>
+                  <div key={`${item.product.id || item.product._id}-${item.variant.id}`} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.88rem" }}>
                     <span>{item.product.name} (x{item.quantity}) - {item.variant.label}</span>
                     <strong>{'\u09F3'}{(item.product.price + item.variant.priceDelta) * item.quantity}</strong>
                   </div>
