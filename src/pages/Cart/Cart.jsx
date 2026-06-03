@@ -146,6 +146,8 @@ export default function CartPage() {
                     borderRadius: "99px",
                     border: "1px solid var(--sirat-border)",
                     width: "100%",
+                    flex: 1,
+                    minWidth: 0,
                     outline: "none",
                     background: "var(--sirat-bg)",
                     fontSize: "0.85rem"
