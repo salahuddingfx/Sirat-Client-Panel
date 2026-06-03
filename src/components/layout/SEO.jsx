@@ -1,8 +1,8 @@
-﻿import { useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 const SITE_NAME = "Sirat";
-const SITE_URL = "https://siratclothing.com";
+const SITE_URL = "https://sirat.salahuddin.codes";
 const DEFAULT_TITLE = "Sirat | Luxury Combed Cotton Streetwear — Bangladesh";
 const DEFAULT_DESCRIPTION =
   "Premium custom printed streetwear from Bangladesh. 100% heavyweight combed cotton tees, hoodies, and zip-ups with soft-touch puff prints.";

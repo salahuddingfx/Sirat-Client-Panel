@@ -5,7 +5,7 @@ const SettingsContext = createContext(null);
 
 const defaultSettings = {
   phone: "+880 1700 000000",
-  email: "hello@siratclothing.com",
+  email: "hello@salahuddin.codes",
   address: "Dhaka, Bangladesh",
   facebook: "https://www.facebook.com/sirat2026",
   instagram: "https://instagram.com",

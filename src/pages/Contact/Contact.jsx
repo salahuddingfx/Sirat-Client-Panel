@@ -12,7 +12,7 @@ import { useCart } from "../../app/providers/CartContext";
 const FAQ_ITEMS = [
   {
     question: "Do you offer custom prints or bulk orders?",
-    answer: "Absolutely. We specialize in high-quality bulk custom prints and wholesale apparel runs for brands, corporates, and events. Drop us your requirements via this form or email us at sales@siratclothing.com and our design department will get in touch."
+    answer: "Absolutely. We specialize in high-quality bulk custom prints and wholesale apparel runs for brands, corporates, and events. Drop us your requirements via this form or email us at sales@salahuddin.codes and our design department will get in touch."
   },
   {
     question: "What is your standard shipping & delivery timeline?",
@@ -180,12 +180,12 @@ export default function ContactPage() {
                   <span className="value">+880 1700-000000</span>
                 </a>
 
-                <a href="mailto:hello@siratclothing.com" className="connect-channel-card">
+                <a href="mailto:hello@salahuddin.codes" className="connect-channel-card">
                   <div className="icon-wrap">
                     <Mail size={16} />
                   </div>
                   <span className="label">Email Inbox</span>
-                  <span className="value">hello@sirat.com</span>
+                  <span className="value">hello@salahuddin.codes</span>
                 </a>
               </div>
             </Panel>
