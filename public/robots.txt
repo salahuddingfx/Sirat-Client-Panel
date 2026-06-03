@@ -33,4 +33,4 @@ Allow: /
 User-agent: YandexBot
 Allow: /
 
-Sitemap: https://siratclothing.com/sitemap.xml
+Sitemap: https://sirat.salahuddin.codes/sitemap.xml
