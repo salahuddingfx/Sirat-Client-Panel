@@ -35,3 +35,4 @@ jobs:
           local-dir: dist/
           server-dir: sirat.salahuddin.codes/
           dangerous-clean-slate: false
+          timeout: 190000
