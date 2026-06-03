@@ -1896,8 +1896,14 @@ section:not(.page-section) {
   gap: 0.5rem;
 }
 
+.cart-drawer__promo-input-group .sirat-button {
+  width: auto !important;
+  flex-shrink: 0;
+}
+
 .cart-drawer__promo-input-group input {
   flex: 1;
+  min-width: 0;
   padding: 0.65rem 1rem;
   border-radius: 999px;
   border: 1px solid var(--sirat-border);
