@@ -4,7 +4,7 @@ import { useCart } from "../../app/providers/CartContext";
 
 export default function ConfirmDialog() {
   const { confirm, handleConfirm, handleCancel } = useCart();
-  const { show, message } = confirm;
+  const { show = false, message = "" } = confirm || {};
 
   return (
     <AnimatePresence>
