@@ -2717,6 +2717,44 @@ section:not(.page-section) {
   opacity: 0.95;
 }
 
+.footer-developer-credit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-developer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 99px;
+  border: 1px solid var(--sirat-border);
+  background: var(--sirat-surface);
+  color: var(--sirat-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+.footer-developer-link:hover {
+  color: var(--sirat-gold);
+  border-color: var(--sirat-gold);
+  background: rgba(197, 160, 89, 0.08);
+  transform: translateY(-1px);
+}
+
+.footer-developer-link svg {
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+.footer-developer-link:hover svg {
+  opacity: 1;
+}
+
 /* Policy Pages Layout */
 .policy-layout {
   max-width: 800px;
