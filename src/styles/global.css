@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 ::selection {
   background-color: var(--sirat-gold-soft);
   color: var(--sirat-surface);
@@ -386,6 +391,7 @@ section:not(.page-section) {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 0.25rem 0;
+  text-decoration: none;
 }
 
 .mobile-nav__link:hover,
