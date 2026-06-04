@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { m, AnimatePresence } from "framer-motion";
-import { Timer, Zap, ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
-import { useCart } from "@app/providers/CartContext";
+import { Timer, Zap, ChevronLeft, ChevronRight } from "lucide-react";
+import ProductCard from "@features/products/components/ProductCard";
 import { fetchActiveFlashSale } from "@api/queries";
 import "./FlashSaleSection.css";
 
@@ -11,6 +11,7 @@ export default function FlashSaleSection() {
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const scrollRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -63,7 +64,7 @@ export default function FlashSaleSection() {
 
   const scroll = (direction) => {
     if (scrollRef.current) {
-      const scrollAmount = 350;
+      const scrollAmount = 400;
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -76,13 +77,8 @@ export default function FlashSaleSection() {
   const products = sale.products || [];
   if (products.length === 0) return null;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 }
-    }
-  };
+  // Double the products for infinite marquee effect
+  const displayProducts = [...products, ...products];
 
   return (
     <section className="flash-sale-section">
@@ -144,22 +140,33 @@ export default function FlashSaleSection() {
             onClick={() => scroll("left")}
             aria-label="Scroll left"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={28} />
           </button>
           
-          <div className="flash-sale-track-wrapper" ref={scrollRef}>
+          <div 
+            className="flash-sale-track-wrapper" 
+            ref={scrollRef}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
             <m.div 
-              className="flash-sale-track-inner"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
+              className="flash-sale-track-inner marquee-track"
+              animate={{ x: isPaused ? undefined : [0, -100 * (displayProducts.length / 2) + "%"] }}
+              transition={{ 
+                x: {
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: displayProducts.length * 5, // Dynamic duration based on count
+                  ease: "linear"
+                }
+              }}
             >
-              <AnimatePresence>
-                {products.map((product, idx) => (
-                  <FlashSaleCard key={product.id || idx} product={product} index={idx} />
-                ))}
-              </AnimatePresence>
+              {displayProducts.map((product, idx) => (
+                <div key={`${product.id}-${idx}`} className="flash-sale-item-wrapper">
+                  <ProductCard product={product} />
+                  <StockBar product={product} />
+                </div>
+              ))}
             </m.div>
           </div>
 
@@ -169,7 +176,7 @@ export default function FlashSaleSection() {
             onClick={() => scroll("right")}
             aria-label="Scroll right"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={28} />
           </button>
         </div>
       </div>
@@ -177,82 +184,19 @@ export default function FlashSaleSection() {
   );
 }
 
-function FlashSaleCard({ product, index }) {
-  const { addToCart, setCartDrawerOpen } = useCart();
-  const navigate = useNavigate();
-  
+function StockBar({ product }) {
   const totalStock = product.variants?.reduce((sum, v) => sum + (v.stock || 0), 0) || 0;
   const stockRatio = Math.max(15, Math.min(90, 100 - (totalStock * 1.8))); 
-  
-  const discountAmount = product.oldPrice && product.oldPrice > product.price 
-    ? Math.round(product.oldPrice - product.price) 
-    : 0;
-
-  const handleQuickAdd = (e) => {
-    e.stopPropagation();
-    const defaultVariant = product.variants?.[0] || { id: "default", label: "M", priceDelta: 0, stock: 10 };
-    addToCart(product, defaultVariant, 1);
-    setCartDrawerOpen(true);
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
-    }
-  };
 
   return (
-    <m.div 
-      variants={itemVariants}
-      className="flash-sale-card" 
-      onClick={() => navigate(`/product/${product.slug}`)}
-    >
-      <div className="flash-sale-card__media">
-        <img 
-          src={product.images?.[0] || product.image || "/placeholder.png"} 
-          alt={product.name} 
-          loading="lazy" 
-        />
-        {discountAmount > 0 && (
-          <span className="flash-sale-card__badge">-{'\u09F3'}{discountAmount} OFF</span>
-        )}
-
-        {/* The Glassmorphic Overlay Body */}
-        <div className="flash-sale-card__body">
-          <span className="flash-sale-card__category">{product.category?.name || product.category || "Drop"}</span>
-          <h3 className="flash-sale-card__title">{product.name}</h3>
-          
-          <div className="flash-sale-card__price-row">
-            <span className="flash-sale-card__price">{'\u09F3'}{product.price}</span>
-            {product.oldPrice && product.oldPrice > product.price && (
-              <span className="flash-sale-card__old-price">{'\u09F3'}{product.oldPrice}</span>
-            )}
-          </div>
-
-          <div className="flash-sale-card__stock-wrap">
-            <div className="flash-sale-card__stock-text">
-              <span>{totalStock > 0 ? `Stock: ${totalStock}` : "Sold Out"}</span>
-              <span>{Math.round(stockRatio)}%</span>
-            </div>
-            <div className="flash-sale-card__progress-bar">
-              <div className="flash-sale-card__progress-fill" style={{ width: `${stockRatio}%` }} />
-            </div>
-          </div>
-
-          <button 
-            type="button" 
-            className="flash-sale-card__action-btn" 
-            onClick={handleQuickAdd}
-            disabled={totalStock <= 0}
-          >
-            <ShoppingCart size={15} style={{ marginRight: 8 }} /> {totalStock > 0 ? "Claim Deal" : "Coming Soon"}
-          </button>
-        </div>
+    <div className="flash-sale-stock-bar">
+      <div className="flash-sale-stock-text">
+        <span>{totalStock > 0 ? `${totalStock} Left` : "Sold Out"}</span>
+        <span>{Math.round(stockRatio)}%</span>
       </div>
-    </m.div>
+      <div className="flash-sale-progress">
+        <div className="flash-sale-fill" style={{ width: `${stockRatio}%` }} />
+      </div>
+    </div>
   );
 }
