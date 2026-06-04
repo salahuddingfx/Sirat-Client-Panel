@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { CreditCard, Landmark, Truck, ShoppingCart, ArrowLeft, UserCheck } from "lucide-react";
+import { CreditCard, Landmark, Truck, ShoppingCart, ArrowLeft, UserCheck, Plus, Minus, Trash2, Tag } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
 import { useAuth } from "@app/providers/AuthContext";
 import PageFrame from "@components/layout/PageFrame";
