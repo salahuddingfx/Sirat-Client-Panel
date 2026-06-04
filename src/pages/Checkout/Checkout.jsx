@@ -12,7 +12,7 @@ import { useTrackOnMount } from "@lib/useTracker";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { cartItems, cartSubtotal, discountAmount, clearCart, triggerToast } = useCart();
+  const { cartItems, cartSubtotal, discountAmount, promoCode, clearCart, triggerToast } = useCart();
   const { isLoggedIn, user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -93,6 +93,8 @@ export default function CheckoutPage() {
         })),
         shippingCharge,
         totalAmount: estimatedTotal,
+        discountAmount,
+        couponCode: promoCode || undefined,
         paymentMethod,
         paymentDetails: (paymentMethod === "bkash" || paymentMethod === "nagad") ? {
           senderNumber: paySender,
