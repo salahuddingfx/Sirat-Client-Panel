@@ -71,7 +71,7 @@ export default function WishlistPage() {
                 <img
                   src={item.product.images?.[0] || item.product.image}
                   alt={item.product.name}
-                  style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "8px" }}
+                  style={{ width: "300px", height: "300px", maxWidth: "100%", objectFit: "cover", borderRadius: "8px", display: "block", margin: "0 auto" }}
                   onClick={() => navigate(`/product/${item.product.slug}`)}
                 />
                 <button
