@@ -411,13 +411,66 @@ export default function CheckoutPage() {
               <h3 style={{ margin: "0 0 1.25rem" }}>Order Details</h3>
               
               <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.5rem" }}>
-                {cartItems.map((item) => (
-                  <div key={`${item.product.id || item.product._id}-${item.variant.id}`} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.88rem" }}>
-                    <span>{item.product.name} (x{item.quantity}) - {item.variant.label}</span>
-                    <strong>{'\u09F3'}{(item.product.price + item.variant.priceDelta) * item.quantity}</strong>
-                  </div>
-                ))}
+                {cartItems.map((item) => {
+                  const productId = item.product.id || item.product._id;
+                  const price = item.product.price + item.variant.priceDelta;
+                  return (
+                    <div key={`${productId}-${item.variant.id}`} className="cart-page-item" style={{ gap: "0.5rem", padding: "0.5rem 0", borderBottom: "1px solid var(--sirat-border)" }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: "0.78rem", opacity: 0.6 }}>{item.product.category?.name || item.product.category}</div>
+                        <div style={{ fontSize: "0.88rem", fontWeight: 600 }}>{item.product.name}</div>
+                        <div style={{ fontSize: "0.78rem" }}>Size: {item.variant.label} — {'\u09F3'}{price}</div>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                        <div className="quickview-qty-selector" style={{ transform: "scale(0.85)" }}>
+                          <button type="button" onClick={() => updateQuantity(productId, item.variant.id, item.quantity - 1)}><Minus size={11} /></button>
+                          <span>{item.quantity}</span>
+                          <button type="button" onClick={() => updateQuantity(productId, item.variant.id, item.quantity + 1)}><Plus size={11} /></button>
+                        </div>
+                        <button type="button" onClick={() => removeFromCart(productId, item.variant.id)} style={{ background: "none", border: "none", color: "var(--sirat-error)", cursor: "pointer", padding: "0.25rem" }}>
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                      <strong style={{ whiteSpace: "nowrap" }}>{'\u09F3'}{price * item.quantity}</strong>
+                    </div>
+                  );
+                })}
               </div>
+
+              {/* Promo Code */}
+              <form onSubmit={handlePromoSubmit} style={{ marginBottom: "1rem" }}>
+                <div className="cart-drawer__promo-input-group">
+                  <input
+                    type="text"
+                    placeholder="PROMO CODE (SIRAT10)"
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value)}
+                    disabled={!!promoCode}
+                    style={{
+                      padding: "0.5rem 0.8rem",
+                      borderRadius: "99px",
+                      border: "1px solid var(--sirat-border)",
+                      width: "100%",
+                      flex: 1,
+                      minWidth: 0,
+                      outline: "none",
+                      background: "var(--sirat-bg)",
+                      fontSize: "0.8rem"
+                    }}
+                  />
+                  {promoCode ? (
+                    <Button type="button" variant="outline" onClick={handleRemovePromo}>Remove</Button>
+                  ) : (
+                    <Button type="submit" disabled={isValidatingPromo}>{isValidatingPromo ? "..." : "Apply"}</Button>
+                  )}
+                </div>
+                {promoError && <p className="cart-drawer__promo-error" style={{ marginTop: "0.25rem", fontSize: "0.78rem" }}>{promoError}</p>}
+                {promoCode && (
+                  <p className="cart-drawer__promo-success" style={{ marginTop: "0.25rem", fontSize: "0.78rem" }}>
+                    <Tag size={12} style={{ marginRight: "4px" }} /> Code <strong>{promoCode}</strong> active!
+                  </p>
+                )}
+              </form>
 
               <hr className="product-card-modern__divider" style={{ margin: "0.85rem 0" }} />
 
@@ -451,7 +504,6 @@ export default function CheckoutPage() {
                 {isSubmitting ? "Placing Order..." : `Place Order (${'\u09F3'}${estimatedTotal})`}
               </Button>
 
-              
               <div style={{ marginTop: "1rem", textAlign: "center" }}>
                 <Link to="/cart" className="back-btn" style={{ display: "inline-flex", width: "auto", border: "none", fontSize: "0.8rem", padding: "0" }}>
                   <ArrowLeft size={12} /> Edit Shopping Bag
