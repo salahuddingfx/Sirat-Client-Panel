@@ -2196,12 +2196,7 @@ section:not(.page-section) {
 .toast-info .toast-progress { background: var(--sirat-gold); }
 .toast-info .toast-icon { color: var(--sirat-gold); }
 
-/* Responsive Mobile Links */
-@media (max-width: 768px) {
-  a:not([class*="btn"]):not([class*="brand"]) {
-    text-decoration: none !important;
-  }
-}
+/* Responsive Mobile Links - redundant with global a reset but kept for safety */
 
 /* responsive */
 @media (max-width: 640px) {
