@@ -1094,6 +1094,7 @@ section:not(.page-section) {
   color: var(--sirat-muted);
   font-style: normal;
   font-weight: 400;
+  font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
   line-height: 1.2;
   overflow: hidden;
   display: -webkit-box;
