@@ -1,6 +1,6 @@
 /* 
   FLASH SALE SECTION - "Midnight Drop" Aesthetic 
-  Theme: Deep dark backgrounds, gold glowing accents, and glassmorphic overlays.
+  Consistency Fix: Using standard ProductCard with Flash Sale enhancements.
 */
 
 .flash-sale-section {
@@ -72,11 +72,10 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   border: 1px solid rgba(197, 160, 89, 0.3);
-  box-shadow: 0 0 20px rgba(197, 160, 89, 0.1);
 }
 
 .flash-sale-heading {
-  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 900;
   margin-bottom: 1.25rem;
   color: #ffffff;
@@ -89,55 +88,53 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 0.75rem 1.5rem;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.8rem 1.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
 }
 
 .flash-sale-timer-icon {
   color: #c5a059;
-  filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.5));
-  animation: pulseIcon 2s infinite ease-in-out;
+  filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.5));
 }
 
 .flash-sale-timer-blocks {
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem;
   align-items: center;
 }
 
 .time-block {
   text-align: center;
-  min-width: 45px;
+  min-width: 50px;
 }
 
 .time-value {
   display: block;
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   font-weight: 800;
   color: #ffffff;
   line-height: 1;
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .time-value-accent {
   color: #c5a059;
-  text-shadow: 0 0 12px rgba(197, 160, 89, 0.4);
 }
 
 .time-label {
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 700;
-  margin-top: 0.25rem;
+  margin-top: 0.35rem;
 }
 
 .time-sep {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.15);
   padding-bottom: 1rem;
@@ -172,248 +169,121 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.flash-sale-nav-btn.prev {
-  left: -20px;
-}
-
-.flash-sale-nav-btn.next {
-  right: -20px;
-}
+.flash-sale-nav-btn.prev { left: -27px; }
+.flash-sale-nav-btn.next { right: -27px; }
 
 .flash-sale-nav-btn:hover {
   background: #c5a059;
   border-color: #c5a059;
   color: #000000;
-  box-shadow: 0 0 30px rgba(197, 160, 89, 0.5);
   transform: translateY(-50%) scale(1.1);
 }
 
-/* Track Wrapper */
+/* Track Wrapper & Marquee Animation */
 .flash-sale-track-wrapper {
-  overflow-x: auto;
-  scroll-behavior: smooth;
+  overflow: hidden; /* Hide scrollbar for marquee */
   width: 100%;
-  padding: 1.5rem 0 3.5rem;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  padding: 1rem 0 3.5rem;
   position: relative;
   z-index: 10;
-}
-
-.flash-sale-track-wrapper::-webkit-scrollbar {
-  display: none;
 }
 
 .flash-sale-track-inner {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
   width: max-content;
-  padding: 0 1rem;
 }
 
-/* FLASH SALE CARD - The "Midnight Drop" Design */
-.flash-sale-card {
-  position: relative;
-  background: #141414;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  width: 280px;
+/* Marquee logic: ensures seamless loop */
+.marquee-track {
+  will-change: transform;
+}
+
+.flash-sale-item-wrapper {
   flex-shrink: 0;
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-}
-
-.flash-sale-card:hover {
-  transform: translateY(-10px);
-  border-color: rgba(197, 160, 89, 0.4);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 20px rgba(197, 160, 89, 0.05);
-}
-
-.flash-sale-card__media {
-  height: 380px;
-  position: relative;
-  background: #0f0f0f;
-  overflow: hidden;
-}
-
-.flash-sale-card__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.flash-sale-card:hover .flash-sale-card__media img {
-  transform: scale(1.1);
-}
-
-.flash-sale-card__media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.9) 100%);
-  pointer-events: none;
-}
-
-/* Badges */
-.flash-sale-card__badge {
-  position: absolute;
-  top: 1.25rem;
-  left: 1.25rem;
-  z-index: 5;
-  background: #c5a059;
-  color: #000000;
-  font-size: 0.7rem;
-  font-weight: 900;
-  padding: 0.35rem 0.75rem;
-  border-radius: 4px;
-  letter-spacing: 0.05em;
-  box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
-}
-
-/* Card Content Overlay (Glassmorphism) */
-.flash-sale-card__body {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 1.5rem;
-  z-index: 10;
-  background: rgba(20, 20, 20, 0.6);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  width: 300px;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: 1rem;
 }
 
-.flash-sale-card:hover .flash-sale-card__body {
-  background: rgba(20, 20, 20, 0.8);
+/* COMPATIBILITY: Override ProductCard styles for Flash Sale section */
+.flash-sale-section .product-card-modern {
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: none; /* Disable standard fade-in for marquee compatibility */
+  opacity: 1;
 }
 
-.flash-sale-card__category {
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  color: #c5a059;
-  letter-spacing: 0.15em;
-  font-weight: 800;
+.flash-sale-section .product-card-modern:hover {
+  border-color: rgba(197, 160, 89, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
 }
 
-.flash-sale-card__title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  letter-spacing: -0.01em;
+.flash-sale-section .product-card-modern__media {
+  background: #0f0f0f;
+  border-bottom-color: rgba(255, 255, 255, 0.05);
 }
 
-.flash-sale-card__price-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  margin-top: 0.25rem;
-}
-
-.flash-sale-card__price {
-  font-size: 1.35rem;
-  font-weight: 800;
+.flash-sale-section .product-card-modern__title {
   color: #ffffff;
 }
 
-.flash-sale-card__old-price {
-  font-size: 0.9rem;
-  text-decoration: line-through;
-  color: rgba(255, 255, 255, 0.3);
+.flash-sale-section .product-card-modern__rating {
+  color: #ffffff;
 }
 
-/* Progress / Stock Bar */
-.flash-sale-card__stock-wrap {
-  margin-top: 0.75rem;
+.flash-sale-section .product-card-modern__divider {
+  border-top-color: rgba(255, 255, 255, 0.08);
 }
 
-.flash-sale-card__stock-text {
+.flash-sale-section .action-circle-btn {
+  background: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.flash-sale-section .action-circle-btn:hover {
+  background: #2a2a2a;
+  border-color: #c5a059;
+}
+
+/* STOCK BAR - Flash Sale Specific */
+.flash-sale-stock-bar {
+  padding: 0 0.5rem;
+}
+
+.flash-sale-stock-text {
   display: flex;
   justify-content: space-between;
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
 }
 
-.flash-sale-card__progress-bar {
-  height: 3px;
+.flash-sale-progress {
+  height: 4px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 99px;
   overflow: hidden;
 }
 
-.flash-sale-card__progress-fill {
+.flash-sale-fill {
   height: 100%;
   background: linear-gradient(to right, #8a703d, #c5a059);
-  border-radius: 99px;
   box-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
-}
-
-/* Action Button */
-.flash-sale-card__action-btn {
-  margin-top: 1rem;
-  width: 100%;
-  padding: 0.85rem;
-  background: transparent;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.flash-sale-card__action-btn:hover:not(:disabled) {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
-  transform: translateY(-2px);
-}
-
-.flash-sale-card__action-btn:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.flash-sale-card__action-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  border-color: rgba(255, 255, 255, 0.05);
-}
-
-/* Animation Keyframes */
-@keyframes pulseIcon {
-  0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.5)); }
-  50% { transform: scale(1.15); opacity: 0.8; filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.8)); }
+  border-radius: 99px;
 }
 
 /* Mobile Optimizations */
 @media (max-width: 768px) {
   .flash-sale-section { padding-top: 2.5rem; padding-bottom: 3rem; margin: 1rem 0.5rem; border-radius: 24px; }
-  .flash-sale-header { margin-bottom: 2.5rem; }
-  .flash-sale-heading { font-size: 2.25rem; }
+  .flash-sale-heading { font-size: 2.2rem; }
   .flash-sale-nav-btn { display: none; }
-  .flash-sale-track-inner { padding: 0 0.5rem; gap: 1rem; }
-  .flash-sale-card { width: 240px; }
-  .flash-sale-card__media { height: 320px; }
-  .flash-sale-card__title { font-size: 1rem; }
-  .flash-sale-card__price { font-size: 1.15rem; }
+  .flash-sale-track-inner { gap: 1.5rem; }
+  .flash-sale-item-wrapper { width: 260px; }
 }
