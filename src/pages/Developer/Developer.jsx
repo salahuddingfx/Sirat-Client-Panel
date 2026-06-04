@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Code2, Cpu, Layers, GitBranch, Github, Linkedin, Twitter, Instagram, Globe, Mail, Sparkles, Server, Database, Smartphone, Zap, Facebook } from "lucide-react";
 import PageFrame from "@components/layout/PageFrame";
 import { Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
 import { fetchTeamMembers } from "@api/queries";
+import { usePageMeta, svgFavicon } from "@lib/usePageMeta";
 import "./Developer.css";
 
 const HANDLE = "salahuddingfx";
