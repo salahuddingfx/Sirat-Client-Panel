@@ -133,7 +133,7 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
           <div className="auth-header">
             <h2>Verify Code</h2>
             <p className="page-section__text" style={{ fontSize: "0.85rem" }}>
-              Enter the 6-digit OTP code sent to <strong>{otpSentEmail}</strong>. (Simulated code: <strong>123456</strong>)
+              Enter the 6-digit OTP code sent to <strong>{otpSentEmail}</strong>.
             </p>
           </div>
           
@@ -171,8 +171,8 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
               ))}
             </div>
 
-            <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }}>
-              Confirm Verification Code
+            <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }} disabled={isLoading}>
+              {isLoading ? "Verifying..." : "Confirm Verification Code"}
             </Button>
           </form>
 
