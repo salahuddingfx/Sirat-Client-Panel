@@ -235,6 +235,21 @@ export async function validateCouponCode(code, totalAmount) {
   return response.data;
 }
 
+export async function forgotPassword(email) {
+  const response = await clientApi.post("/password/forgot", { email });
+  return response.data;
+}
+
+export async function verifyResetOtp(email, otp) {
+  const response = await clientApi.post("/password/verify-otp", { email, otp });
+  return response.data;
+}
+
+export async function resetPassword(email, otp, newPassword) {
+  const response = await clientApi.post("/password/reset", { email, otp, newPassword });
+  return response.data;
+}
+
 export async function subscribeNewsletter(email) {
   const response = await clientApi.post("/newsletter/subscribe", { email });
   return response.data;
