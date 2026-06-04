@@ -80,6 +80,26 @@ export default function DeveloperPage() {
     { key: "website", href: developer.website, Icon: Globe, label: "Portfolio" },
   ].filter((s) => s.href);
 
+  // Browser tab customization: title, favicon, and theme color
+  const faviconHref = useMemo(
+    () =>
+      svgFavicon(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">` +
+          `<rect width="32" height="32" rx="7" fill="#141311"/>` +
+          `<path d="M11 11 L7 16 L11 21" stroke="#C5A059" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` +
+          `<path d="M21 11 L25 16 L21 21" stroke="#C5A059" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` +
+          `<path d="M18 9 L14 23" stroke="#C5A059" stroke-width="2" stroke-linecap="round"/>` +
+        `</svg>`
+      ),
+    []
+  );
+  usePageMeta({
+    title: `</> ${developer.name} — Developer @ Sirat`,
+    faviconHref,
+    faviconType: "image/svg+xml",
+    themeColor: "#141311",
+  });
+
   return (
     <div>
       <PageFrame
