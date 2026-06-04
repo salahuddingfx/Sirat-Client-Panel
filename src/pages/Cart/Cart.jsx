@@ -5,6 +5,7 @@ import PageFrame from "../../components/layout/PageFrame";
 import { Button, Panel } from "../../components/ui";
 import SEO from "../../components/layout/SEO";
 import { useState } from "react";
+import { validateCouponCode } from "@api/queries";
 
 export default function CartPage() {
   const navigate = useNavigate();
@@ -23,10 +24,27 @@ export default function CartPage() {
   } = useCart();
 
   const [promoInput, setPromoInput] = useState("");
+  const [isValidating, setIsValidating] = useState(false);
 
-  const handlePromoSubmit = (e) => {
+  const handlePromoSubmit = async (e) => {
     e.preventDefault();
-    applyPromoCode(promoInput);
+    if (!promoInput) return;
+    setIsValidating(true);
+    try {
+      const res = await validateCouponCode(promoInput, cartSubtotal);
+      if (res.success) {
+        applyPromoCode({
+          code: res.data.code,
+          percent: res.data.discountType === 'percentage' ? res.data.discountValue : 0,
+          fixed: res.data.discountType === 'fixed' ? res.data.discountValue : 0
+        });
+        setPromoInput("");
+      }
+    } catch (err) {
+      applyPromoCode({ code: "", error: err.response?.data?.message || "Invalid coupon code." });
+    } finally {
+      setIsValidating(false);
+    }
   };
 
   const handleRemovePromo = () => {
@@ -158,7 +176,7 @@ export default function CartPage() {
                     Remove
                   </Button>
                 ) : (
-                  <Button type="submit">Apply</Button>
+                  <Button type="submit" disabled={isValidating}>{isValidating ? "..." : "Apply"}</Button>
                 )}
               </div>
               {promoError && <p className="cart-drawer__promo-error" style={{ marginTop: "0.35rem" }}>{promoError}</p>}
