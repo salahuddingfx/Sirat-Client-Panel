@@ -268,8 +268,8 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
               </div>
             </div>
 
-            <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }}>
-              Save New Password
+            <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }} disabled={isLoading}>
+              {isLoading ? "Saving..." : "Save New Password"}
             </Button>
           </form>
         </>
