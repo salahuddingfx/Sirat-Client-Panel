@@ -93,6 +93,7 @@ export default function ProductDetailPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { cartItems, addToCart, updateQuantity, setCartDrawerOpen, triggerToast } = useCart();
+  const { isLoggedIn } = useAuth();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
