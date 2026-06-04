@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LogOut, User, Mail, Phone, MapPin, Package, Edit2, Plus, Trash2, Camera, Lock } from "lucide-react";
+import { LogOut, User, Mail, Phone, MapPin, Package, Edit2, Plus, Trash2, Camera, Lock, X } from "lucide-react";
 import PageFrame from "../../components/layout/PageFrame";
 import { Button, Panel } from "../../components/ui";
 import SEO from "../../components/layout/SEO";
@@ -33,6 +33,7 @@ export default function AccountPage() {
 
   // Address states
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [editingAddressIndex, setEditingAddressIndex] = useState(null);
   const [addressForm, setProfileAddressForm] = useState({ street: "", city: "", zipCode: "", country: "Bangladesh", isDefault: false });
   
   useEffect(() => {
@@ -86,20 +87,35 @@ export default function AccountPage() {
     }
   };
 
-  const handleAddAddress = async (e) => {
+  const resetAddressForm = () => {
+    setProfileAddressForm({ street: "", city: "", zipCode: "", country: "Bangladesh", isDefault: false });
+    setEditingAddressIndex(null);
+    setShowAddressForm(false);
+  };
+
+  const handleSaveAddress = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
-    const updatedAddresses = [...(user.addresses || []), addressForm];
+    let updatedAddresses = [...(user.addresses || [])];
+    if (editingAddressIndex !== null) {
+      updatedAddresses[editingAddressIndex] = { ...addressForm };
+    } else {
+      updatedAddresses.push(addressForm);
+    }
     if (addressForm.isDefault) {
         updatedAddresses.forEach(a => a.isDefault = false);
-        updatedAddresses[updatedAddresses.length - 1].isDefault = true;
+        updatedAddresses[editingAddressIndex !== null ? editingAddressIndex : updatedAddresses.length - 1].isDefault = true;
     }
     const res = await updateProfile({ addresses: updatedAddresses });
-    if (res.success) {
-        setShowAddressForm(false);
-        setProfileAddressForm({ street: "", city: "", zipCode: "", country: "Bangladesh", isDefault: false });
-    }
+    if (res.success) resetAddressForm();
     setIsUpdating(false);
+  };
+
+  const handleEditAddress = (index) => {
+    setEditingAddressIndex(index);
+    const addr = user.addresses[index];
+    setProfileAddressForm({ street: addr.street || "", city: addr.city || "", zipCode: addr.zipCode || "", country: addr.country || "Bangladesh", isDefault: addr.isDefault || false });
+    setShowAddressForm(true);
   };
 
   const handleDeleteAddress = async (index) => {
@@ -266,7 +282,7 @@ export default function AccountPage() {
                 </div>
 
                 {showAddressForm && (
-                    <form onSubmit={handleAddAddress} className="address-form">
+                    <form onSubmit={handleSaveAddress} className="address-form">
                         <input className="form-input" placeholder="Street Address" value={addressForm.street} onChange={e => setProfileAddressForm({...addressForm, street: e.target.value})} required />
                         <div className="address-form__row">
                             <input className="form-input" placeholder="City" value={addressForm.city} onChange={e => setProfileAddressForm({...addressForm, city: e.target.value})} required />
@@ -276,7 +292,12 @@ export default function AccountPage() {
                             <input type="checkbox" checked={addressForm.isDefault} onChange={e => setProfileAddressForm({...addressForm, isDefault: e.target.checked})} /> Set as Default
                         </label>
                         <div className="address-form__actions">
-                            <Button type="submit" size="sm" disabled={isUpdating}>Add Address</Button>
+                            <Button type="submit" size="sm" disabled={isUpdating}>{editingAddressIndex !== null ? "Update Address" : "Add Address"}</Button>
+                            {editingAddressIndex !== null && (
+                                <Button type="button" variant="outline" size="sm" onClick={resetAddressForm} style={{ gap: "0.35rem" }}>
+                                    <X size={12} /> Cancel
+                                </Button>
+                            )}
                         </div>
                     </form>
                 )}
@@ -289,6 +310,7 @@ export default function AccountPage() {
                             <p className="address-item__city">{addr.city}, {addr.zipCode}</p>
                             <div className="address-item__actions">
                                 {!addr.isDefault && <button onClick={() => handleSetDefault(idx)} className="address-item__btn address-item__btn--default">Set Default</button>}
+                                <button onClick={() => handleEditAddress(idx)} className="address-item__btn address-item__btn--edit">Edit</button>
                                 <button onClick={() => handleDeleteAddress(idx)} className="address-item__btn address-item__btn--remove">Remove</button>
                             </div>
                         </div>

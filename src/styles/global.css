@@ -4563,6 +4563,10 @@ section:not(.page-section) {
   color: var(--sirat-gold-soft);
 }
 
+.address-item__btn--edit {
+  color: var(--sirat-text);
+}
+
 .address-item__btn--remove {
   color: var(--sirat-error, #DC2626);
 }
