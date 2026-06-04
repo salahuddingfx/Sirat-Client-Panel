@@ -1090,15 +1090,16 @@ section:not(.page-section) {
 
 .product-card-modern__copy {
   margin: 0;
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   color: var(--sirat-muted);
-  font-style: italic;
-  line-height: 1.3;
-  height: 1.3em;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  opacity: 0.75;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  opacity: 0.7;
 }
 
 .product-card-modern__colors {
@@ -5055,7 +5056,8 @@ section:not(.page-section) {
     font-size: 0.72rem !important;
   }
   .product-card-modern__copy {
-    display: none !important;
+    font-size: 0.6rem;
+    -webkit-line-clamp: 1;
   }
   .card-actions-group .action-circle-btn:first-child {
     display: none !important;
