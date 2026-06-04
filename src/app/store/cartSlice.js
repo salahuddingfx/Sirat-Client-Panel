@@ -50,12 +50,14 @@ const cartSlice = createSlice({
       if (openDrawer && typeof window !== "undefined" && window.innerWidth >= 768) {
         state.cartDrawerOpen = true;
       }
+      saveCart(state);
     },
     removeFromCart: (state, action) => {
       const { productId, variantId } = action.payload;
       state.cartItems = state.cartItems.filter(
         (item) => !((item.product.id === productId || item.product._id === productId) && item.variant.id === variantId)
       );
+      saveCart(state);
     },
     updateQuantity: (state, action) => {
       const { productId, variantId, quantity } = action.payload;
