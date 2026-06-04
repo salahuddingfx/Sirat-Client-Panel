@@ -234,6 +234,22 @@ export async function subscribeNewsletter(email) {
 }
 
 export async function fetchActiveFlashSale() {
-  const response = await clientApi.get("/flash-sale/active");
-  return response.data;
+  try {
+    const response = await clientApi.get("/flash-sale/active");
+    const data = response.data;
+    if (data && data.success && data.data && Array.isArray(data.data.products)) {
+      data.data.products = data.data.products.map(item => {
+        try {
+          return productSchema.parse(item);
+        } catch (e) {
+          console.warn("Skipping invalid flash sale product:", item?.id, e);
+          return null;
+        }
+      }).filter(Boolean);
+    }
+    return data;
+  } catch (err) {
+    console.error("Failed to fetch active flash sale:", err);
+    return { success: false, data: null };
+  }
 }
