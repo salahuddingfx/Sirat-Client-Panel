@@ -77,16 +77,23 @@ export default function ShopPage() {
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       result = result.filter(
-        (p) =>
-          p.name.toLowerCase().includes(query) ||
-          p.description.toLowerCase().includes(query) ||
-          p.category.toLowerCase().includes(query)
+        (p) => {
+          const categoryName = p.category?.name || p.category || "";
+          return (
+            p.name.toLowerCase().includes(query) ||
+            p.description.toLowerCase().includes(query) ||
+            categoryName.toLowerCase().includes(query)
+          );
+        }
       );
     }
 
     // 2. Category Tab filter
     if (selectedCategory !== "All") {
-      result = result.filter((p) => p.category?.toLowerCase() === selectedCategory.toLowerCase());
+      result = result.filter((p) => {
+        const categoryName = p.category?.name || p.category || "";
+        return categoryName.toLowerCase() === selectedCategory.toLowerCase();
+      });
     }
 
     // 3. Price slider filter
