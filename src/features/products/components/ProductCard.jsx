@@ -14,6 +14,9 @@ export default function ProductCard({ product }) {
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || "");
   const [selectedSize, setSelectedSize] = useState(product.variants?.[0]?.label || "");
 
+  const totalStock = product.variants?.reduce((sum, v) => sum + (v.stock || 0), 0) || product.stock || 0;
+  const isOutOfStock = totalStock <= 0;
+
   useEffect(() => {
     if (isLoggedIn && user && product?.id) {
       const token = localStorage.getItem("sirat_token");
@@ -68,7 +71,10 @@ export default function ProductCard({ product }) {
           className="product-card-modern__image" 
           loading="lazy" 
         />
-        {product.bestSeller && (
+        {isOutOfStock && (
+          <span className="product-card-modern__out-of-stock-badge">OUT OF STOCK</span>
+        )}
+        {product.bestSeller && !isOutOfStock && (
           <span className="product-card-modern__bestseller-badge">BEST SELLER</span>
         )}
       </div>
@@ -121,16 +127,22 @@ export default function ProductCard({ product }) {
         {/* Size details */}
         {product.variants && product.variants.length > 0 && (
           <div className="product-card-modern__sizes" onClick={(e) => e.stopPropagation()}>
-            {product.variants.map((v) => (
-              <button
-                key={v._id || v.id || v.label}
-                type="button"
-                className={["size-pill", selectedSize === v.label ? "active" : ""].filter(Boolean).join(" ")}
-                onClick={() => setSelectedSize(v.label)}
-              >
-                {v.label}
-              </button>
-            ))}
+            {product.variants.map((v) => {
+              const varStock = v.stock || 0;
+              return (
+                <button
+                  key={v._id || v.id || v.label}
+                  type="button"
+                  className={["size-pill", selectedSize === v.label ? "active" : ""].filter(Boolean).join(" ")}
+                  disabled={varStock <= 0}
+                  onClick={() => setSelectedSize(v.label)}
+                  title={varStock <= 0 ? "Out of stock" : `${varStock} available`}
+                >
+                  {v.label}
+                  {varStock > 0 && varStock <= 3 && <span className="size-pill__low-stock">{varStock}</span>}
+                </button>
+              );
+            })}
           </div>
         )}
 
