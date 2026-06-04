@@ -173,7 +173,9 @@ export default function ProductCard({ product }) {
               type="button"
               className="action-circle-btn"
               onClick={handleAddToCart}
-              title="Quick Add to Cart"
+              disabled={isOutOfStock}
+              title={isOutOfStock ? "Out of Stock" : "Quick Add to Cart"}
+              style={isOutOfStock ? { opacity: 0.4, cursor: "not-allowed" } : {}}
             >
               <ShoppingCart size={14} />
             </button>
@@ -183,7 +185,9 @@ export default function ProductCard({ product }) {
               type="button"
               className="action-accent-btn"
               onClick={handleBuyNow}
-              title="Buy Now"
+              disabled={isOutOfStock}
+              title={isOutOfStock ? "Out of Stock" : "Buy Now"}
+              style={isOutOfStock ? { opacity: 0.4, cursor: "not-allowed" } : {}}
             >
               <Truck size={14} />
             </button>
