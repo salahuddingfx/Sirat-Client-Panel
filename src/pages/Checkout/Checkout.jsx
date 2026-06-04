@@ -509,7 +509,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Promo Code */}
-              <form onSubmit={handlePromoSubmit} style={{ marginBottom: "1rem" }}>
+              <form onSubmit={handlePromoSubmit} className="cart-drawer__promo-form" style={{ marginBottom: "1rem" }}>
                 <div className="cart-drawer__promo-input-group">
                   <input
                     type="text"
@@ -517,17 +517,6 @@ export default function CheckoutPage() {
                     value={promoInput}
                     onChange={(e) => setPromoInput(e.target.value)}
                     disabled={!!promoCode}
-                    style={{
-                      padding: "0.5rem 0.8rem",
-                      borderRadius: "99px",
-                      border: "1px solid var(--sirat-border)",
-                      width: "100%",
-                      flex: 1,
-                      minWidth: 0,
-                      outline: "none",
-                      background: "var(--sirat-bg)",
-                      fontSize: "0.8rem"
-                    }}
                   />
                   {promoCode ? (
                     <Button type="button" variant="outline" onClick={handleRemovePromo}>Remove</Button>
