@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login as loginAction, register as registerAction, logout as logoutAction, updateUser } from "../store/authSlice";
-import { loginUser, registerUser as apiRegisterUser, updateProfile as apiUpdateProfile } from "../../api/queries";
+import { setCartItems } from "../store/cartSlice";
+import { loginUser, registerUser as apiRegisterUser, updateProfile as apiUpdateProfile, fetchServerCart, saveServerCart } from "../../api/queries";
 import track from "@lib/tracker";
 
 const AuthContext = createContext(null);
@@ -11,6 +12,47 @@ export function AuthProvider({ children }) {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+
+  // On login: load server cart
+  useEffect(() => {
+    if (isLoggedIn && token) {
+      fetchServerCart(token).then(res => {
+        if (res.success && res.data?.items?.length > 0) {
+          const localCartRaw = localStorage.getItem("sirat_cart");
+          let localItems = [];
+          if (localCartRaw) {
+            try { const parsed = JSON.parse(localCartRaw); localItems = parsed.cartItems || []; } catch {}
+          }
+          // Merge: prefer server cart if user has no local items, otherwise keep local
+          if (localItems.length === 0) {
+            dispatch(setCartItems(res.data.items));
+          } else {
+            saveServerCart(localItems, token).catch(() => {});
+          }
+        } else if (res.success) {
+          const localCartRaw = localStorage.getItem("sirat_cart");
+          if (localCartRaw) {
+            try {
+              const parsed = JSON.parse(localCartRaw);
+              if (parsed.cartItems?.length > 0) {
+                saveServerCart(parsed.cartItems, token).catch(() => {});
+              }
+            } catch {}
+          }
+        }
+      }).catch(() => {});
+    }
+  }, [isLoggedIn, token, dispatch]);
+
+  // On cart change + logged in: sync to server (debounced)
+  useEffect(() => {
+    if (!isLoggedIn || !token) return;
+    const timer = setTimeout(() => {
+      saveServerCart(cartItems, token).catch(() => {});
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [cartItems, isLoggedIn, token]);
 
   useEffect(() => {
     if (isLoggedIn && user) {
