@@ -296,7 +296,7 @@ export default function ProductDetailPage() {
           images: product.images,
           sku: product.sku || product._id || product.id,
           mpn: product.sku,
-          category: product.category,
+          category: product.category?.name || product.category,
           price: product.discountedPrice ?? product.price,
           currency: "BDT",
           inStock: (product.variants || []).some((v) => (v.stock || 0) > 0),
@@ -343,7 +343,7 @@ export default function ProductDetailPage() {
         {/* Right product configuration panel */}
         <div className="product-detail-info">
           <div className="detail-header-row">
-            <span className="product-card-modern__badge">{product.category}</span>
+            <span className="product-card-modern__badge">{product.category?.name || product.category}</span>
             {product.weight && (
               <span className="weight-badge">{product.weight} kg</span>
             )}
