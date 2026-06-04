@@ -1009,6 +1009,20 @@ section:not(.page-section) {
   letter-spacing: 0.05em;
 }
 
+.product-card-modern__out-of-stock-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: #6B7280;
+  color: #FFF;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0.35rem 0.65rem;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+
 .product-card-modern__body {
   padding: 0.7rem; /* Reduced padding to make card more compact */
   display: flex;
