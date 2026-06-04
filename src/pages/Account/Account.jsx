@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LogOut, User, Mail, Phone, MapPin, Package, Edit2, Plus, Trash2, Camera } from "lucide-react";
+import { LogOut, User, Mail, Phone, MapPin, Package, Edit2, Plus, Trash2, Camera, Lock } from "lucide-react";
 import PageFrame from "../../components/layout/PageFrame";
 import { Button, Panel } from "../../components/ui";
 import SEO from "../../components/layout/SEO";
@@ -7,7 +7,7 @@ import { useAuth } from "../../app/providers/AuthContext";
 import LoginForm from "../../features/auth/LoginForm";
 import RegisterForm from "../../features/auth/RegisterForm";
 import ForgotPasswordForm from "../../features/auth/ForgotPasswordForm";
-import { fetchMyOrders } from "../../api/queries";
+import { fetchMyOrders, changePassword as changePasswordApi } from "../../api/queries";
 
 export default function AccountPage() {
   const { isLoggedIn, user, login, register, updateProfile, logout } = useAuth();
@@ -25,6 +25,11 @@ export default function AccountPage() {
   // Avatar states
   const [avatarFile, setAvatarFile] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
+
+  // Password states
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   // Address states
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -108,6 +113,32 @@ export default function AccountPage() {
     await updateProfile({ addresses: updatedAddresses });
   };
 
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      alert("New passwords do not match.");
+      return;
+    }
+    if (passwordForm.newPassword.length < 6) {
+      alert("Password must be at least 6 characters.");
+      return;
+    }
+    setIsChangingPassword(true);
+    const token = localStorage.getItem("sirat_token");
+    const res = await changePasswordApi(
+      { currentPassword: passwordForm.currentPassword, newPassword: passwordForm.newPassword },
+      token
+    );
+    if (res.success) {
+      alert("Password changed successfully!");
+      setShowPasswordForm(false);
+      setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    } else {
+      alert(res.message);
+    }
+    setIsChangingPassword(false);
+  };
+
   const handleLogout = () => {
     logout();
     setUserEmail("");
@@ -189,6 +220,40 @@ export default function AccountPage() {
                 <Button variant="outline" onClick={handleLogout} style={{ marginTop: "1.5rem", width: "100%", gap: "0.5rem" }}>
                     <LogOut size={14} /> Log Out
                 </Button>
+            </Panel>
+
+            {/* Change Password Card */}
+            <Panel className="profile-card">
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+                <h3 style={{ margin: 0, fontSize: "1rem" }}><Lock size={16} className="accent" style={{ verticalAlign: "middle", marginRight: "6px" }} /> Password</h3>
+                <button onClick={() => setShowPasswordForm(!showPasswordForm)} className="action-circle-btn" style={{ width: "28px", height: "28px" }}>
+                  {showPasswordForm ? <Trash2 size={14} /> : <Edit2 size={14} />}
+                </button>
+              </div>
+              {showPasswordForm ? (
+                <form onSubmit={handleChangePassword} style={{ display: "grid", gap: "0.75rem" }}>
+                  <div className="form-group">
+                    <label style={{ fontSize: "0.75rem", fontWeight: "700" }}>Current Password</label>
+                    <input className="form-input" type="password" required value={passwordForm.currentPassword}
+                      onChange={e => setPasswordForm({...passwordForm, currentPassword: e.target.value})} />
+                  </div>
+                  <div className="form-group">
+                    <label style={{ fontSize: "0.75rem", fontWeight: "700" }}>New Password</label>
+                    <input className="form-input" type="password" required minLength={6} value={passwordForm.newPassword}
+                      onChange={e => setPasswordForm({...passwordForm, newPassword: e.target.value})} />
+                  </div>
+                  <div className="form-group">
+                    <label style={{ fontSize: "0.75rem", fontWeight: "700" }}>Confirm New Password</label>
+                    <input className="form-input" type="password" required minLength={6} value={passwordForm.confirmPassword}
+                      onChange={e => setPasswordForm({...passwordForm, confirmPassword: e.target.value})} />
+                  </div>
+                  <Button type="submit" size="sm" disabled={isChangingPassword}>
+                    {isChangingPassword ? "Updating..." : "Update Password"}
+                  </Button>
+                </form>
+              ) : (
+                <p className="muted" style={{ fontSize: "0.85rem" }}>Change your account password.</p>
+              )}
             </Panel>
 
             {/* Address Book Card */}
