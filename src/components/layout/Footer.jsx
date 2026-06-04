@@ -117,6 +117,15 @@ export default function Footer() {
  
         <div className="storefront__footer-inner">
           <span>&copy; 2026 SIRAT Clothing. All rights reserved. ({settings.tagline})</span>
+          <span className="footer-developer-credit">
+            <Link to="/developer" className="footer-developer-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              Crafted by the Developer
+            </Link>
+          </span>
           <span>Premium custom printed clothing drops.</span>
         </div>
       </div>
