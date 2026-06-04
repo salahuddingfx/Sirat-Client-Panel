@@ -1157,6 +1157,26 @@ section:not(.page-section) {
   border-color: var(--sirat-gold-soft);
 }
 
+.size-pill:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.size-pill__low-stock {
+  font-size: 0.55rem;
+  background: #EF4444;
+  color: #FFF;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3px;
+  font-weight: 800;
+}
+
 .product-card-modern__divider {
   border: 0;
   border-top: 1px solid var(--sirat-border);
