@@ -15,6 +15,8 @@ export default function CheckoutPage() {
   const { cartItems, cartSubtotal, discountAmount, promoCode, promoError, clearCart, triggerToast, updateQuantity, removeFromCart, applyPromoCode } = useCart();
   const { isLoggedIn, user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [promoInput, setPromoInput] = useState("");
+  const [isValidatingPromo, setIsValidatingPromo] = useState(false);
 
   // State controls
   const [email, setEmail] = useState("");
@@ -67,6 +69,33 @@ export default function CheckoutPage() {
   const estimatedTotal = useMemo(() => {
     return Math.max(0, cartSubtotal - discountAmount + shippingCharge);
   }, [cartSubtotal, discountAmount, shippingCharge]);
+
+  const handlePromoSubmit = async (e) => {
+    e.preventDefault();
+    if (!promoInput) return;
+    setIsValidatingPromo(true);
+    try {
+      const res = await validateCouponCode(promoInput, cartSubtotal);
+      if (res.success) {
+        applyPromoCode({
+          code: res.data.code,
+          percent: res.data.discountType === 'percentage' ? res.data.discountValue : 0,
+          fixed: res.data.discountType === 'fixed' ? res.data.discountValue : 0
+        });
+        setPromoInput("");
+        triggerToast("Coupon applied successfully!", "success");
+      }
+    } catch (err) {
+      applyPromoCode({ code: "", error: err.response?.data?.message || "Invalid coupon code." });
+    } finally {
+      setIsValidatingPromo(false);
+    }
+  };
+
+  const handleRemovePromo = () => {
+    applyPromoCode("");
+    setPromoInput("");
+  };
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
