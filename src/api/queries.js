@@ -167,6 +167,13 @@ export async function updateProfile(payload, token) {
   return response.data;
 }
 
+export async function changePassword(payload, token) {
+  const response = await clientApi.put("/users/change-password", payload, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+}
+
 // --- Review Queries ---
 
 export async function fetchReviews() {
