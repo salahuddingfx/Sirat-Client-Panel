@@ -3,11 +3,12 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { m } from "framer-motion";
 import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, Send } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
+import { useAuth } from "@app/providers/AuthContext";
 import { products } from "@data/mockData";
 import ProductCard from "@features/products/components/ProductCard";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
-import { fetchProductBySlug, fetchProductReviews, submitReview } from "@api/queries";
+import { fetchProductBySlug, fetchProductReviews, submitReview, checkWishlistApi, addToWishlistApi, removeFromWishlistApi } from "@api/queries";
 import track from "@lib/tracker";
 import ProductImageGallery from "./ProductImageGallery";
 
