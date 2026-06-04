@@ -45,7 +45,6 @@ const navItems = [
   { label: "About Us", href: "/about" },
   { label: "Shop", href: "/shop" },
   { label: "Track", href: "/track" },
-  { label: "Developer", href: "/developer" },
   { label: "Contact", href: "/contact" },
   { label: "Reviews", href: "/reviews" },
   { label: "Wishlist", href: "/wishlist" }
