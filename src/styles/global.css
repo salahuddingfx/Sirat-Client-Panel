@@ -4038,6 +4038,35 @@ section:not(.page-section) {
   line-height: 1.5;
 }
 
+.team-socials {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.team-social {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--sirat-border);
+  background: var(--sirat-bg);
+  color: var(--sirat-text);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.team-social:hover {
+  background: var(--sirat-gold);
+  border-color: var(--sirat-gold);
+  color: #1A1A1A;
+  transform: translateY(-2px);
+}
+
 /* Timeline & Team Grid & Shop Mobile Responsiveness */
 @media (max-width: 860px) {
   .team-grid {
