@@ -3792,8 +3792,8 @@ section:not(.page-section) {
 }
 
 .lightbox-thumb {
-  width: 48px;
-  height: 48px;
+  width: var(--product-thumb-size);
+  height: var(--product-thumb-size);
   border-radius: 6px;
   overflow: hidden;
   border: 2px solid transparent;
