@@ -221,6 +221,32 @@ export default function CheckoutPage() {
                   </span>
                 )}
               </div>
+
+              {isLoggedIn && Array.isArray(user?.addresses) && user.addresses.length > 0 && (
+                <div style={{ marginBottom: "1rem" }}>
+                  <label style={{ fontSize: "0.78rem", fontWeight: 600, display: "block", marginBottom: "0.4rem", opacity: 0.7 }}>Saved Addresses</label>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                    {user.addresses.map((addr) => (
+                      <div
+                        key={addr.id}
+                        onClick={() => handleSelectAddress(addr)}
+                        style={{
+                          padding: "0.5rem 0.8rem",
+                          borderRadius: "8px",
+                          border: `1px solid ${selectedAddressId === addr.id ? "var(--sirat-gold)" : "var(--sirat-border)"}`,
+                          background: selectedAddressId === addr.id ? "rgba(212, 175, 55, 0.06)" : "transparent",
+                          cursor: "pointer",
+                          fontSize: "0.78rem",
+                          transition: "all 0.2s"
+                        }}
+                      >
+                        <div style={{ fontWeight: 600 }}>{addr.street}</div>
+                        <div style={{ opacity: 0.6 }}>{addr.city}{addr.zipCode ? `, ${addr.zipCode}` : ""}{addr.isDefault ? " (Default)" : ""}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               
               <div className="checkout-form-grid">
                 <div className="form-group">
