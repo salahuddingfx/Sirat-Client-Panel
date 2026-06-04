@@ -121,7 +121,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                           />
                         </div>
                         <div className="cart-drawer__item-info">
-                          <span className="cart-drawer__item-category">{item.product.category}</span>
+                          <span className="cart-drawer__item-category">{item.product.category?.name || item.product.category}</span>
                           <h4 className="cart-drawer__item-name">{item.product.name}</h4>
                           <span className="cart-drawer__item-variant">Size: {item.variant.label}</span>
                           <div className="cart-drawer__item-meta">
