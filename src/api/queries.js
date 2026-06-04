@@ -250,6 +250,34 @@ export async function resetPassword(email, otp, newPassword) {
   return response.data;
 }
 
+export async function fetchWishlist(token) {
+  const response = await clientApi.get("/wishlist", {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+}
+
+export async function addToWishlistApi(productId, token) {
+  const response = await clientApi.post("/wishlist", { productId }, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+}
+
+export async function removeFromWishlistApi(productId, token) {
+  const response = await clientApi.delete(`/wishlist/${productId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+}
+
+export async function checkWishlistApi(productId, token) {
+  const response = await clientApi.get(`/wishlist/check/${productId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+}
+
 export async function subscribeNewsletter(email) {
   const response = await clientApi.post("/newsletter/subscribe", { email });
   return response.data;
