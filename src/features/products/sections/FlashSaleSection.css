@@ -1,6 +1,6 @@
 .flash-sale-section {
-  padding-top: 2.25rem;
-  padding-bottom: 2.25rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
   background: linear-gradient(135deg, rgba(197, 160, 89, 0.04) 0%, rgba(179, 143, 75, 0.04) 100%);
   border-top: 1px solid var(--sirat-border);
   border-bottom: 1px solid var(--sirat-border);
@@ -10,24 +10,30 @@
 
 .flash-sale-glow-left {
   position: absolute;
-  top: -50%;
+  top: -20%;
   left: -10%;
-  width: 50%;
-  height: 150%;
-  background: radial-gradient(ellipse at center, rgba(197, 160, 89, 0.05) 0%, transparent 70%);
-  z-index: 0;
+  width: 300px;
+  height: 300px;
+  background: var(--sirat-gold);
+  opacity: 0.06;
+  filter: blur(100px);
+  border-radius: 50%;
   pointer-events: none;
+  z-index: 0;
 }
 
 .flash-sale-glow-right {
   position: absolute;
-  bottom: -50%;
+  bottom: -20%;
   right: -10%;
-  width: 50%;
-  height: 150%;
-  background: radial-gradient(ellipse at center, rgba(179, 143, 75, 0.05) 0%, transparent 70%);
-  z-index: 0;
+  width: 300px;
+  height: 300px;
+  background: var(--sirat-gold-soft);
+  opacity: 0.06;
+  filter: blur(100px);
+  border-radius: 50%;
   pointer-events: none;
+  z-index: 0;
 }
 
 .flash-sale-inner {
@@ -179,11 +185,11 @@
 }
 
 .flash-sale-nav-btn.prev {
-  left: -5px;
+  left: 10px;
 }
 
 .flash-sale-nav-btn.next {
-  right: -5px;
+  right: 10px;
 }
 
 /* Custom Compact Card */
