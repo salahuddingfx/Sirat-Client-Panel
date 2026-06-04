@@ -2,10 +2,26 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const CART_KEY = "sirat_cart";
 
+const defaultState = {
+  cartItems: [],
+  promoCode: "",
+  promoError: "",
+  discountPercent: 0,
+  discountFixed: 0,
+  cartDrawerOpen: false,
+  toast: { show: false, message: "", type: "success" },
+  confirm: { show: false, message: "", onConfirm: null }
+};
+
 const loadCart = () => {
   try {
     const saved = localStorage.getItem(CART_KEY);
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && typeof parsed === "object") {
+        return { ...defaultState, ...parsed };
+      }
+    }
   } catch {}
   return null;
 };
@@ -19,16 +35,7 @@ const saveCart = (state) => {
 
 const saved = loadCart();
 
-const initialState = saved || {
-  cartItems: [],
-  promoCode: "",
-  promoError: "",
-  discountPercent: 0,
-  discountFixed: 0,
-  cartDrawerOpen: false,
-  toast: { show: false, message: "", type: "success" },
-  confirm: { show: false, message: "", onConfirm: null }
-};
+const initialState = saved || defaultState;
 
 const cartSlice = createSlice({
   name: "cart",
