@@ -8,12 +8,14 @@ import { fetchTeamMembers } from "@api/queries";
 import "./Developer.css";
 
 const HANDLE = "salahuddingfx";
-const PORTFOLIO = "https://salahuddin.cpdes";
+const PORTFOLIO = "https://salahuddin.codes";
+const GITHUB_AVATAR = `https://github.com/${HANDLE}.png`;
 
 const DEFAULT_DEVELOPER = {
   name: "Salah Uddin Kader",
   role: "Solo Full-Stack Developer & Founder",
   bio: "Solo full-stack developer behind the Sirat storefront, admin panel, and API — engineered with care from Cox's Bazar, Bangladesh.",
+  avatar: GITHUB_AVATAR,
   twitter: `https://x.com/${HANDLE}`,
   linkedin: `https://linkedin.com/in/${HANDLE}`,
   github: `https://github.com/${HANDLE}`,
