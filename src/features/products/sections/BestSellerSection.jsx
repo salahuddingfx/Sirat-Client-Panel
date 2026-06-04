@@ -52,7 +52,7 @@ export default function BestSellerSection() {
         </div>
 
         <div className="bestseller-details">
-          <span className="storefront__badge">{bestSellerProduct.category}</span>
+          <span className="storefront__badge">{bestSellerProduct.category?.name || bestSellerProduct.category}</span>
           <h2 className="bestseller-title">{bestSellerProduct.name}</h2>
           
           <div className="bestseller-rating">
