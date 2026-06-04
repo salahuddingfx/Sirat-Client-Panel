@@ -76,17 +76,16 @@ const cartSlice = createSlice({
       saveCart(state);
     },
     applyPromoCode: (state, action) => {
-      // If object payload (from API)
       if (typeof action.payload === 'object' && action.payload !== null) {
           const { code, percent = 0, fixed = 0, error = "" } = action.payload;
           state.promoCode = code;
           state.discountPercent = percent;
           state.discountFixed = fixed;
           state.promoError = error;
+          saveCart(state);
           return;
       }
 
-      // Legacy string handling (or manual clear)
       const code = (action.payload || "").trim().toUpperCase();
       if (code === "") {
         state.promoCode = "";
@@ -94,9 +93,9 @@ const cartSlice = createSlice({
         state.discountFixed = 0;
         state.promoError = "";
       } else {
-        // Fallback for manual entry if needed, though usually handled by component + API
         state.promoError = "Please apply a valid code.";
       }
+      saveCart(state);
     },
     setCartItems: (state, action) => {
       state.cartItems = action.payload;
