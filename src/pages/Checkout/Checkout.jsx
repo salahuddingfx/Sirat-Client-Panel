@@ -6,13 +6,13 @@ import { useAuth } from "@app/providers/AuthContext";
 import PageFrame from "@components/layout/PageFrame";
 import { Button, Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
-import { placeOrder } from "@api/queries";
+import { placeOrder, validateCouponCode } from "@api/queries";
 import track from "@lib/tracker";
 import { useTrackOnMount } from "@lib/useTracker";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { cartItems, cartSubtotal, discountAmount, promoCode, clearCart, triggerToast } = useCart();
+  const { cartItems, cartSubtotal, discountAmount, promoCode, promoError, clearCart, triggerToast, updateQuantity, removeFromCart, applyPromoCode } = useCart();
   const { isLoggedIn, user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
