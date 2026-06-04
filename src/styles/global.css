@@ -1958,6 +1958,26 @@ section:not(.page-section) {
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
+  color: var(--sirat-text);
+  caret-color: var(--sirat-gold);
+}
+
+.cart-drawer__promo-input-group input::placeholder {
+  color: var(--sirat-muted);
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+.cart-drawer__promo-input-group input:focus {
+  border-color: var(--sirat-gold);
+  background: var(--sirat-surface);
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.12);
+}
+
+.cart-drawer__promo-input-group input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--sirat-bg);
 }
 
 .cart-drawer__promo-error {
