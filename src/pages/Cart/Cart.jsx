@@ -151,7 +151,7 @@ export default function CartPage() {
             <h3 style={{ margin: "0 0 1rem" }}>Order Summary</h3>
             
             {/* Promo Code Form */}
-            <form onSubmit={handlePromoSubmit} style={{ marginBottom: "1.5rem" }}>
+            <form onSubmit={handlePromoSubmit} className="cart-drawer__promo-form" style={{ marginBottom: "1.5rem" }}>
               <div className="cart-drawer__promo-input-group">
                 <input
                   type="text"
@@ -159,17 +159,6 @@ export default function CartPage() {
                   value={promoInput}
                   onChange={(e) => setPromoInput(e.target.value)}
                   disabled={!!promoCode}
-                  style={{
-                    padding: "0.6rem 1rem",
-                    borderRadius: "99px",
-                    border: "1px solid var(--sirat-border)",
-                    width: "100%",
-                    flex: 1,
-                    minWidth: 0,
-                    outline: "none",
-                    background: "var(--sirat-bg)",
-                    fontSize: "0.85rem"
-                  }}
                 />
                 {promoCode ? (
                   <Button type="button" variant="outline" onClick={handleRemovePromo}>
