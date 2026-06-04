@@ -20,6 +20,22 @@ export const clientApi = axios.create({
   }
 });
 
+clientApi.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      try {
+        localStorage.removeItem("sirat_user");
+        localStorage.removeItem("sirat_token");
+        localStorage.removeItem("sirat_isLoggedIn");
+      } catch (e) {
+        console.error("Failed to clear localStorage on 401", e);
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 // --- Product Queries ---
 
 export async function fetchProducts() {
@@ -116,10 +132,15 @@ export async function trackOrder(payload) {
 }
 
 export async function fetchMyOrders(token) {
-  const response = await clientApi.get("/orders/my-orders", {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-  return response.data;
+  try {
+    const response = await clientApi.get("/orders/my-orders", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  } catch (err) {
+    console.error("Failed to fetch my orders:", err);
+    return { success: false, message: err.response?.data?.message || "Failed to fetch orders." };
+  }
 }
 
 // --- Auth Queries ---
