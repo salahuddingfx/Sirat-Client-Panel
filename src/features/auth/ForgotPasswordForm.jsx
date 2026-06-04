@@ -2,39 +2,54 @@ import { useState } from "react";
 import { ShieldCheck, KeyRound, Eye, EyeOff } from "lucide-react";
 import { Button } from "@components/ui";
 import { useCart } from "../../app/providers/CartContext";
+import { forgotPassword as forgotPasswordApi, verifyResetOtp, resetPassword as resetPasswordApi } from "../../api/queries";
 
 export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin }) {
   const { triggerToast } = useCart();
-  const [activeSubForm, setActiveSubForm] = useState("forgot"); // forgot, otp, reset
+  const [activeSubForm, setActiveSubForm] = useState("forgot");
   const [email, setEmail] = useState(initialEmail);
   const [otpSentEmail, setOtpSentEmail] = useState("");
   const [otpCode, setOtpCode] = useState(["", "", "", "", "", ""]);
+  const [isLoading, setIsLoading] = useState(false);
   
-  // Reset password fields
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
-  const handleForgot = (e) => {
+  const handleForgot = async (e) => {
     e.preventDefault();
     if (!email) {
       triggerToast("Please enter your registered email address.", "warning");
       return;
     }
-    setOtpSentEmail(email);
-    setActiveSubForm("otp");
-    triggerToast("Verification code sent!", "success");
+    setIsLoading(true);
+    const res = await forgotPasswordApi(email);
+    if (res.success) {
+      setOtpSentEmail(email);
+      setActiveSubForm("otp");
+      triggerToast("Verification code sent! Check your email.", "success");
+    } else {
+      triggerToast(res.message || "Failed to send code.", "error");
+    }
+    setIsLoading(false);
   };
 
-  const handleOtpVerify = (e) => {
+  const handleOtpVerify = async (e) => {
     e.preventDefault();
     const fullOtp = otpCode.join("");
     if (fullOtp.length < 6) {
       triggerToast("Please enter the complete 6-digit verification code.", "warning");
       return;
     }
-    setActiveSubForm("reset");
+    setIsLoading(true);
+    const res = await verifyResetOtp(otpSentEmail, fullOtp);
+    if (res.success) {
+      setActiveSubForm("reset");
+    } else {
+      triggerToast(res.message || "Invalid code.", "error");
+    }
+    setIsLoading(false);
   };
 
   const handleOtpChange = (index, value) => {
@@ -43,21 +58,31 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
     newOtp[index] = value;
     setOtpCode(newOtp);
 
-    // Auto-focus next input
     if (value && index < 5) {
       const nextInput = document.getElementById(`forgot-otp-${index + 1}`);
       nextInput?.focus();
     }
   };
 
-  const handleResetPassword = (e) => {
+  const handleResetPassword = async (e) => {
     e.preventDefault();
     if (newPass !== confirmPass) {
       triggerToast("Passwords do not match!", "error");
       return;
     }
-    triggerToast("Your password has been successfully reset. Please log in with your new credentials.", "success");
-    onToggleLogin();
+    if (newPass.length < 6) {
+      triggerToast("Password must be at least 6 characters.", "error");
+      return;
+    }
+    setIsLoading(true);
+    const res = await resetPasswordApi(otpSentEmail, otpCode.join(""), newPass);
+    if (res.success) {
+      triggerToast("Password reset successfully! Please log in.", "success");
+      onToggleLogin();
+    } else {
+      triggerToast(res.message || "Failed to reset password.", "error");
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -84,8 +109,8 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
               />
             </div>
 
-            <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }}>
-              Request Verification Code
+            <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }} disabled={isLoading}>
+              {isLoading ? "Sending..." : "Request Verification Code"}
             </Button>
           </form>
 
