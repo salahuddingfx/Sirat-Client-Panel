@@ -1,6 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+const CART_KEY = "sirat_cart";
+
+const loadCart = () => {
+  try {
+    const saved = localStorage.getItem(CART_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch {}
+  return null;
+};
+
+const saveCart = (state) => {
+  try {
+    const { cartDrawerOpen, toast, confirm, ...persistable } = state;
+    localStorage.setItem(CART_KEY, JSON.stringify(persistable));
+  } catch {}
+};
+
+const saved = loadCart();
+
+const initialState = saved || {
   cartItems: [],
   promoCode: "",
   promoError: "",
@@ -76,12 +95,17 @@ const cartSlice = createSlice({
         state.promoError = "Please apply a valid code.";
       }
     },
+    setCartItems: (state, action) => {
+      state.cartItems = action.payload;
+      saveCart(state);
+    },
     clearCart: (state) => {
       state.cartItems = [];
       state.promoCode = "";
       state.discountPercent = 0;
       state.discountFixed = 0;
       state.promoError = "";
+      saveCart(state);
     },
     setCartDrawerOpen: (state, action) => {
       state.cartDrawerOpen = action.payload;
