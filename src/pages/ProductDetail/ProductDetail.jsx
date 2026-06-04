@@ -133,6 +133,15 @@ export default function ProductDetailPage() {
   // Wishlist state
   const [isWishlisted, setIsWishlisted] = useState(false);
 
+  useEffect(() => {
+    if (isLoggedIn && product?.id) {
+      const token = localStorage.getItem("sirat_token");
+      checkWishlistApi(product.id, token).then(res => {
+        if (res.success) setIsWishlisted(res.data.wishlisted);
+      }).catch(() => {});
+    }
+  }, [isLoggedIn, product?.id]);
+
   // Selector states
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -486,7 +495,17 @@ export default function ProductDetailPage() {
               <button
                 type="button"
                 className={["action-circle-btn detail-wishlist-btn", isWishlisted ? "active-wishlist" : ""].filter(Boolean).join(" ")}
-                onClick={() => setIsWishlisted(!isWishlisted)}
+                onClick={async () => {
+                  if (!isLoggedIn) { navigate("/account"); return; }
+                  const token = localStorage.getItem("sirat_token");
+                  if (isWishlisted) {
+                    await removeFromWishlistApi(product.id, token);
+                    setIsWishlisted(false);
+                  } else {
+                    await addToWishlistApi(product.id, token);
+                    setIsWishlisted(true);
+                  }
+                }}
                 style={{ width: "48px", height: "48px", flexShrink: 0 }}
                 title="Add to Wishlist"
               >
