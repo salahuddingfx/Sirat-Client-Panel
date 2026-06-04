@@ -7,7 +7,7 @@ import { hideToast as hideToastAction } from "../../app/store/cartSlice";
 export default function Toast() {
   const dispatch = useDispatch();
   const { toast } = useCart();
-  const { show, message, type } = toast;
+  const { show = false, message = "", type = "success" } = toast || {};
 
   const icons = {
     success: <CheckCircle size={48} className="toast-icon success" />,
