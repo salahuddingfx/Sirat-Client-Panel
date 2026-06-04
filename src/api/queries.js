@@ -250,6 +250,27 @@ export async function resetPassword(email, otp, newPassword) {
   return response.data;
 }
 
+export async function fetchServerCart(token) {
+  const response = await clientApi.get("/cart", {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+}
+
+export async function saveServerCart(items, token) {
+  const response = await clientApi.put("/cart", { items }, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+}
+
+export async function clearServerCart(token) {
+  const response = await clientApi.delete("/cart", {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+}
+
 export async function fetchWishlist(token) {
   const response = await clientApi.get("/wishlist", {
     headers: { Authorization: `Bearer ${token}` }
