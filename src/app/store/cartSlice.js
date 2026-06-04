@@ -166,6 +166,7 @@ export const {
   updateQuantity,
   applyPromoCode,
   clearCart,
+  setCartItems,
   setCartDrawerOpen,
   showToast,
   hideToast,
