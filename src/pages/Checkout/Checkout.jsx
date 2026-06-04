@@ -453,28 +453,56 @@ export default function CheckoutPage() {
             <Panel className="checkout-section">
               <h3 style={{ margin: "0 0 1.25rem" }}>Order Details</h3>
               
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.5rem" }}>
+              <div className="cart-drawer__items" style={{ marginBottom: "1.5rem" }}>
                 {cartItems.map((item) => {
                   const productId = item.product.id || item.product._id;
                   const price = item.product.price + item.variant.priceDelta;
                   return (
-                    <div key={`${productId}-${item.variant.id}`} className="cart-page-item" style={{ gap: "0.5rem", padding: "0.5rem 0", borderBottom: "1px solid var(--sirat-border)" }}>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: "0.78rem", opacity: 0.6 }}>{item.product.category?.name || item.product.category}</div>
-                        <div style={{ fontSize: "0.88rem", fontWeight: 600 }}>{item.product.name}</div>
-                        <div style={{ fontSize: "0.78rem" }}>Size: {item.variant.label} — {'\u09F3'}{price}</div>
+                    <div key={`${productId}-${item.variant.id}`} className="cart-drawer__item">
+                      <div className="cart-drawer__item-media">
+                        <img
+                          src={item.product.images?.[0] || item.product.image}
+                          alt={item.product.name}
+                          className="cart-drawer__item-media-img"
+                          loading="lazy"
+                        />
                       </div>
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-                        <div className="quickview-qty-selector" style={{ transform: "scale(0.85)" }}>
-                          <button type="button" onClick={() => updateQuantity(productId, item.variant.id, item.quantity - 1)}><Minus size={11} /></button>
-                          <span>{item.quantity}</span>
-                          <button type="button" onClick={() => updateQuantity(productId, item.variant.id, item.quantity + 1)}><Plus size={11} /></button>
+                      <div className="cart-drawer__item-info">
+                        <span className="cart-drawer__item-category">{item.product.category?.name || item.product.category}</span>
+                        <h4 className="cart-drawer__item-name">{item.product.name}</h4>
+                        <span className="cart-drawer__item-variant">Size: {item.variant.label} · {'\u09F3'}{price} each</span>
+                        <div className="cart-drawer__item-meta">
+                          <strong>{'\u09F3'}{price * item.quantity}</strong>
                         </div>
-                        <button type="button" onClick={() => removeFromCart(productId, item.variant.id)} style={{ background: "none", border: "none", color: "var(--sirat-error)", cursor: "pointer", padding: "0.25rem" }}>
+                      </div>
+                      <div className="cart-drawer__item-actions">
+                        <div className="cart-drawer__item-qty">
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(productId, item.variant.id, item.quantity - 1)}
+                            aria-label="Decrease quantity"
+                          >
+                            <Minus size={12} />
+                          </button>
+                          <span>{item.quantity}</span>
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(productId, item.variant.id, item.quantity + 1)}
+                            aria-label="Increase quantity"
+                          >
+                            <Plus size={12} />
+                          </button>
+                        </div>
+                        <button
+                          type="button"
+                          className="cart-drawer__item-remove"
+                          onClick={() => removeFromCart(productId, item.variant.id)}
+                          title="Remove item"
+                          aria-label="Remove item"
+                        >
                           <Trash2 size={14} />
                         </button>
                       </div>
-                      <strong style={{ whiteSpace: "nowrap" }}>{'\u09F3'}{price * item.quantity}</strong>
                     </div>
                   );
                 })}
