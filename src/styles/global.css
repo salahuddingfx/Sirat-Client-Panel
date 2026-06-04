@@ -4310,9 +4310,10 @@ section:not(.page-section) {
 
 /* Auth Page and Dashboard Styles */
 .auth-container {
-  max-width: 750px;
+  width: 100%;
+  max-width: 520px;
   margin: 2rem auto;
-  padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
+  padding: clamp(1.5rem, 4vw, 3rem);
   border-radius: var(--sirat-radius-lg);
   border: 1px solid var(--sirat-border);
   background: var(--sirat-surface);
@@ -4320,6 +4321,19 @@ section:not(.page-section) {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 -16px;
+    width: calc(100% + 32px);
+    max-width: calc(100% + 32px);
+  }
 }
 
 .auth-header {
