@@ -1,22 +1,21 @@
-﻿import { useState, useEffect, useRef, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { SectionHeader, Button } from "@components/ui";
-import ProductCard from "@features/products/components/ProductCard";
+﻿import { useState, useEffect } from "react";
+import { m } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { SectionHeader } from "@components/ui";
 import { fetchFeaturedProducts } from "@api/queries";
 import "./VisualsSection.css";
 
 export default function VisualsSection() {
   const [featured, setFeatured] = useState([]);
-  const scrollRef = useRef(null);
-  const autoScrollRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let mounted = true;
     const load = async () => {
       try {
         const res = await fetchFeaturedProducts();
-        if (mounted) setFeatured(res.slice(0, 10));
+        if (mounted) setFeatured((res || []).slice(0, 5));
       } catch (e) {
         console.error("Failed to fetch featured products:", e);
       }
@@ -25,91 +24,87 @@ export default function VisualsSection() {
     return () => { mounted = false; };
   }, []);
 
-  useEffect(() => {
-    if (!featured.length || isHovered) return;
-    let smoothId;
-    let pos = 0;
-    const step = () => {
-      if (!scrollRef.current || isHovered) {
-        smoothId = requestAnimationFrame(step);
-        return;
-      }
-      const { scrollWidth, clientWidth } = scrollRef.current;
-      const maxScroll = scrollWidth - clientWidth;
-      pos += 1.5;
-      if (pos >= maxScroll) {
-        pos = 0;
-        scrollRef.current.scrollLeft = 0;
-      } else {
-        scrollRef.current.scrollLeft = pos;
-      }
-      smoothId = requestAnimationFrame(step);
-    };
-    smoothId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(smoothId);
-  }, [featured, isHovered]);
-
-  const scroll = useCallback((direction) => {
-    if (scrollRef.current) {
-      const { scrollLeft, clientWidth } = scrollRef.current;
-      const scrollTo = direction === 'left'
-        ? scrollLeft - (clientWidth / 2)
-        : scrollLeft + (clientWidth / 2);
-
-      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
-    }
-  }, []);
-
   if (!featured || featured.length === 0) return null;
 
+  const [hero, ...rest] = featured;
+  const tiles = rest.slice(0, 4);
+
   return (
-    <section
-      className="featured-section"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <section className="visuals-section">
       <SectionHeader
         eyebrow="Visual drop specs"
         title="Product Visuals"
         description="Highlighting signature garments crafted in structured textures and futuristic silhouettes."
-      >
-        <div style={{ display: "flex", gap: "0.5rem" }}>
-          <button
-            onClick={() => scroll('left')}
-            className="action-circle-btn"
-            style={{ width: "40px", height: "40px" }}
-            aria-label="Scroll Left"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            onClick={() => scroll('right')}
-            className="action-circle-btn"
-            style={{ width: "40px", height: "40px" }}
-            aria-label="Scroll Right"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
-      </SectionHeader>
+      />
 
-      <div style={{ marginTop: "1.5rem" }}>
-        <div
-          ref={scrollRef}
-          className="marquee-container"
-        >
-          <div
-            className="marquee-track"
-            style={{ gap: "1.25rem", alignItems: "flex-start" }}
-          >
-            {[...featured, ...featured, ...featured].map((product, idx) => (
-              <div key={`${product.id}-${idx}`} className="vis-card-wrap">
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
+      <div className="visuals-bento">
+        <BentoHero product={hero} onClick={() => navigate(`/product/${hero.slug}`)} />
+
+        <div className="visuals-bento__grid">
+          {tiles.map((product, idx) => (
+            <BentoTile
+              key={product.id}
+              product={product}
+              index={idx}
+              onClick={() => navigate(`/product/${product.slug}`)}
+            />
+          ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function BentoHero({ product, onClick }) {
+  return (
+    <m.button
+      type="button"
+      onClick={onClick}
+      className="visuals-hero"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <div className="visuals-hero__media">
+        <img src={product.images?.[0] || product.image} alt={product.name} loading="lazy" />
+        <div className="visuals-hero__shine" />
+      </div>
+      <div className="visuals-hero__overlay">
+        <span className="visuals-hero__tag">Featured · 01</span>
+        <h3 className="visuals-hero__title">{product.name}</h3>
+        <div className="visuals-hero__footer">
+          <span className="visuals-hero__price">৳{product.price}</span>
+          <span className="visuals-hero__cta">
+            View <ArrowUpRight size={18} />
+          </span>
+        </div>
+      </div>
+    </m.button>
+  );
+}
+
+function BentoTile({ product, index, onClick }) {
+  return (
+    <m.button
+      type="button"
+      onClick={onClick}
+      className="visuals-tile"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.5, delay: 0.1 + index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <div className="visuals-tile__media">
+        <img src={product.images?.[0] || product.image} alt={product.name} loading="lazy" />
+      </div>
+      <div className="visuals-tile__info">
+        <span className="visuals-tile__name">{product.name}</span>
+        <span className="visuals-tile__price">৳{product.price}</span>
+      </div>
+      <span className="visuals-tile__arrow">
+        <ArrowUpRight size={14} />
+      </span>
+    </m.button>
   );
 }
