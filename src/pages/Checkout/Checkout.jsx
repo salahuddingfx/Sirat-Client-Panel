@@ -29,14 +29,31 @@ export default function CheckoutPage() {
   const [paySender, setPaySender] = useState("");
   const [payTxid, setPayTxid] = useState("");
 
-  // Auto-fill user info if logged in
+  const [selectedAddressId, setSelectedAddressId] = useState("");
+
+  // Auto-fill from logged-in user
   useEffect(() => {
     if (isLoggedIn && user) {
       setEmail(user.email || "");
       setName(user.name || "");
       setPhone(user.phone || "");
+      const savedAddresses = user.addresses;
+      if (Array.isArray(savedAddresses) && savedAddresses.length > 0) {
+        const defaultAddr = savedAddresses.find(a => a.isDefault) || savedAddresses[0];
+        setAddress(defaultAddr.street || "");
+        setCity(defaultAddr.city || "Cox's Bazar");
+        setZip(defaultAddr.zipCode || "");
+        setSelectedAddressId(defaultAddr.id || "");
+      }
     }
   }, [isLoggedIn, user]);
+
+  const handleSelectAddress = (addr) => {
+    setAddress(addr.street || "");
+    setCity(addr.city || "Cox's Bazar");
+    setZip(addr.zipCode || "");
+    setSelectedAddressId(addr.id || "");
+  };
 
   useTrackOnMount("checkout_start", {
     value: cartSubtotal - discountAmount,
