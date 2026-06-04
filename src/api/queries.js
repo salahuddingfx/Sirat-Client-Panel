@@ -292,6 +292,16 @@ export async function removeFromWishlistApi(productId, token) {
   return response.data;
 }
 
+export async function fetchTeamMembers() {
+  try {
+    const response = await clientApi.get("/team");
+    return response.data;
+  } catch (err) {
+    console.error("Failed to fetch team members:", err);
+    return { success: false, data: [] };
+  }
+}
+
 export async function checkWishlistApi(productId, token) {
   const response = await clientApi.get(`/wishlist/check/${productId}`, {
     headers: { Authorization: `Bearer ${token}` }
