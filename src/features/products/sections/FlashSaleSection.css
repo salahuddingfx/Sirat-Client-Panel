@@ -4,14 +4,15 @@
 */
 
 .flash-sale-section {
+  margin: 1.5rem 1rem; /* Added margin to show border radius */
+  border-radius: 32px; /* Added border radius as requested */
   padding-top: 3.5rem;
   padding-bottom: 4rem;
   background-color: #0d0d0d;
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(197, 160, 89, 0.08) 0%, transparent 40%),
     radial-gradient(circle at 90% 80%, rgba(179, 143, 75, 0.08) 0%, transparent 40%);
-  border-top: 1px solid rgba(197, 160, 89, 0.15);
-  border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+  border: 1px solid rgba(197, 160, 89, 0.15);
   position: relative;
   overflow: hidden;
 }
@@ -140,15 +141,23 @@
 }
 
 /* Slider Navigation Buttons */
+.flash-sale-slider-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: visible; /* Ensure buttons aren't clipped */
+}
+
 .flash-sale-nav-btn {
   position: absolute;
-  top: 55%;
+  top: 50%;
   transform: translateY(-50%);
-  z-index: 20;
+  z-index: 30; /* Increased z-index to stay above everything */
   width: 48px;
   height: 48px;
-  background: rgba(20, 20, 20, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(197, 160, 89, 0.3);
   color: #ffffff;
   border-radius: 50%;
   cursor: pointer;
@@ -167,15 +176,21 @@
   transform: translateY(-50%) scale(1.1);
 }
 
-.flash-sale-nav-btn.prev { left: 1rem; }
-.flash-sale-nav-btn.next { right: 1rem; }
+.flash-sale-nav-btn.prev {
+  left: -24px; /* Move slightly outside to clear the track */
+}
+
+.flash-sale-nav-btn.next {
+  right: -24px; /* Move slightly outside to clear the track */
+  display: flex !important; /* Ensure it's not hidden */
+}
 
 /* Track Wrapper */
 .flash-sale-track-wrapper {
   overflow-x: auto;
   scroll-behavior: smooth;
   width: 100%;
-  padding: 1.5rem 0.5rem 2.5rem;
+  padding: 2rem 0;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -188,7 +203,7 @@
   display: flex;
   gap: 2rem;
   width: max-content;
-  padding: 0 4rem; /* Spacing for the fade effect */
+  padding: 0 1rem; /* Reduced padding to prevent cards from hiding too far */
 }
 
 /* FLASH SALE CARD - The "Midnight Drop" Design */
@@ -197,7 +212,7 @@
   background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 20px;
-  width: 300px;
+  width: 280px; /* Slightly reduced width for better fit */
   flex-shrink: 0;
   overflow: hidden;
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
