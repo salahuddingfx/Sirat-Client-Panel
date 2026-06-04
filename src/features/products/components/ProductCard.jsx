@@ -1,19 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { m } from "framer-motion";
 import { Heart, ShoppingCart, Star, Truck } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
+import { useAuth } from "@app/providers/AuthContext";
+import { checkWishlistApi, addToWishlistApi, removeFromWishlistApi } from "@api/queries";
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const { addToCart, setCartDrawerOpen } = useCart();
+  const { isLoggedIn, user } = useAuth();
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || "");
   const [selectedSize, setSelectedSize] = useState(product.variants?.[0]?.label || "");
 
-  const handleWishlist = (e) => {
+  useEffect(() => {
+    if (isLoggedIn && user && product?.id) {
+      const token = localStorage.getItem("sirat_token");
+      checkWishlistApi(product.id, token).then(res => {
+        if (res.success) setIsWishlisted(res.data.wishlisted);
+      }).catch(() => {});
+    }
+  }, [isLoggedIn, user, product?.id]);
+
+  const handleWishlist = async (e) => {
     e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
+    if (!isLoggedIn) {
+      navigate("/account");
+      return;
+    }
+    const token = localStorage.getItem("sirat_token");
+    if (isWishlisted) {
+      await removeFromWishlistApi(product.id, token);
+      setIsWishlisted(false);
+    } else {
+      await addToWishlistApi(product.id, token);
+      setIsWishlisted(true);
+    }
   };
 
   const handleAddToCart = (e) => {
