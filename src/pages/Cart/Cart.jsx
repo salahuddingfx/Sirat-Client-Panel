@@ -76,7 +76,7 @@ export default function CartPage() {
                     style={{ backgroundImage: `url(${getProductImage(item.product.name)})` }} 
                   />
                   <div className="cart-page-item-info">
-                    <span className="section-header__eyebrow" style={{ fontSize: "0.68rem" }}>{item.product.category}</span>
+                    <span className="section-header__eyebrow" style={{ fontSize: "0.68rem" }}>{item.product.category?.name || item.product.category}</span>
                     <h3 className="cart-page-item-name">{item.product.name}</h3>
                     <span className="cart-page-item-meta">Size: <strong>{item.variant.label}</strong></span>
                     <span className="cart-page-item-price">{'\u09F3'}{price}</span>
