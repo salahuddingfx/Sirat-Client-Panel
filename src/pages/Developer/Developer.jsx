@@ -1,11 +1,26 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Code2, Cpu, Layers, GitBranch, Github, Linkedin, Twitter, Instagram, Globe, Mail, Sparkles, Server, Database, Smartphone, Zap } from "lucide-react";
+import { Code2, Cpu, Layers, GitBranch, Github, Linkedin, Twitter, Instagram, Globe, Mail, Sparkles, Server, Database, Smartphone, Zap, Facebook } from "lucide-react";
 import PageFrame from "@components/layout/PageFrame";
 import { Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
 import { fetchTeamMembers } from "@api/queries";
 import "./Developer.css";
+
+const HANDLE = "salahuddingfx";
+const PORTFOLIO = "https://salahuddin.cpdes";
+
+const DEFAULT_DEVELOPER = {
+  name: "Salah Uddin Kader",
+  role: "Solo Full-Stack Developer & Founder",
+  bio: "Solo full-stack developer behind the Sirat storefront, admin panel, and API — engineered with care from Cox's Bazar, Bangladesh.",
+  twitter: `https://x.com/${HANDLE}`,
+  linkedin: `https://linkedin.com/in/${HANDLE}`,
+  github: `https://github.com/${HANDLE}`,
+  instagram: `https://instagram.com/${HANDLE}`,
+  facebook: `https://facebook.com/${HANDLE}`,
+  website: PORTFOLIO,
+};
 
 const STACK = [
   { name: "React 19", category: "Frontend", icon: Code2 },
@@ -26,7 +41,7 @@ const HIGHLIGHTS = [
 ];
 
 export default function DeveloperPage() {
-  const [developer, setDeveloper] = useState(null);
+  const [developer, setDeveloper] = useState(DEFAULT_DEVELOPER);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -36,10 +51,13 @@ export default function DeveloperPage() {
         const res = await fetchTeamMembers();
         if (cancelled) return;
         if (res?.success && Array.isArray(res.data) && res.data.length > 0) {
-          const match = res.data.find(
-            (m) => /developer|founder|engineer|full[-\s]?stack|lead/i.test(m.role || "")
-          ) || res.data[0];
-          setDeveloper(match);
+          const match =
+            res.data.find(
+              (m) => /developer|founder|engineer|full[-\s]?stack|lead/i.test(m.role || "")
+            ) || res.data[0];
+          if (match) {
+            setDeveloper({ ...DEFAULT_DEVELOPER, ...match });
+          }
         }
       } catch (err) {
         console.error("Failed to fetch developer info:", err);
@@ -50,24 +68,23 @@ export default function DeveloperPage() {
     return () => { cancelled = true; };
   }, []);
 
-  const socials = developer
-    ? [
-        { href: developer.twitter, Icon: Twitter, label: "Twitter" },
-        { href: developer.linkedin, Icon: Linkedin, label: "LinkedIn" },
-        { href: developer.github, Icon: Github, label: "GitHub" },
-        { href: developer.instagram, Icon: Instagram, label: "Instagram" },
-        { href: developer.website, Icon: Globe, label: "Website" },
-      ].filter((s) => s.href)
-    : [];
+  const socials = [
+    { key: "twitter", href: developer.twitter, Icon: Twitter, label: "Twitter / X" },
+    { key: "linkedin", href: developer.linkedin, Icon: Linkedin, label: "LinkedIn" },
+    { key: "github", href: developer.github, Icon: Github, label: "GitHub" },
+    { key: "instagram", href: developer.instagram, Icon: Instagram, label: "Instagram" },
+    { key: "facebook", href: developer.facebook, Icon: Facebook, label: "Facebook" },
+    { key: "website", href: developer.website, Icon: Globe, label: "Portfolio" },
+  ].filter((s) => s.href);
 
   return (
     <div>
       <PageFrame
         eyebrow="The Developer"
-        title={developer?.name || "Salah Uddin Kader"}
-        description={developer?.bio || "Solo full-stack developer behind the Sirat storefront, admin panel, and API — engineered with care from Cox's Bazar, Bangladesh."}
+        title={developer.name}
+        description={developer.bio}
       >
-        <SEO title="Developer" description="Meet the developer behind Sirat — a solo full-stack engineer building premium streetwear e-commerce experiences." />
+        <SEO title={`Developer — ${developer.name}`} description={`Meet ${developer.name}, the solo full-stack engineer behind Sirat — a premium streetwear e-commerce experience.`} />
 
         <section className="developer-hero">
           <div className="developer-hero__grid">
@@ -79,8 +96,8 @@ export default function DeveloperPage() {
             >
               <div className="developer-hero__avatar-ring" />
               <div className="developer-hero__avatar">
-                {developer?.avatar ? (
-                  <img src={developer.avatar} alt={developer.name || "Developer"} />
+                {developer.avatar ? (
+                  <img src={developer.avatar} alt={developer.name} />
                 ) : (
                   <Code2 size={56} strokeWidth={1.4} />
                 )}
@@ -94,7 +111,7 @@ export default function DeveloperPage() {
               transition={{ duration: 0.6, delay: 0.15 }}
             >
               <span className="developer-hero__eyebrow">
-                <Sparkles size={14} /> {developer?.role || "Solo Full-Stack Developer"}
+                <Sparkles size={14} /> {developer.role}
               </span>
               <h2 className="developer-hero__title">
                 Building Sirat with intention, line by line.
@@ -107,36 +124,23 @@ export default function DeveloperPage() {
               </p>
 
               <div className="developer-hero__socials">
-                {socials.length > 0 ? (
-                  socials.map(({ href, Icon, label }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="developer-social"
-                      aria-label={label}
-                      title={label}
-                    >
-                      <Icon size={18} />
-                    </a>
-                  ))
-                ) : (
+                {socials.map(({ key, href, Icon, label }) => (
                   <a
-                    href="https://github.com"
+                    key={key}
+                    href={href}
                     target="_blank"
                     rel="noreferrer noopener"
                     className="developer-social"
-                    aria-label="GitHub"
-                    title="GitHub"
+                    aria-label={`${developer.name} on ${label}`}
+                    title={label}
                   >
-                    <Github size={18} />
+                    <Icon size={18} />
                   </a>
-                )}
+                ))}
                 <a
                   href="mailto:hello@siratclothing.com"
                   className="developer-social"
-                  aria-label="Email"
+                  aria-label={`Email ${developer.name}`}
                   title="Email"
                 >
                   <Mail size={18} />
@@ -207,7 +211,7 @@ export default function DeveloperPage() {
               something that lasts.
             </p>
             <a
-              href="mailto:hello@siratclothing.com?subject=Project%20inquiry"
+              href={`mailto:hello@siratclothing.com?subject=Project%20inquiry%20for%20${encodeURIComponent(developer.name)}`}
               className="developer-cta-btn"
             >
               <Mail size={16} /> Start a conversation
