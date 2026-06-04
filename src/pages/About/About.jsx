@@ -1,9 +1,19 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { m, useScroll, useTransform } from "framer-motion";
-import { Compass, Target, ShieldCheck, Calendar, Sparkles } from "lucide-react";
+import { Compass, Target, ShieldCheck, Calendar, Sparkles, Github, Linkedin, Twitter, Instagram, Facebook, Globe, Users } from "lucide-react";
 import PageFrame from "@components/layout/PageFrame";
 import { Panel } from "@components/ui";
 import SEO from "@components/layout/SEO";
+import { fetchTeamMembers } from "@api/queries";
+
+const SOCIAL_ICONS = {
+  twitter: Twitter,
+  linkedin: Linkedin,
+  github: Github,
+  instagram: Instagram,
+  facebook: Facebook,
+  website: Globe,
+};
 
 export default function AboutPage() {
   const containerRef = useRef(null);
@@ -13,26 +23,26 @@ export default function AboutPage() {
   });
   const scaleY = useTransform(scrollYProgress, [0, 0.95], [0, 1]);
 
-  const team = [
-    {
-      name: "Tanvir Rahman",
-      role: "Founder & Creative Director",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=250",
-      desc: "Streetwear designer focused on minimal graphics, custom oversized silhouettes, and brand transparency."
-    },
-    {
-      name: "Sarah Ahmed",
-      role: "Lead Fabric Specialist",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=250",
-      desc: "Supervises our mill sourcing contracts in Cox's Bazar, ensuring 100% heavy combed cotton fabrics."
-    },
-    {
-      name: "Imran Chowdhury",
-      role: "Head of Workshop Production",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=250",
-      desc: "Supervises our screen printing workshops, puff-print quality, and detailed custom garment checks."
-    }
-  ];
+  const [team, setTeam] = useState([]);
+  const [teamLoading, setTeamLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetchTeamMembers();
+        if (cancelled) return;
+        if (res?.success && Array.isArray(res.data)) {
+          setTeam(res.data);
+        }
+      } catch (err) {
+        console.error("Failed to load team members:", err);
+      } finally {
+        if (!cancelled) setTeamLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const timelineItems = [
     {
