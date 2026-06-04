@@ -1090,7 +1090,7 @@ section:not(.page-section) {
 
 .product-card-modern__copy {
   margin: 0;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--sirat-muted);
   font-style: normal;
   font-weight: 400;
@@ -6039,5 +6039,7 @@ img, video {
     padding-right: 0 !important;
   }
 }
+
+
 
 
