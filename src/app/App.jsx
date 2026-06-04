@@ -35,6 +35,7 @@ const AccountPage = lazy(() => import("@pages/Account/Account"));
 const OrderSuccessPage = lazy(() => import("@pages/OrderSuccess/OrderSuccess"));
 const FaqPage = lazy(() => import("@pages/Faq/Faq"));
 const SizingPage = lazy(() => import("@pages/Sizing/Sizing"));
+const WishlistPage = lazy(() => import("@pages/Wishlist/Wishlist"));
 
 import { useCart } from "@app/providers/CartContext";
 
@@ -44,7 +45,8 @@ const navItems = [
   { label: "Shop", href: "/shop" },
   { label: "Track", href: "/track" },
   { label: "Contact", href: "/contact" },
-  { label: "Reviews", href: "/reviews" }
+  { label: "Reviews", href: "/reviews" },
+  { label: "Wishlist", href: "/wishlist" }
 ];
 
 // Simple loading fallback
@@ -102,6 +104,7 @@ export function App() {
             <Route path="/order-success" element={<OrderSuccessPage />} />
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/sizing" element={<SizingPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/page/:slug" element={<SimplePage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
