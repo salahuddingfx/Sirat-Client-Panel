@@ -37,19 +37,21 @@ export default function VisualsSection() {
         description="Highlighting signature garments crafted in structured textures and futuristic silhouettes."
       />
 
-      <div className="visuals-bento">
+      <div className={`visuals-bento ${tiles.length === 0 ? "visuals-bento--solo" : ""}`}>
         <BentoHero product={hero} onClick={() => navigate(`/product/${hero.slug}`)} />
 
-        <div className="visuals-bento__grid">
-          {tiles.map((product, idx) => (
-            <BentoTile
-              key={product.id}
-              product={product}
-              index={idx}
-              onClick={() => navigate(`/product/${product.slug}`)}
-            />
-          ))}
-        </div>
+        {tiles.length > 0 && (
+          <div className="visuals-bento__grid">
+            {tiles.map((product, idx) => (
+              <BentoTile
+                key={product.id}
+                product={product}
+                index={idx}
+                onClick={() => navigate(`/product/${product.slug}`)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
