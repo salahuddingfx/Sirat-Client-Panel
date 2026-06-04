@@ -73,6 +73,7 @@ const cartSlice = createSlice({
           item.quantity = quantity;
         }
       }
+      saveCart(state);
     },
     applyPromoCode: (state, action) => {
       // If object payload (from API)
