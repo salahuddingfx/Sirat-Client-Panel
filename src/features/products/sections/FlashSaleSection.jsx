@@ -128,7 +128,7 @@ export default function FlashSaleSection() {
           <div className="flash-sale-track-wrapper" ref={scrollRef}>
             <div className="flash-sale-track-inner">
               {products.map((product) => (
-                <FlashSaleCard key={product._id} product={product} />
+                <FlashSaleCard key={product.id} product={product} />
               ))}
             </div>
           </div>
