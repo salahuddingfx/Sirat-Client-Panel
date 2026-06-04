@@ -609,8 +609,8 @@ section:not(.page-section) {
 
 .storefront__content {
   display: grid;
-  gap: 4.5rem;
-  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) 4rem;
+  gap: 2.5rem;
+  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) 3rem;
   overflow: hidden;
 }
 
