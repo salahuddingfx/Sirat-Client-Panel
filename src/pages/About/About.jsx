@@ -168,25 +168,68 @@ export default function AboutPage() {
           </div>
 
           <div className="team-grid">
-            {team.map((member, idx) => (
+            {teamLoading ? (
+              <p style={{ gridColumn: "1 / -1", textAlign: "center", color: "var(--sirat-muted)" }}>
+                Loading team…
+              </p>
+            ) : team.length === 0 ? (
               <Panel
-                key={member.name}
-                className="team-card page-card"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: idx * 0.15 }}
+                className="page-card"
+                style={{ gridColumn: "1 / -1", textAlign: "center", padding: "2.5rem 1.5rem" }}
               >
-                <div className="team-avatar-container">
-                  <img src={member.avatar} alt={member.name} className="team-avatar" />
-                </div>
-                <div className="team-meta">
-                  <h4 className="team-name">{member.name}</h4>
-                  <span className="team-role">{member.role}</span>
-                  <p className="team-desc">{member.desc}</p>
-                </div>
+                <Users size={36} className="muted" style={{ margin: "0 auto 0.75rem", color: "var(--sirat-gold)" }} />
+                <h4 style={{ margin: "0 0 0.4rem" }}>Team coming soon</h4>
+                <p className="page-section__text" style={{ margin: 0 }}>
+                  Our crew will be announced shortly. Stay tuned.
+                </p>
               </Panel>
-            ))}
+            ) : (
+              team.map((member, idx) => {
+                const socials = Object.entries(SOCIAL_ICONS)
+                  .filter(([key]) => member[key])
+                  .map(([key, Icon]) => ({ key, href: member[key], Icon, label: key }));
+                return (
+                  <Panel
+                    key={member._id || member.id || member.name}
+                    className="team-card page-card"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: idx * 0.15 }}
+                  >
+                    <div className="team-avatar-container">
+                      {member.avatar ? (
+                        <img src={member.avatar} alt={member.name} className="team-avatar" />
+                      ) : (
+                        <Users size={36} className="muted" style={{ color: "var(--sirat-gold)" }} />
+                      )}
+                    </div>
+                    <div className="team-meta">
+                      <h4 className="team-name">{member.name}</h4>
+                      <span className="team-role">{member.role}</span>
+                      {member.bio && <p className="team-desc">{member.bio}</p>}
+                      {socials.length > 0 && (
+                        <div className="team-socials">
+                          {socials.map(({ key, href, Icon, label }) => (
+                            <a
+                              key={key}
+                              href={href}
+                              target="_blank"
+                              rel="noreferrer noopener"
+                              className="team-social"
+                              aria-label={`${member.name} on ${label}`}
+                              title={label.charAt(0).toUpperCase() + label.slice(1)}
+                            >
+                              <Icon size={15} />
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </Panel>
+                );
+              })
+            )}
           </div>
         </section>
       </PageFrame>
