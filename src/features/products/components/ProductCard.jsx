@@ -59,7 +59,7 @@ export default function ProductCard({ product }) {
     <m.article
       whileHover={{ y: -5 }}
       transition={{ duration: 0.18 }}
-      className="product-card-modern"
+      className={["product-card-modern", isOutOfStock ? "product-card-modern--out-of-stock" : ""].filter(Boolean).join(" ")}
       onClick={() => navigate(`/product/${product.slug}`)}
       style={{ cursor: "pointer" }}
       >
