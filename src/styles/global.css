@@ -1599,10 +1599,13 @@ section:not(.page-section) {
 
 .review-display-card {
   min-height: 290px;
-  padding: clamp(1.5rem, 4vw, 2.5rem);
+  width: 360px;
+  max-width: 360px;
+  flex: 0 0 360px;
+  padding: clamp(1.25rem, 3.5vw, 1.75rem);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 0.85rem;
   background: var(--sirat-surface);
   border-left: 4px solid var(--sirat-gold) !important;
   border-radius: var(--sirat-radius-lg);
@@ -1610,11 +1613,40 @@ section:not(.page-section) {
   box-shadow: var(--sirat-shadow);
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-right: 1.25rem;
 }
 
 .review-display-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 48px rgba(197, 160, 89, 0.06);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 48px rgba(197, 160, 89, 0.1);
+}
+
+/* Edge-fade masks for the marquee container so cards don't clip harshly. */
+.reviews-marquee {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 60px, #000 calc(100% - 60px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 60px, #000 calc(100% - 60px), transparent 100%);
+  padding: 0.5rem 0 1rem;
+}
+
+.reviews-marquee-track {
+  display: flex;
+  align-items: stretch;
+}
+
+@keyframes marquee-infinite {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.marquee-infinite-linear {
+  animation-name: marquee-infinite;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.marquee-container:hover .marquee-track {
+  animation-play-state: paused;
 }
 
 .review-rating-stars {
