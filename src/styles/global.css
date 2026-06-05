@@ -1064,8 +1064,8 @@ section:not(.page-section) {
   color: #FFFDFB;
   letter-spacing: 0.01em;
   white-space: nowrap;
-  overflow: "hidden",
-  text-overflow: "ellipsis",
+  overflow: hidden;
+  text-overflow: ellipsis;
   max-width: 240px;
 }
 .reviews-feature-card__rating-val {
