@@ -1,6 +1,7 @@
-﻿import { useState, useEffect } from "react";
-import { Star, Sparkles, Quote } from "lucide-react";
+﻿import { useEffect, useState } from "react";
+import { Star, Sparkles, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { Link } from "react-router-dom";
+import { m, AnimatePresence } from "framer-motion";
 import { fetchReviews } from "@api/queries";
 
 const pickProductImage = (images) => {
@@ -12,7 +13,7 @@ const pickProductImage = (images) => {
   return null;
 };
 
-const AuthorAvatar = ({ name, avatar, size = 44 }) => {
+const AuthorAvatar = ({ name, avatar, size = 56 }) => {
   if (avatar) {
     return (
       <img
@@ -56,8 +57,8 @@ const AuthorAvatar = ({ name, avatar, size = 44 }) => {
   );
 };
 
-const Stars = ({ value = 0, size = 14 }) => (
-  <div style={{ display: "inline-flex", gap: "1px", color: "var(--sirat-star)" }}>
+const Stars = ({ value = 0, size = 16 }) => (
+  <div style={{ display: "inline-flex", gap: "2px", color: "var(--sirat-star)" }}>
     {[1, 2, 3, 4, 5].map((i) => (
       <Star
         key={i}
@@ -69,113 +70,195 @@ const Stars = ({ value = 0, size = 14 }) => (
   </div>
 );
 
+const AUTOPLAY_MS = 6500;
+
 export default function ReviewsSection() {
   const [reviews, setReviews] = useState([]);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     let mounted = true;
-    const load = async () => {
-      try {
-        const res = await fetchReviews();
-        if (mounted) setReviews(Array.isArray(res) ? res : []);
-      } catch (e) {
-        console.error("Failed to fetch reviews:", e);
-      }
-    };
-    load();
+    fetchReviews()
+      .then((data) => {
+        if (!mounted) return;
+        setReviews(Array.isArray(data) ? data : []);
+      })
+      .catch((e) => console.error("Failed to fetch reviews:", e));
     return () => { mounted = false; };
   }, []);
 
+  useEffect(() => {
+    if (reviews.length <= 1 || paused) return undefined;
+    const id = setInterval(() => {
+      setActive((p) => (p + 1) % reviews.length);
+    }, AUTOPLAY_MS);
+    return () => clearInterval(id);
+  }, [reviews.length, paused]);
+
   if (!reviews || reviews.length === 0) return null;
 
-  // Duplicate the array so the marquee loops seamlessly.
-  const looped = reviews.length > 1 ? [...reviews, ...reviews] : [...reviews, ...reviews, ...reviews, ...reviews];
-  // Pick a speed based on count so the cards don't fly past too fast with few reviews.
-  const durationSeconds = Math.max(28, Math.min(60, reviews.length * 8));
+  const current = reviews[active];
+  const productName = current?.product?.name;
+  const productSlug = current?.product?.slug;
+  const productImage = pickProductImage(current?.product?.images);
+  const productHref = productSlug ? `/product/${productSlug}` : null;
+
+  // Aggregate stats for the left side
+  const total = reviews.length;
+  const avg = total > 0 ? reviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total : 0;
+  const fiveStar = reviews.filter((r) => Math.round(Number(r.rating || 0)) === 5).length;
+  const fivePct = total > 0 ? Math.round((fiveStar / total) * 100) : 0;
+
+  const goPrev = () => setActive((p) => (p - 1 + reviews.length) % reviews.length);
+  const goNext = () => setActive((p) => (p + 1) % reviews.length);
 
   return (
-    <section className="reviews-carousel-section">
-      <div className="reviews-carousel-layout">
-        <div className="reviews-carousel-head">
-          <div className="storefront__badge" style={{ color: "var(--sirat-gold-soft)", borderColor: "var(--sirat-gold-soft)", background: "rgba(197, 160, 89, 0.08)" }}>
-            <Sparkles size={12} /> Reviews
-          </div>
-          <h2 className="page-section__title" style={{ marginTop: "0.5rem" }}>Customer Feedback</h2>
-          <p className="page-section__text">
-            Verified buyers verify our high-grammage materials, structured drapes, and fulfillment speeds.
-          </p>
-          <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--sirat-muted)", fontSize: "0.78rem" }}>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
-              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#16a34a", display: "inline-block", boxShadow: "0 0 0 3px rgba(22, 163, 74, 0.15)" }} />
-              Live from {reviews.length} verified {reviews.length === 1 ? "buyer" : "buyers"}
-            </span>
+    <section
+      className="homepage-reviews homepage-hero"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className="hero-split-container reviews-split-container">
+        {/* LEFT — text / stats (mirrors hero's right side) */}
+        <div className="hero-split-info reviews-split-info">
+          <AnimatePresence mode="wait">
+            <m.div
+              key={`info-${active}`}
+              className="hero-info-wrapper"
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 12 }}
+              transition={{ duration: 0.45 }}
+            >
+              <span className="storefront__badge hero-animate" style={{ color: "var(--sirat-gold-soft)", borderColor: "var(--sirat-gold-soft)", background: "rgba(197, 160, 89, 0.08)" }}>
+                <Sparkles size={12} /> Customer Feedback
+              </span>
+
+              <h2 className="hero-slide__title hero-animate" style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", marginTop: "0.85rem" }}>
+                What our community says about Sirat.
+              </h2>
+
+              <p className="hero-slide__desc hero-animate">
+                Verified buyers verify our high-grammage materials, structured drapes, and fulfillment speeds — straight from people who actually wear the gear.
+              </p>
+
+              {/* STATS BLOCK */}
+              <div className="hero-animate reviews-stats">
+                <div className="reviews-stat">
+                  <div className="reviews-stat__value">{avg.toFixed(1)}</div>
+                  <div className="reviews-stat__label">
+                    <Stars value={avg} size={12} />
+                    <span>Average rating</span>
+                  </div>
+                </div>
+                <div className="reviews-stat">
+                  <div className="reviews-stat__value">{total}</div>
+                  <div className="reviews-stat__label">
+                    <span>Verified {total === 1 ? "review" : "reviews"}</span>
+                  </div>
+                </div>
+                <div className="reviews-stat">
+                  <div className="reviews-stat__value">{fivePct}%</div>
+                  <div className="reviews-stat__label">
+                    <span>5-star feedback</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="hero-slide__actions hero-animate">
+                <Link to="/reviews"><button type="button" className="sirat-button sirat-button--primary">Read All Reviews</button></Link>
+                <Link to="/shop"><button type="button" className="sirat-button sirat-button--outline">Shop the Drop</button></Link>
+              </div>
+            </m.div>
+          </AnimatePresence>
+
+          <div className="slider-indicators">
+            {reviews.map((_, idx) => (
+              <button
+                key={idx}
+                className={["indicator", idx === active ? "active" : ""].filter(Boolean).join(" ")}
+                onClick={() => setActive(idx)}
+                aria-label={`Review ${idx + 1}`}
+              />
+            ))}
           </div>
         </div>
 
-        <div className="reviews-carousel-body">
-          <div className="marquee-container reviews-marquee">
-            <div
-              className="marquee-track marquee-infinite-linear reviews-marquee-track"
-              style={{ animationDuration: `${durationSeconds}s` }}
+        {/* RIGHT — animated review (mirrors hero's left side) */}
+        <div className="hero-split-media reviews-split-media">
+          <AnimatePresence mode="wait">
+            <m.div
+              key={`review-${active}-${current?.id || ""}`}
+              className="hero-media-wrapper reviews-card-wrapper"
+              initial={{ opacity: 0, scale: 0.98, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 1.02, y: -8 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              {looped.map((r, idx) => {
-                const productName = r.product?.name;
-                const productSlug = r.product?.slug;
-                const productImage = pickProductImage(r.product?.images);
-                const productHref = productSlug ? `/product/${productSlug}` : null;
-                return (
+              <div className="reviews-feature-card">
+                {/* BACKGROUND PRODUCT IMAGE */}
+                {productImage ? (
                   <div
-                    key={`${r.id || r.name}-${idx}`}
-                    className="sirat-panel page-card review-display-card"
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                      <AuthorAvatar name={r.name} avatar={r.author?.avatar} size={44} />
-                      <div style={{ minWidth: 0, flex: 1 }}>
-                        <strong style={{ display: "block", fontSize: "0.9rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</strong>
-                        <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", marginTop: "1px" }}>
-                          <Stars value={Number(r.rating || 0)} size={11} />
-                          <span style={{ fontSize: "0.7rem", color: "var(--sirat-muted)", fontWeight: 600 }}>{Number(r.rating || 0).toFixed(1)}</span>
-                        </div>
+                    className="reviews-feature-card__bg"
+                    style={{ backgroundImage: `url(${productImage})` }}
+                    aria-hidden
+                  />
+                ) : (
+                  <div className="reviews-feature-card__bg reviews-feature-card__bg--placeholder" aria-hidden>
+                    <Quote size={120} strokeWidth={1} />
+                  </div>
+                )}
+                <div className="reviews-feature-card__overlay" />
+
+                {/* FOREGROUND CONTENT */}
+                <div className="reviews-feature-card__content">
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
+                    <AuthorAvatar name={current?.name} avatar={current?.author?.avatar} size={56} />
+                    <div style={{ minWidth: 0 }}>
+                      <strong className="reviews-feature-card__name">{current?.name}</strong>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginTop: "2px" }}>
+                        <Stars value={Number(current?.rating || 0)} size={13} />
+                        <span className="reviews-feature-card__rating-val">{Number(current?.rating || 0).toFixed(1)} / 5</span>
                       </div>
                     </div>
-
-                    <Quote size={28} style={{ color: "var(--sirat-gold)", opacity: 0.18, margin: "0.4rem 0 -0.4rem", display: "block" }} />
-
-                    <p className="review-quote-text">"{r.comment}"</p>
-
-                    {productName && (
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginTop: "0.75rem", paddingTop: "0.75rem", borderTop: "1px solid var(--sirat-border)" }}>
-                        {productImage ? (
-                          productHref ? (
-                            <Link to={productHref} style={{ width: "40px", height: "40px", borderRadius: "8px", overflow: "hidden", border: "1px solid var(--sirat-border)", display: "block", flexShrink: 0, transition: "transform 0.2s ease" }}>
-                              <img src={productImage} alt={productName} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
-                            </Link>
-                          ) : (
-                            <div style={{ width: "40px", height: "40px", borderRadius: "8px", overflow: "hidden", border: "1px solid var(--sirat-border)", flexShrink: 0 }}>
-                              <img src={productImage} alt={productName} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
-                            </div>
-                          )
-                        ) : (
-                          <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: "var(--sirat-cream, #FAF9F5)", border: "1px solid var(--sirat-border)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                            <Quote size={16} style={{ color: "var(--sirat-gold-soft)" }} />
-                          </div>
-                        )}
-                        <div style={{ minWidth: 0, flex: 1 }}>
-                          <div style={{ fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--sirat-muted)" }}>On</div>
-                          {productHref ? (
-                            <Link to={productHref} style={{ fontSize: "0.8rem", color: "var(--sirat-gold-soft)", textDecoration: "none", fontWeight: 700, display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                              {productName}
-                            </Link>
-                          ) : (
-                            <span style={{ fontSize: "0.8rem", color: "var(--sirat-text)", fontWeight: 600, display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{productName}</span>
-                          )}
-                        </div>
-                      </div>
-                    )}
                   </div>
-                );
-              })}
-            </div>
+
+                  <Quote size={32} className="reviews-feature-card__bigquote" />
+
+                  <p className="reviews-feature-card__comment">
+                    "{current?.comment}"
+                  </p>
+
+                  {productName && (
+                    <div className="reviews-feature-card__product">
+                      {productHref ? (
+                        <Link to={productHref} className="reviews-feature-card__product-link">
+                          On <strong>{productName}</strong>
+                          <span aria-hidden>→</span>
+                        </Link>
+                      ) : (
+                        <span className="reviews-feature-card__product-link">On <strong>{productName}</strong></span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </m.div>
+          </AnimatePresence>
+
+          <div className="slider-ctrls-group">
+            <button className="slider-ctrl prev" onClick={goPrev} aria-label="Previous review">
+              <ChevronLeft size={18} />
+            </button>
+            <button className="slider-ctrl next" onClick={goNext} aria-label="Next review">
+              <ChevronRight size={18} />
+            </button>
+          </div>
+
+          {/* Counter pill */}
+          <div className="reviews-counter">
+            {String(active + 1).padStart(2, "0")} <span>/ {String(reviews.length).padStart(2, "0")}</span>
           </div>
         </div>
       </div>
