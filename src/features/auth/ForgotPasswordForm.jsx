@@ -110,7 +110,7 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
             </div>
 
             <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }} disabled={isLoading}>
-              {isLoading ? "Sending..." : "Request Verification Code"}
+              {isLoading ? "Sending..." : "Send Reset Code"}
             </Button>
           </form>
 
@@ -172,7 +172,7 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
             </div>
 
             <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }} disabled={isLoading}>
-              {isLoading ? "Verifying..." : "Confirm Verification Code"}
+              {isLoading ? "Verifying..." : "Verify Code"}
             </Button>
           </form>
 
@@ -269,7 +269,7 @@ export default function ForgotPasswordForm({ initialEmail = "", onToggleLogin })
             </div>
 
             <Button type="submit" style={{ width: "100%", marginTop: "0.5rem" }} disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save New Password"}
+              {isLoading ? "Saving..." : "Save Password"}
             </Button>
           </form>
         </>
