@@ -107,15 +107,9 @@ export default function ReviewsSection() {
     };
   }, [reviews]);
 
-  if (!reviews || reviews.length === 0) return null;
-
-  const current = reviews[active];
-  const productName = current?.product?.name;
-  const productSlug = current?.product?.slug;
-  const productImage = pickProductImage(current?.product?.images);
-  const productHref = productSlug ? `/product/${productSlug}` : null;
-
-  // Sidebar: the next 3 reviews as a "queue" strip
+  // Hooks must run on every render in the same order — compute `upcoming`
+  // here (before any early return) so the hook count stays stable when
+  // `reviews` flips from [] to populated.
   const upcoming = useMemo(() => {
     if (reviews.length <= 1) return [];
     const items = [];
@@ -124,6 +118,14 @@ export default function ReviewsSection() {
     }
     return items;
   }, [active, reviews]);
+
+  if (!reviews || reviews.length === 0) return null;
+
+  const current = reviews[active];
+  const productName = current?.product?.name;
+  const productSlug = current?.product?.slug;
+  const productImage = pickProductImage(current?.product?.images);
+  const productHref = productSlug ? `/product/${productSlug}` : null;
 
   return (
     <section
