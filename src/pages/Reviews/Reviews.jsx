@@ -1,5 +1,5 @@
-﻿import { useState, useEffect, useMemo, useRef, useCallback } from "react";
-import { Star, MessageSquareQuote, Loader2, Inbox, ChevronDown, Quote, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+﻿import { useState, useEffect, useMemo } from "react";
+import { Star, MessageSquareQuote, Loader2, Inbox, ChevronDown, Quote, Sparkles, Award, Filter, X, Crown } from "lucide-react";
 import { Link } from "react-router-dom";
 import PageFrame from "@components/layout/PageFrame";
 import { Panel } from "@components/ui";
@@ -22,8 +22,8 @@ const pickProductImage = (images) => {
   return null;
 };
 
-const Stars = ({ value = 0, size = 16 }) => (
-  <div style={{ display: "inline-flex", gap: "2px", color: "var(--sirat-star)" }}>
+const Stars = ({ value = 0, size = 14, color = "var(--sirat-star, #C5A059)" }) => (
+  <div style={{ display: "inline-flex", gap: "2px", color }}>
     {[1, 2, 3, 4, 5].map((i) => (
       <Star
         key={i}
@@ -35,22 +35,8 @@ const Stars = ({ value = 0, size = 16 }) => (
   </div>
 );
 
-const StatBar = ({ stars, count, total }) => {
-  const pct = total > 0 ? (count / total) * 100 : 0;
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", fontSize: "0.78rem" }}>
-      <span style={{ width: "44px", color: "var(--sirat-muted)", display: "inline-flex", alignItems: "center", gap: "4px" }}>
-        {stars} <Star size={11} fill="currentColor" color="var(--sirat-star)" />
-      </span>
-      <div style={{ flex: 1, height: "6px", background: "var(--sirat-border)", borderRadius: "99px", overflow: "hidden" }}>
-        <div style={{ width: `${pct}%`, height: "100%", background: "var(--sirat-gold)", borderRadius: "99px", transition: "width 0.4s ease" }} />
-      </div>
-      <span style={{ width: "32px", textAlign: "right", color: "var(--sirat-muted)", fontWeight: 600 }}>{count}</span>
-    </div>
-  );
-};
-
-const AuthorAvatar = ({ name, avatar, size = 40 }) => {
+const AuthorAvatar = ({ name, avatar, size = 44, ring = false }) => {
+  const ringStyle = ring ? { boxShadow: "0 0 0 3px var(--sirat-bg), 0 0 0 5px var(--sirat-gold)" } : {};
   if (avatar) {
     return (
       <img
@@ -61,13 +47,14 @@ const AuthorAvatar = ({ name, avatar, size = 40 }) => {
           height: size,
           borderRadius: "50%",
           objectFit: "cover",
-          border: "1.5px solid var(--sirat-border-strong)",
+          border: "1.5px solid var(--sirat-border-strong, rgba(197, 160, 89, 0.35))",
           background: "var(--sirat-cream, #FAF9F5)",
           flexShrink: 0,
           display: "block",
+          ...ringStyle,
         }}
         loading="lazy"
-        onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling && (e.currentTarget.nextElementSibling.style.display = "flex"); }}
+        onError={(e) => { e.currentTarget.style.display = "none"; }}
       />
     );
   }
@@ -85,9 +72,9 @@ const AuthorAvatar = ({ name, avatar, size = 40 }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        border: "1.5px solid var(--sirat-border-strong)",
+        border: "1.5px solid var(--sirat-border-strong, rgba(197, 160, 89, 0.35))",
         flexShrink: 0,
-        letterSpacing: "0.02em",
+        ...ringStyle,
       }}
     >
       {(name || "?").trim().charAt(0).toUpperCase()}
@@ -95,176 +82,92 @@ const AuthorAvatar = ({ name, avatar, size = 40 }) => {
   );
 };
 
-const FeaturedSlider = ({ reviews }) => {
-  const trackRef = useRef(null);
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(true);
-
-  const updateButtons = useCallback(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    setCanPrev(el.scrollLeft > 4);
-    setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
-  }, []);
-
-  useEffect(() => {
-    const el = trackRef.current;
-    if (!el) return undefined;
-    updateButtons();
-    el.addEventListener("scroll", updateButtons, { passive: true });
-    window.addEventListener("resize", updateButtons);
-    return () => {
-      el.removeEventListener("scroll", updateButtons);
-      window.removeEventListener("resize", updateButtons);
-    };
-  }, [updateButtons, reviews.length]);
-
-  const scrollBy = (dir) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const card = el.querySelector("[data-slider-card]");
-    const step = card ? card.getBoundingClientRect().width + 20 : el.clientWidth * 0.8;
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
-  };
-
-  if (reviews.length === 0) return null;
-
+const StatBar = ({ stars, count, total }) => {
+  const pct = total > 0 ? (count / total) * 100 : 0;
   return (
-    <div className="reviews-featured">
-      <div className="reviews-featured__head">
-        <div>
-          <div className="storefront__badge" style={{ color: "var(--sirat-gold-soft)", borderColor: "var(--sirat-gold-soft)", background: "rgba(197, 160, 89, 0.08)" }}>
-            <Sparkles size={12} /> Featured
-          </div>
-          <h2 className="page-section__title" style={{ marginTop: "0.5rem", fontSize: "1.4rem" }}>What buyers are saying</h2>
-        </div>
-        <div className="reviews-featured__nav">
-          <button
-            type="button"
-            onClick={() => scrollBy(-1)}
-            disabled={!canPrev}
-            aria-label="Previous reviews"
-            className="reviews-featured__arrow"
-          >
-            <ChevronLeft size={18} />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollBy(1)}
-            disabled={!canNext}
-            aria-label="Next reviews"
-            className="reviews-featured__arrow"
-          >
-            <ChevronRight size={18} />
-          </button>
-        </div>
+    <div className="rp-statbar">
+      <span className="rp-statbar__label">{stars} <Star size={10} fill="currentColor" /></span>
+      <div className="rp-statbar__track">
+        <div className="rp-statbar__fill" style={{ width: `${pct}%` }} />
       </div>
-
-      <div className="reviews-featured__track" ref={trackRef}>
-        {reviews.map((r) => {
-          const productName = r.product?.name;
-          const productSlug = r.product?.slug;
-          const productImage = pickProductImage(r.product?.images);
-          const productHref = productSlug ? `/product/${productSlug}` : null;
-          return (
-            <Panel key={r.id} data-slider-card className="page-card review-featured-card">
-              <div className="review-featured-card__top">
-                <AuthorAvatar name={r.name} avatar={r.author?.avatar} size={52} />
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  <strong style={{ display: "block", fontSize: "0.95rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</strong>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginTop: "2px" }}>
-                    <Stars value={Number(r.rating || 0)} size={13} />
-                    <span style={{ fontSize: "0.72rem", color: "var(--sirat-muted)" }}>{formatDate(r.createdAt)}</span>
-                  </div>
-                </div>
-              </div>
-
-              <Quote size={22} className="review-featured-card__quote" />
-
-              <p className="page-section__text" style={{ lineHeight: 1.6, fontSize: "0.92rem", flex: 1 }}>
-                {r.comment}
-              </p>
-
-              {productName && (
-                <div className="review-featured-card__product">
-                  {productImage ? (
-                    productHref ? (
-                      <Link to={productHref} className="review-featured-card__product-img" title={`View ${productName}`}>
-                        <img src={productImage} alt={productName} loading="lazy" />
-                      </Link>
-                    ) : (
-                      <div className="review-featured-card__product-img">
-                        <img src={productImage} alt={productName} loading="lazy" />
-                      </div>
-                    )
-                  ) : (
-                    <div className="review-featured-card__product-img review-featured-card__product-img--placeholder">
-                      <MessageSquareQuote size={20} />
-                    </div>
-                  )}
-                  <div style={{ minWidth: 0, flex: 1 }}>
-                    <div style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--sirat-muted)" }}>Reviewed</div>
-                    {productHref ? (
-                      <Link to={productHref} className="review-featured-card__product-name">{productName}</Link>
-                    ) : (
-                      <span className="review-featured-card__product-name" style={{ color: "var(--sirat-text)" }}>{productName}</span>
-                    )}
-                  </div>
-                </div>
-              )}
-            </Panel>
-          );
-        })}
-      </div>
+      <span className="rp-statbar__count">{count}</span>
     </div>
   );
 };
 
-const ReviewListCard = ({ r }) => {
-  const productName = r.product?.name;
-  const productSlug = r.product?.slug;
-  const productImage = pickProductImage(r.product?.images);
+// BENTO CARD — renders a review with a variable size
+const ReviewBento = ({ review, size = "md" }) => {
+  const productName = review?.product?.name;
+  const productSlug = review?.product?.slug;
+  const productImage = pickProductImage(review?.product?.images);
   const productHref = productSlug ? `/product/${productSlug}` : null;
-  return (
-    <Panel className="page-card review-card">
-      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.85rem" }}>
-        <AuthorAvatar name={r.name} avatar={r.author?.avatar} size={44} />
-        <div style={{ minWidth: 0, flex: 1 }}>
-          <strong style={{ display: "block", fontSize: "0.92rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</strong>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginTop: "2px" }}>
-            <Stars value={Number(r.rating || 0)} size={12} />
-            <span style={{ fontSize: "0.72rem", color: "var(--sirat-muted)" }}>{formatDate(r.createdAt)}</span>
+
+  if (size === "hero") {
+    return (
+      <Panel className="rp-bento rp-bento--hero">
+        {productImage && (
+          <div className="rp-bento__bg" style={{ backgroundImage: `url(${productImage})` }} />
+        )}
+        <div className="rp-bento__overlay" />
+        <Quote size={64} className="rp-bento__bigquote" />
+        <div className="rp-bento__content">
+          <Stars value={Number(review.rating || 0)} size={18} />
+          <p className="rp-bento__hero-text">"{review.comment}"</p>
+          <div className="rp-bento__author">
+            <AuthorAvatar name={review.name} avatar={review.author?.avatar} size={56} ring />
+            <div>
+              <strong className="rp-bento__name">{review.name}</strong>
+              {productName && (
+                <div className="rp-bento__product">
+                  <span className="rp-bento__product-label">On</span>
+                  {productHref ? (
+                    <Link to={productHref} className="rp-bento__product-link">{productName}</Link>
+                  ) : (
+                    <span className="rp-bento__product-link">{productName}</span>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        <div className="storefront__badge" style={{ color: "var(--sirat-star)", borderColor: "var(--sirat-star)", background: "rgba(245, 158, 11, 0.05)", fontSize: "0.7rem", padding: "4px 8px" }}>
-          {Number(r.rating || 0).toFixed(1)}
+      </Panel>
+    );
+  }
+
+  return (
+    <Panel className={`rp-bento rp-bento--${size}`}>
+      <div className="rp-bento__top">
+        <AuthorAvatar name={review.name} avatar={review.author?.avatar} size={size === "lg" ? 48 : 40} />
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <strong className="rp-bento__name">{review.name}</strong>
+          <div className="rp-bento__meta">
+            <Stars value={Number(review.rating || 0)} size={11} />
+            <span className="rp-bento__rating-num">{Number(review.rating || 0).toFixed(1)}</span>
+            {review.createdAt && <span className="rp-bento__date">{formatDate(review.createdAt)}</span>}
+          </div>
         </div>
       </div>
 
-      <Quote size={16} style={{ color: "var(--sirat-gold-soft)", opacity: 0.5, marginBottom: "0.25rem" }} />
-      <p className="page-section__text" style={{ marginTop: "0.25rem", lineHeight: 1.6, fontSize: "0.88rem" }}>
-        {r.comment}
-      </p>
+      <Quote size={18} className="rp-bento__quote" />
+      <p className="rp-bento__text">"{review.comment}"</p>
 
       {productName && (
-        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginTop: "1rem", paddingTop: "0.85rem", borderTop: "1px solid var(--sirat-border)" }}>
+        <div className="rp-bento__footer">
           {productImage && productHref ? (
-            <Link to={productHref} style={{ width: "40px", height: "40px", borderRadius: "8px", overflow: "hidden", border: "1px solid var(--sirat-border)", display: "block", flexShrink: 0 }}>
-              <img src={productImage} alt={productName} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
+            <Link to={productHref} className="rp-bento__product-img" title={productName}>
+              <img src={productImage} alt={productName} loading="lazy" />
             </Link>
           ) : productImage ? (
-            <div style={{ width: "40px", height: "40px", borderRadius: "8px", overflow: "hidden", border: "1px solid var(--sirat-border)", flexShrink: 0 }}>
-              <img src={productImage} alt={productName} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
+            <div className="rp-bento__product-img">
+              <img src={productImage} alt={productName} loading="lazy" />
             </div>
           ) : null}
           <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--sirat-muted)" }}>On</div>
+            <div className="rp-bento__product-label">Reviewed</div>
             {productHref ? (
-              <Link to={productHref} style={{ fontSize: "0.8rem", color: "var(--sirat-gold-soft)", textDecoration: "none", fontWeight: 600, display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                {productName}
-              </Link>
+              <Link to={productHref} className="rp-bento__product-link">{productName}</Link>
             ) : (
-              <span style={{ fontSize: "0.8rem", color: "var(--sirat-text)", fontWeight: 600, display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{productName}</span>
+              <span className="rp-bento__product-link" style={{ color: "var(--sirat-text)" }}>{productName}</span>
             )}
           </div>
         </div>
@@ -278,24 +181,20 @@ export default function ReviewsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [productFilter, setProductFilter] = useState("all");
+  const [ratingFilter, setRatingFilter] = useState("all");
   const [sort, setSort] = useState("newest");
 
   useEffect(() => {
     let mounted = true;
     setLoading(true);
     fetchReviews()
-      .then((data) => {
-        if (!mounted) return;
-        setReviews(Array.isArray(data) ? data : []);
-      })
+      .then((data) => { if (mounted) setReviews(Array.isArray(data) ? data : []); })
       .catch((err) => {
         if (!mounted) return;
         console.error("Failed to fetch reviews:", err);
         setError(err?.message || "Could not load reviews.");
       })
-      .finally(() => {
-        if (mounted) setLoading(false);
-      });
+      .finally(() => { if (mounted) setLoading(false); });
     return () => { mounted = false; };
   }, []);
 
@@ -304,25 +203,10 @@ export default function ReviewsPage() {
     for (const r of reviews) {
       const id = r.productId || (r.product && r.product.slug) || "unknown";
       if (!seen.has(id)) {
-        seen.set(id, {
-          id,
-          name: r.product?.name || "Unknown product",
-          slug: r.product?.slug,
-        });
+        seen.set(id, { id, name: r.product?.name || "Unknown product" });
       }
     }
-    return [{ id: "all", name: "All Products" }, ...Array.from(seen.values())];
-  }, [reviews]);
-
-  const featuredReviews = useMemo(() => {
-    // Highest-rated first, then take the first 8 (or all if fewer).
-    return [...reviews]
-      .sort((a, b) => {
-        const r = Number(b.rating || 0) - Number(a.rating || 0);
-        if (r !== 0) return r;
-        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
-      })
-      .slice(0, 8);
+    return [{ id: "all", name: "All products" }, ...Array.from(seen.values())];
   }, [reviews]);
 
   const filteredReviews = useMemo(() => {
@@ -333,24 +217,36 @@ export default function ReviewsPage() {
         return id === productFilter;
       });
     }
+    if (ratingFilter !== "all") {
+      list = list.filter((r) => Math.round(Number(r.rating || 0)) === Number(ratingFilter));
+    }
     const sorted = [...list];
     if (sort === "highest") sorted.sort((a, b) => Number(b.rating || 0) - Number(a.rating || 0));
     else if (sort === "lowest") sorted.sort((a, b) => Number(a.rating || 0) - Number(b.rating || 0));
     else sorted.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
     return sorted;
-  }, [reviews, productFilter, sort]);
+  }, [reviews, productFilter, ratingFilter, sort]);
 
   const stats = useMemo(() => {
     const total = reviews.length;
-    if (total === 0) return { total: 0, avg: 0, distribution: [0, 0, 0, 0, 0] };
+    if (total === 0) return { total: 0, avg: 0, distribution: [0, 0, 0, 0, 0], fivePct: 0, recommendPct: 0 };
     const sum = reviews.reduce((acc, r) => acc + Number(r.rating || 0), 0);
     const distribution = [0, 0, 0, 0, 0];
     reviews.forEach((r) => {
       const bucket = Math.max(1, Math.min(5, Math.round(Number(r.rating || 0))));
       distribution[5 - bucket] += 1;
     });
-    return { total, avg: sum / total, distribution };
+    return {
+      total,
+      avg: sum / total,
+      distribution,
+      fivePct: Math.round((distribution[0] / total) * 100),
+      recommendPct: Math.round(reviews.filter((r) => Number(r.rating || 0) >= 4).length / total * 100),
+    };
   }, [reviews]);
+
+  // Bento pattern: hero (col-span 2) + lg card, then md cards in 3-col grid
+  const bentoReviews = filteredReviews;
 
   return (
     <PageFrame
@@ -360,126 +256,163 @@ export default function ReviewsPage() {
     >
       <SEO title="Customer Feedback" description="See what verified buyers say about Sirat's stitch design, premium custom puff prints, and delivery." />
 
-      {/* SUMMARY PANEL */}
-      {!loading && !error && reviews.length > 0 && (
-        <Panel className="page-card" style={{ marginBottom: "1.75rem" }}>
-          <div className="reviews-summary">
-            <div className="reviews-summary__avg">
-              <div style={{ fontSize: "3.75rem", fontWeight: 800, fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1, color: "var(--sirat-charcoal, #141311)" }}>
-                {stats.avg.toFixed(1)}
+      <div className="rp-wrap">
+        {/* HERO HEADER */}
+        <div className="rp-hero">
+          <div>
+            <div className="storefront__badge" style={{ color: "var(--sirat-gold-soft)", borderColor: "var(--sirat-gold-soft)", background: "rgba(197, 160, 89, 0.08)" }}>
+              <Sparkles size={12} /> The Wall of Love
+            </div>
+            <h1 className="rp-hero__title">Every review, a real story.</h1>
+            <p className="rp-hero__subtitle">
+              Honest words from people who bought, wore, washed, and lived in our pieces. No scripts, no staging — just the truth.
+            </p>
+          </div>
+          {reviews.length > 0 && (
+            <div className="rp-hero__bigstat">
+              <div className="rp-hero__bigstat-num">{stats.avg.toFixed(1)}</div>
+              <Stars value={stats.avg} size={20} />
+              <div className="rp-hero__bigstat-label">From {stats.total} verified {stats.total === 1 ? "buyer" : "buyers"}</div>
+            </div>
+          )}
+        </div>
+
+        {/* STATS PANEL */}
+        {!loading && !error && reviews.length > 0 && (
+          <Panel className="rp-stats">
+            <div className="rp-stats__left">
+              <div className="rp-stats__head">
+                <Award size={18} style={{ color: "var(--sirat-gold-soft)" }} />
+                <h3>Rating breakdown</h3>
               </div>
-              <div style={{ margin: "0.5rem 0" }}>
-                <Stars value={stats.avg} size={22} />
-              </div>
-              <div style={{ fontSize: "0.85rem", color: "var(--sirat-muted)" }}>
-                Based on <strong style={{ color: "var(--sirat-text)" }}>{stats.total}</strong> verified {stats.total === 1 ? "review" : "reviews"}
+              <div className="rp-stats__bars">
+                {[5, 4, 3, 2, 1].map((s, i) => (
+                  <StatBar key={s} stars={s} count={stats.distribution[i]} total={stats.total} />
+                ))}
               </div>
             </div>
-            <div className="reviews-summary__bars">
-              {[5, 4, 3, 2, 1].map((s, i) => (
-                <StatBar key={s} stars={s} count={stats.distribution[i]} total={stats.total} />
-              ))}
+            <div className="rp-stats__divider" />
+            <div className="rp-stats__highlights">
+              <div className="rp-stat-tile">
+                <div className="rp-stat-tile__value">{stats.fivePct}%</div>
+                <div className="rp-stat-tile__label">5-star reviews</div>
+              </div>
+              <div className="rp-stat-tile">
+                <div className="rp-stat-tile__value">{stats.recommendPct}%</div>
+                <div className="rp-stat-tile__label">Would recommend</div>
+              </div>
+              <div className="rp-stat-tile">
+                <div className="rp-stat-tile__value">{stats.total}</div>
+                <div className="rp-stat-tile__label">Total reviews</div>
+              </div>
+            </div>
+          </Panel>
+        )}
+
+        {/* FILTERS */}
+        {!loading && !error && reviews.length > 0 && (
+          <div className="rp-filters">
+            <div className="rp-filters__left">
+              <Filter size={14} style={{ color: "var(--sirat-muted)" }} />
+              <span className="rp-filters__label">Filter</span>
+              <div className="rp-filters__group">
+                <div style={{ position: "relative" }}>
+                  <select value={productFilter} onChange={(e) => setProductFilter(e.target.value)} className="rp-filter-select">
+                    {productOptions.map((p) => (
+                      <option key={p.id} value={p.id}>{p.name}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={13} className="rp-filter-select__caret" />
+                </div>
+                <div style={{ position: "relative" }}>
+                  <select value={ratingFilter} onChange={(e) => setRatingFilter(e.target.value)} className="rp-filter-select">
+                    <option value="all">All ratings</option>
+                    <option value="5">5 stars only</option>
+                    <option value="4">4 stars only</option>
+                    <option value="3">3 stars only</option>
+                    <option value="2">2 stars only</option>
+                    <option value="1">1 star only</option>
+                  </select>
+                  <ChevronDown size={13} className="rp-filter-select__caret" />
+                </div>
+                <div style={{ position: "relative" }}>
+                  <select value={sort} onChange={(e) => setSort(e.target.value)} className="rp-filter-select">
+                    <option value="newest">Newest first</option>
+                    <option value="highest">Highest rated</option>
+                    <option value="lowest">Lowest rated</option>
+                  </select>
+                  <ChevronDown size={13} className="rp-filter-select__caret" />
+                </div>
+              </div>
+              {(productFilter !== "all" || ratingFilter !== "all") && (
+                <button
+                  type="button"
+                  onClick={() => { setProductFilter("all"); setRatingFilter("all"); }}
+                  className="rp-filters__clear"
+                >
+                  <X size={12} /> Clear filters
+                </button>
+              )}
+            </div>
+            <div className="rp-filters__count">
+              <strong>{filteredReviews.length}</strong> {filteredReviews.length === 1 ? "review" : "reviews"}
             </div>
           </div>
-        </Panel>
-      )}
+        )}
 
-      {/* FEATURED HORIZONTAL SLIDER */}
-      {!loading && !error && featuredReviews.length > 0 && (
-        <div style={{ marginBottom: "2rem" }}>
-          <FeaturedSlider reviews={featuredReviews} />
-        </div>
-      )}
-
-      {/* ALL REVIEWS SECTION HEADER */}
-      {!loading && !error && reviews.length > 0 && (
-        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", margin: "0.5rem 0 1rem" }}>
-          <h2 className="page-section__title" style={{ fontSize: "1.25rem" }}>All Reviews</h2>
-          <span style={{ fontSize: "0.82rem", color: "var(--sirat-muted)" }}>{reviews.length} total</span>
-        </div>
-      )}
-
-      {/* FILTER + SORT ROW */}
-      {!loading && !error && reviews.length > 0 && productOptions.length > 2 && (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginBottom: "1.25rem", alignItems: "center" }}>
-          <div style={{ position: "relative", flex: "1 1 220px", minWidth: 0 }}>
-            <select
-              value={productFilter}
-              onChange={(e) => setProductFilter(e.target.value)}
-              className="reviews-filter-select"
-            >
-              {productOptions.map((p) => (
-                <option key={p.id} value={p.id}>{p.name}</option>
-              ))}
-            </select>
-            <ChevronDown size={14} style={{ position: "absolute", right: "1rem", top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: "var(--sirat-muted)" }} />
+        {/* STATES */}
+        {loading && (
+          <div className="rp-skeletons">
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <Panel key={i} className="rp-skeleton-card">
+                <div className="skeleton" style={{ height: "44px", width: "44px", borderRadius: "50%" }} />
+                <div className="skeleton" style={{ height: "12px", width: "75%", marginTop: "12px" }} />
+                <div className="skeleton" style={{ height: "12px", width: "100%", marginTop: "6px" }} />
+                <div className="skeleton" style={{ height: "12px", width: "60%", marginTop: "6px" }} />
+              </Panel>
+            ))}
+            <div className="rp-loading-text">
+              <Loader2 size={14} className="spin" /> Loading customer reviews…
+            </div>
           </div>
-          <div style={{ position: "relative", flex: "0 1 180px" }}>
-            <select
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-              className="reviews-filter-select"
-            >
-              <option value="newest">Newest first</option>
-              <option value="highest">Highest rated</option>
-              <option value="lowest">Lowest rated</option>
-            </select>
-            <ChevronDown size={14} style={{ position: "absolute", right: "1rem", top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: "var(--sirat-muted)" }} />
+        )}
+
+        {!loading && error && (
+          <Panel className="rp-empty">
+            <MessageSquareQuote size={32} style={{ color: "var(--sirat-muted)", marginBottom: "0.75rem" }} />
+            <h3>Couldn't load reviews</h3>
+            <p>{error}</p>
+          </Panel>
+        )}
+
+        {!loading && !error && reviews.length === 0 && (
+          <Panel className="rp-empty">
+            <Inbox size={36} style={{ color: "var(--sirat-gold-soft)", marginBottom: "0.75rem" }} />
+            <h3>No reviews yet</h3>
+            <p>Once our customers start leaving feedback on their purchases, you'll see their verified reviews here.</p>
+          </Panel>
+        )}
+
+        {!loading && !error && filteredReviews.length === 0 && reviews.length > 0 && (
+          <Panel className="rp-empty">
+            <p>No reviews match these filters. Try clearing them.</p>
+          </Panel>
+        )}
+
+        {/* BENTO GRID */}
+        {!loading && !error && bentoReviews.length > 0 && (
+          <div className="rp-bento-grid">
+            {bentoReviews.map((r, idx) => {
+              // Pattern: first review is hero, then 1 large, then alternating
+              let size = "md";
+              if (idx === 0 && bentoReviews.length > 1) size = "hero";
+              else if (idx === 1 && bentoReviews.length > 2) size = "lg";
+              else if ((idx - 2) % 7 === 0 && bentoReviews.length > 5) size = "lg";
+              return <ReviewBento key={r.id} review={r} size={size} />;
+            })}
           </div>
-          <div style={{ fontSize: "0.82rem", color: "var(--sirat-muted)", marginLeft: "auto" }}>
-            Showing {filteredReviews.length}
-          </div>
-        </div>
-      )}
-
-      {/* STATES */}
-      {loading && (
-        <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))" }}>
-          {[0, 1, 2, 3].map((i) => (
-            <Panel key={i} className="page-card">
-              <div className="skeleton" style={{ height: "16px", width: "90px", marginBottom: "0.75rem" }} />
-              <div className="skeleton" style={{ height: "12px", width: "100%", marginBottom: "6px" }} />
-              <div className="skeleton" style={{ height: "12px", width: "85%", marginBottom: "6px" }} />
-              <div className="skeleton" style={{ height: "12px", width: "70%", marginBottom: "1rem" }} />
-              <div className="skeleton" style={{ height: "14px", width: "120px" }} />
-            </Panel>
-          ))}
-          <div style={{ gridColumn: "1 / -1", textAlign: "center", color: "var(--sirat-muted)", fontSize: "0.85rem", display: "flex", justifyContent: "center", alignItems: "center", gap: "0.5rem" }}>
-            <Loader2 size={14} className="spin" /> Loading customer reviews…
-          </div>
-        </div>
-      )}
-
-      {!loading && error && (
-        <Panel className="page-card" style={{ textAlign: "center", padding: "2rem" }}>
-          <MessageSquareQuote size={28} style={{ color: "var(--sirat-muted)", marginBottom: "0.5rem" }} />
-          <h3 style={{ marginBottom: "0.25rem" }}>Couldn’t load reviews</h3>
-          <p style={{ color: "var(--sirat-muted)", fontSize: "0.9rem" }}>{error}</p>
-        </Panel>
-      )}
-
-      {!loading && !error && reviews.length === 0 && (
-        <Panel className="page-card" style={{ textAlign: "center", padding: "3rem 1.5rem" }}>
-          <Inbox size={32} style={{ color: "var(--sirat-gold-soft)", marginBottom: "0.75rem" }} />
-          <h3 style={{ marginBottom: "0.25rem" }}>No reviews yet</h3>
-          <p style={{ color: "var(--sirat-muted)", fontSize: "0.9rem", maxWidth: "420px", margin: "0 auto" }}>
-            Once our customers start leaving feedback on their purchases, you’ll see their verified reviews here.
-          </p>
-        </Panel>
-      )}
-
-      {!loading && !error && filteredReviews.length === 0 && reviews.length > 0 && (
-        <Panel className="page-card" style={{ textAlign: "center", padding: "2rem" }}>
-          <p style={{ color: "var(--sirat-muted)" }}>No reviews match this filter.</p>
-        </Panel>
-      )}
-
-      {/* ALL REVIEWS GRID */}
-      {!loading && !error && filteredReviews.length > 0 && (
-        <div className="quote-grid">
-          {filteredReviews.map((r) => <ReviewListCard key={r.id} r={r} />)}
-        </div>
-      )}
+        )}
+      </div>
     </PageFrame>
   );
 }
