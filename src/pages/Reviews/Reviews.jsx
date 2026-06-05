@@ -1,5 +1,5 @@
-﻿import { useState, useEffect, useMemo } from "react";
-import { Star, MessageSquareQuote, Loader2, Inbox, ChevronDown, Quote } from "lucide-react";
+﻿import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { Star, MessageSquareQuote, Loader2, Inbox, ChevronDown, Quote, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import PageFrame from "@components/layout/PageFrame";
 import { Panel } from "@components/ui";
@@ -50,6 +50,229 @@ const StatBar = ({ stars, count, total }) => {
   );
 };
 
+const AuthorAvatar = ({ name, avatar, size = 40 }) => {
+  if (avatar) {
+    return (
+      <img
+        src={avatar}
+        alt={name || "Reviewer"}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: "50%",
+          objectFit: "cover",
+          border: "1.5px solid var(--sirat-border-strong)",
+          background: "var(--sirat-cream, #FAF9F5)",
+          flexShrink: 0,
+          display: "block",
+        }}
+        loading="lazy"
+        onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.nextElementSibling && (e.currentTarget.nextElementSibling.style.display = "flex"); }}
+      />
+    );
+  }
+  return (
+    <div
+      style={{
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        background: "linear-gradient(135deg, var(--sirat-gold) 0%, var(--sirat-gold-soft) 100%)",
+        color: "#FFFDFB",
+        fontWeight: 800,
+        fontFamily: "'Space Grotesk', sans-serif",
+        fontSize: size * 0.4,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        border: "1.5px solid var(--sirat-border-strong)",
+        flexShrink: 0,
+        letterSpacing: "0.02em",
+      }}
+    >
+      {(name || "?").trim().charAt(0).toUpperCase()}
+    </div>
+  );
+};
+
+const FeaturedSlider = ({ reviews }) => {
+  const trackRef = useRef(null);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(true);
+
+  const updateButtons = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    setCanPrev(el.scrollLeft > 4);
+    setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return undefined;
+    updateButtons();
+    el.addEventListener("scroll", updateButtons, { passive: true });
+    window.addEventListener("resize", updateButtons);
+    return () => {
+      el.removeEventListener("scroll", updateButtons);
+      window.removeEventListener("resize", updateButtons);
+    };
+  }, [updateButtons, reviews.length]);
+
+  const scrollBy = (dir) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector("[data-slider-card]");
+    const step = card ? card.getBoundingClientRect().width + 20 : el.clientWidth * 0.8;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
+
+  if (reviews.length === 0) return null;
+
+  return (
+    <div className="reviews-featured">
+      <div className="reviews-featured__head">
+        <div>
+          <div className="storefront__badge" style={{ color: "var(--sirat-gold-soft)", borderColor: "var(--sirat-gold-soft)", background: "rgba(197, 160, 89, 0.08)" }}>
+            <Sparkles size={12} /> Featured
+          </div>
+          <h2 className="page-section__title" style={{ marginTop: "0.5rem", fontSize: "1.4rem" }}>What buyers are saying</h2>
+        </div>
+        <div className="reviews-featured__nav">
+          <button
+            type="button"
+            onClick={() => scrollBy(-1)}
+            disabled={!canPrev}
+            aria-label="Previous reviews"
+            className="reviews-featured__arrow"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollBy(1)}
+            disabled={!canNext}
+            aria-label="Next reviews"
+            className="reviews-featured__arrow"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>
+      </div>
+
+      <div className="reviews-featured__track" ref={trackRef}>
+        {reviews.map((r) => {
+          const productName = r.product?.name;
+          const productSlug = r.product?.slug;
+          const productImage = pickProductImage(r.product?.images);
+          const productHref = productSlug ? `/product/${productSlug}` : null;
+          return (
+            <Panel key={r.id} data-slider-card className="page-card review-featured-card">
+              <div className="review-featured-card__top">
+                <AuthorAvatar name={r.name} avatar={r.author?.avatar} size={52} />
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <strong style={{ display: "block", fontSize: "0.95rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</strong>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginTop: "2px" }}>
+                    <Stars value={Number(r.rating || 0)} size={13} />
+                    <span style={{ fontSize: "0.72rem", color: "var(--sirat-muted)" }}>{formatDate(r.createdAt)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <Quote size={22} className="review-featured-card__quote" />
+
+              <p className="page-section__text" style={{ lineHeight: 1.6, fontSize: "0.92rem", flex: 1 }}>
+                {r.comment}
+              </p>
+
+              {productName && (
+                <div className="review-featured-card__product">
+                  {productImage ? (
+                    productHref ? (
+                      <Link to={productHref} className="review-featured-card__product-img" title={`View ${productName}`}>
+                        <img src={productImage} alt={productName} loading="lazy" />
+                      </Link>
+                    ) : (
+                      <div className="review-featured-card__product-img">
+                        <img src={productImage} alt={productName} loading="lazy" />
+                      </div>
+                    )
+                  ) : (
+                    <div className="review-featured-card__product-img review-featured-card__product-img--placeholder">
+                      <MessageSquareQuote size={20} />
+                    </div>
+                  )}
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--sirat-muted)" }}>Reviewed</div>
+                    {productHref ? (
+                      <Link to={productHref} className="review-featured-card__product-name">{productName}</Link>
+                    ) : (
+                      <span className="review-featured-card__product-name" style={{ color: "var(--sirat-text)" }}>{productName}</span>
+                    )}
+                  </div>
+                </div>
+              )}
+            </Panel>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+const ReviewListCard = ({ r }) => {
+  const productName = r.product?.name;
+  const productSlug = r.product?.slug;
+  const productImage = pickProductImage(r.product?.images);
+  const productHref = productSlug ? `/product/${productSlug}` : null;
+  return (
+    <Panel className="page-card review-card">
+      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.85rem" }}>
+        <AuthorAvatar name={r.name} avatar={r.author?.avatar} size={44} />
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <strong style={{ display: "block", fontSize: "0.92rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</strong>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginTop: "2px" }}>
+            <Stars value={Number(r.rating || 0)} size={12} />
+            <span style={{ fontSize: "0.72rem", color: "var(--sirat-muted)" }}>{formatDate(r.createdAt)}</span>
+          </div>
+        </div>
+        <div className="storefront__badge" style={{ color: "var(--sirat-star)", borderColor: "var(--sirat-star)", background: "rgba(245, 158, 11, 0.05)", fontSize: "0.7rem", padding: "4px 8px" }}>
+          {Number(r.rating || 0).toFixed(1)}
+        </div>
+      </div>
+
+      <Quote size={16} style={{ color: "var(--sirat-gold-soft)", opacity: 0.5, marginBottom: "0.25rem" }} />
+      <p className="page-section__text" style={{ marginTop: "0.25rem", lineHeight: 1.6, fontSize: "0.88rem" }}>
+        {r.comment}
+      </p>
+
+      {productName && (
+        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginTop: "1rem", paddingTop: "0.85rem", borderTop: "1px solid var(--sirat-border)" }}>
+          {productImage && productHref ? (
+            <Link to={productHref} style={{ width: "40px", height: "40px", borderRadius: "8px", overflow: "hidden", border: "1px solid var(--sirat-border)", display: "block", flexShrink: 0 }}>
+              <img src={productImage} alt={productName} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
+            </Link>
+          ) : productImage ? (
+            <div style={{ width: "40px", height: "40px", borderRadius: "8px", overflow: "hidden", border: "1px solid var(--sirat-border)", flexShrink: 0 }}>
+              <img src={productImage} alt={productName} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
+            </div>
+          ) : null}
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--sirat-muted)" }}>On</div>
+            {productHref ? (
+              <Link to={productHref} style={{ fontSize: "0.8rem", color: "var(--sirat-gold-soft)", textDecoration: "none", fontWeight: 600, display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {productName}
+              </Link>
+            ) : (
+              <span style={{ fontSize: "0.8rem", color: "var(--sirat-text)", fontWeight: 600, display: "block", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{productName}</span>
+            )}
+          </div>
+        </div>
+      )}
+    </Panel>
+  );
+};
+
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -91,6 +314,17 @@ export default function ReviewsPage() {
     return [{ id: "all", name: "All Products" }, ...Array.from(seen.values())];
   }, [reviews]);
 
+  const featuredReviews = useMemo(() => {
+    // Highest-rated first, then take the first 8 (or all if fewer).
+    return [...reviews]
+      .sort((a, b) => {
+        const r = Number(b.rating || 0) - Number(a.rating || 0);
+        if (r !== 0) return r;
+        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+      })
+      .slice(0, 8);
+  }, [reviews]);
+
   const filteredReviews = useMemo(() => {
     let list = reviews;
     if (productFilter !== "all") {
@@ -100,8 +334,8 @@ export default function ReviewsPage() {
       });
     }
     const sorted = [...list];
-    if (sort === "highest") sorted.sort((a, b) => Number(b.rating) - Number(a.rating));
-    else if (sort === "lowest") sorted.sort((a, b) => Number(a.rating) - Number(b.rating));
+    if (sort === "highest") sorted.sort((a, b) => Number(b.rating || 0) - Number(a.rating || 0));
+    else if (sort === "lowest") sorted.sort((a, b) => Number(a.rating || 0) - Number(b.rating || 0));
     else sorted.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
     return sorted;
   }, [reviews, productFilter, sort]);
@@ -128,26 +362,41 @@ export default function ReviewsPage() {
 
       {/* SUMMARY PANEL */}
       {!loading && !error && reviews.length > 0 && (
-        <Panel className="page-card" style={{ marginBottom: "1.5rem" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "minmax(220px, 320px) 1fr", gap: "2rem", alignItems: "center" }}>
-            <div style={{ textAlign: "center", borderRight: "1px solid var(--sirat-border)", paddingRight: "2rem" }}>
-              <div style={{ fontSize: "3.5rem", fontWeight: 800, fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1, color: "var(--sirat-charcoal, #141311)" }}>
+        <Panel className="page-card" style={{ marginBottom: "1.75rem" }}>
+          <div className="reviews-summary">
+            <div className="reviews-summary__avg">
+              <div style={{ fontSize: "3.75rem", fontWeight: 800, fontFamily: "'Space Grotesk', sans-serif", lineHeight: 1, color: "var(--sirat-charcoal, #141311)" }}>
                 {stats.avg.toFixed(1)}
               </div>
               <div style={{ margin: "0.5rem 0" }}>
-                <Stars value={stats.avg} size={20} />
+                <Stars value={stats.avg} size={22} />
               </div>
               <div style={{ fontSize: "0.85rem", color: "var(--sirat-muted)" }}>
                 Based on <strong style={{ color: "var(--sirat-text)" }}>{stats.total}</strong> verified {stats.total === 1 ? "review" : "reviews"}
               </div>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <div className="reviews-summary__bars">
               {[5, 4, 3, 2, 1].map((s, i) => (
                 <StatBar key={s} stars={s} count={stats.distribution[i]} total={stats.total} />
               ))}
             </div>
           </div>
         </Panel>
+      )}
+
+      {/* FEATURED HORIZONTAL SLIDER */}
+      {!loading && !error && featuredReviews.length > 0 && (
+        <div style={{ marginBottom: "2rem" }}>
+          <FeaturedSlider reviews={featuredReviews} />
+        </div>
+      )}
+
+      {/* ALL REVIEWS SECTION HEADER */}
+      {!loading && !error && reviews.length > 0 && (
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", margin: "0.5rem 0 1rem" }}>
+          <h2 className="page-section__title" style={{ fontSize: "1.25rem" }}>All Reviews</h2>
+          <span style={{ fontSize: "0.82rem", color: "var(--sirat-muted)" }}>{reviews.length} total</span>
+        </div>
       )}
 
       {/* FILTER + SORT ROW */}
@@ -157,20 +406,7 @@ export default function ReviewsPage() {
             <select
               value={productFilter}
               onChange={(e) => setProductFilter(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "0.65rem 2.4rem 0.65rem 1rem",
-                borderRadius: "99px",
-                border: "1px solid var(--sirat-border)",
-                background: "var(--sirat-surface)",
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                color: "var(--sirat-text)",
-                appearance: "none",
-                cursor: "pointer",
-                outline: "none",
-                textOverflow: "ellipsis",
-              }}
+              className="reviews-filter-select"
             >
               {productOptions.map((p) => (
                 <option key={p.id} value={p.id}>{p.name}</option>
@@ -182,19 +418,7 @@ export default function ReviewsPage() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "0.65rem 2.4rem 0.65rem 1rem",
-                borderRadius: "99px",
-                border: "1px solid var(--sirat-border)",
-                background: "var(--sirat-surface)",
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                color: "var(--sirat-text)",
-                appearance: "none",
-                cursor: "pointer",
-                outline: "none",
-              }}
+              className="reviews-filter-select"
             >
               <option value="newest">Newest first</option>
               <option value="highest">Highest rated</option>
@@ -203,7 +427,7 @@ export default function ReviewsPage() {
             <ChevronDown size={14} style={{ position: "absolute", right: "1rem", top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: "var(--sirat-muted)" }} />
           </div>
           <div style={{ fontSize: "0.82rem", color: "var(--sirat-muted)", marginLeft: "auto" }}>
-            Showing {filteredReviews.length} of {reviews.length}
+            Showing {filteredReviews.length}
           </div>
         </div>
       )}
@@ -250,56 +474,10 @@ export default function ReviewsPage() {
         </Panel>
       )}
 
-      {/* REVIEWS GRID */}
+      {/* ALL REVIEWS GRID */}
       {!loading && !error && filteredReviews.length > 0 && (
         <div className="quote-grid">
-          {filteredReviews.map((r) => {
-            const productName = r.product?.name;
-            const productSlug = r.product?.slug;
-            const productImage = pickProductImage(r.product?.images);
-            const date = formatDate(r.createdAt);
-            const productHref = productSlug ? `/product/${productSlug}` : null;
-            return (
-              <Panel key={r.id} className="page-card review-card">
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.75rem", marginBottom: "0.75rem" }}>
-                  <div className="storefront__badge" style={{ color: "var(--sirat-star)", borderColor: "var(--sirat-star)", background: "rgba(245, 158, 11, 0.05)" }}>
-                    <Star size={12} fill="currentColor" /> {Number(r.rating || 0).toFixed(1)} / 5
-                  </div>
-                  {date && <span style={{ fontSize: "0.72rem", color: "var(--sirat-muted)" }}>{date}</span>}
-                </div>
-
-                <Quote size={18} style={{ color: "var(--sirat-gold-soft)", opacity: 0.5, marginBottom: "0.25rem" }} />
-                <p className="page-section__text" style={{ marginTop: "0.25rem", lineHeight: 1.6 }}>
-                  {r.comment}
-                </p>
-
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.75rem", marginTop: "1.25rem", paddingTop: "1rem", borderTop: "1px solid var(--sirat-border)" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", minWidth: 0 }}>
-                    <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--sirat-cream, #FAF9F5)", border: "1px solid var(--sirat-border)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: "var(--sirat-gold-soft)", fontSize: "0.85rem", flexShrink: 0 }}>
-                      {(r.name || "?").trim().charAt(0).toUpperCase()}
-                    </div>
-                    <div style={{ minWidth: 0 }}>
-                      <strong style={{ display: "block", fontSize: "0.9rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.name}</strong>
-                      {productName && (
-                        productHref ? (
-                          <Link to={productHref} style={{ fontSize: "0.75rem", color: "var(--sirat-gold-soft)", textDecoration: "none", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", display: "block" }}>
-                            on {productName}
-                          </Link>
-                        ) : (
-                          <span style={{ fontSize: "0.75rem", color: "var(--sirat-muted)" }}>on {productName}</span>
-                        )
-                      )}
-                    </div>
-                  </div>
-                  {productImage && productHref && (
-                    <Link to={productHref} style={{ flexShrink: 0, width: "44px", height: "44px", borderRadius: "8px", overflow: "hidden", border: "1px solid var(--sirat-border)", display: "block" }} title={`View ${productName}`}>
-                      <img src={productImage} alt={productName} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
-                    </Link>
-                  )}
-                </div>
-              </Panel>
-            );
-          })}
+          {filteredReviews.map((r) => <ReviewListCard key={r.id} r={r} />)}
         </div>
       )}
     </PageFrame>
