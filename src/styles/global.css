@@ -1109,6 +1109,7 @@ section:not(.page-section) {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical;
   opacity: 0.7;
 }
@@ -5160,6 +5161,7 @@ section:not(.page-section) {
   .product-card-modern__copy {
     font-size: 0.6rem;
     -webkit-line-clamp: 1;
+    line-clamp: 1;
   }
   .card-actions-group .action-circle-btn:first-child {
     display: none !important;
