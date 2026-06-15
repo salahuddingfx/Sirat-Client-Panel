@@ -60,11 +60,13 @@ const safeStorage = {
 
 const send = (path, body, useBeacon = false) => {
   let cleanBase = API_BASE.replace(/\/$/, ""); // Remove trailing slash
-  if (!cleanBase) {
-    cleanBase = "http://localhost:5000/api";
+  // Ensure the URL ends with /track
+  let baseEndpoint;
+  if (cleanBase.endsWith("/api/v1") || cleanBase.endsWith("/api") || cleanBase.includes("/api/")) {
+    baseEndpoint = `${cleanBase}/track`;
+  } else {
+    baseEndpoint = `${cleanBase}/api/track`;
   }
-  // Ensure the URL ends with /api/track
-  const baseEndpoint = cleanBase.endsWith("/api") ? `${cleanBase}/track` : `${cleanBase}/api/track`;
   const url = `${baseEndpoint}${path}`;
 
   if (useBeacon && typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
