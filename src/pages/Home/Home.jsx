@@ -16,22 +16,21 @@ import SEO from "@components/layout/SEO";
 
 export default function HomePage() {
   return (
-    <>
+    <m.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.35 }}
+      className="storefront__content"
+    >
       <SEO
         title="Home"
         description="Sirat specializes in premium custom printed garments made from 100% combed cotton. Explore our latest heavyweight streetwear drops, limited puff print collections, and signature oversized fits."
         keywords="streetwear Bangladesh, custom printed tee, combed cotton, heavyweight oversized t-shirt, puff print, hoodies, zip-ups, premium clothing brand"
       />
-      {/* 1. Hero media slider — full width, outside container */}
+      {/* 1. Hero media slider */}
       <HeroSection />
 
-      <m.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.35 }}
-        className="storefront__content"
-      >
       {/* Flash Sale highlighted section */}
       <FlashSaleSection />
 
@@ -102,7 +101,6 @@ export default function HomePage() {
 
       {/* Newsletter signup card */}
       <NewsletterSection />
-      </m.div>
-    </>
+    </m.div>
   );
 }
