@@ -112,12 +112,6 @@ h1, h2, h3, h4, h5, h6, .sirat-brand, .page-card__title, .section-header h2, .be
   width: 100%;
 }
 
-@media (min-width: 768px) {
-  .storefront__content {
-    max-width: 1560px;
-  }
-}
-
 /* Global Section Styling - Ensure all sections respect viewport */
 section {
   max-width: 100%;
@@ -790,8 +784,16 @@ section:not(.page-section) {
 .storefront__content {
   display: grid;
   gap: 2.5rem;
-  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) 3rem;
+  padding-top: clamp(1rem, 3vw, 2rem);
+  padding-bottom: 3rem;
   overflow: hidden;
+}
+
+.storefront__content > section {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 /* Editorial Split Hero Layout */
@@ -799,6 +801,7 @@ section:not(.page-section) {
   margin: 0;
   overflow: hidden;
   width: 100%;
+  padding: 0 !important;
 }
 
 .hero-split-container {
