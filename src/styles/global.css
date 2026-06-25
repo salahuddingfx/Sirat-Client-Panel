@@ -5195,6 +5195,83 @@ section:not(.page-section) {
   animation: spin 0.7s linear infinite;
 }
 
+/* Delivery Info Card */
+.review-delivery-card {
+  background: var(--sirat-surface);
+  border: 1px solid var(--sirat-border);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.review-delivery-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--sirat-border);
+}
+
+.review-delivery-card__header svg {
+  color: var(--sirat-gold);
+  flex-shrink: 0;
+}
+
+.review-delivery-card__header span {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sirat-text);
+}
+
+.review-delivery-card__items {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.review-delivery-card__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.review-delivery-card__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--sirat-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.review-delivery-card__icon svg {
+  color: var(--sirat-gold);
+  width: 16px;
+  height: 16px;
+}
+
+.review-delivery-card__item div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.review-delivery-card__item strong {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--sirat-text);
+}
+
+.review-delivery-card__item span {
+  font-size: 0.75rem;
+  color: var(--sirat-muted);
+  line-height: 1.4;
+}
+
 /* Reviews List Header */
 .reviews-list-header {
   display: flex;
