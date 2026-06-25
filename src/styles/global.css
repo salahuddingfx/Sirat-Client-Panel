@@ -6738,6 +6738,7 @@ section:not(.page-section) {
   left: clamp(1.2rem, 3vw, 2rem);
   border-top: 2px solid var(--sirat-gold);
   border-left: 2px solid var(--sirat-gold);
+  filter: drop-shadow(0 0 4px rgba(197, 160, 89, 0.3));
 }
 
 .loader-corner--tr {
@@ -6745,6 +6746,7 @@ section:not(.page-section) {
   right: clamp(1.2rem, 3vw, 2rem);
   border-top: 2px solid var(--sirat-gold);
   border-right: 2px solid var(--sirat-gold);
+  filter: drop-shadow(0 0 4px rgba(197, 160, 89, 0.3));
 }
 
 .loader-corner--bl {
@@ -6752,6 +6754,7 @@ section:not(.page-section) {
   left: clamp(1.2rem, 3vw, 2rem);
   border-bottom: 2px solid var(--sirat-gold);
   border-left: 2px solid var(--sirat-gold);
+  filter: drop-shadow(0 0 4px rgba(197, 160, 89, 0.3));
 }
 
 .loader-corner--br {
@@ -6759,6 +6762,7 @@ section:not(.page-section) {
   right: clamp(1.2rem, 3vw, 2rem);
   border-bottom: 2px solid var(--sirat-gold);
   border-right: 2px solid var(--sirat-gold);
+  filter: drop-shadow(0 0 4px rgba(197, 160, 89, 0.3));
 }
 
 /* Close Button */
@@ -6788,6 +6792,7 @@ section:not(.page-section) {
   background: rgba(212, 175, 55, 0.08);
   border-color: var(--sirat-gold-soft);
   transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(197, 160, 89, 0.2);
 }
 
 .loader-close-btn svg {
@@ -6834,6 +6839,7 @@ section:not(.page-section) {
   background: linear-gradient(90deg, transparent, var(--sirat-gold), transparent);
   transform-origin: center;
   transform: scaleX(0);
+  filter: drop-shadow(0 0 6px rgba(197, 160, 89, 0.5));
 }
 
 /* Title */
