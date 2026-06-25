@@ -180,9 +180,9 @@ export default function AboutPage() {
                 style={{ gridColumn: "1 / -1", textAlign: "center", padding: "2.5rem 1.5rem" }}
               >
                 <Users size={36} className="muted" style={{ margin: "0 auto 0.75rem", color: "var(--sirat-gold)" }} />
-                <h4 style={{ margin: "0 0 0.4rem" }}>Team coming soon</h4>
+                <h4 style={{ margin: "0 0 0.4rem" }}>Team dropping soon</h4>
                 <p className="page-section__text" style={{ margin: 0 }}>
-                  Our crew will be announced shortly. Stay tuned.
+                  Profiles will appear here once the full crew is locked in.
                 </p>
               </Panel>
             ) : (
