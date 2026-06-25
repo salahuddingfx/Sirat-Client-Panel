@@ -6655,65 +6655,179 @@ section:not(.page-section) {
 .sirat-intro-loader {
   position: fixed;
   inset: 0;
-  background: #0A0A0A; /* Elegant deep black background */
-  z-index: 100000; /* Extremely high z-index to cover everything including bottom nav */
+  background: #0A0A0A;
+  z-index: 100000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
+/* Decorative Corners */
+.loader-corner {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  opacity: 0;
+}
+
+.loader-corner--tl {
+  top: clamp(1.2rem, 3vw, 2rem);
+  left: clamp(1.2rem, 3vw, 2rem);
+  border-top: 2px solid var(--sirat-gold);
+  border-left: 2px solid var(--sirat-gold);
+}
+
+.loader-corner--tr {
+  top: clamp(1.2rem, 3vw, 2rem);
+  right: clamp(1.2rem, 3vw, 2rem);
+  border-top: 2px solid var(--sirat-gold);
+  border-right: 2px solid var(--sirat-gold);
+}
+
+.loader-corner--bl {
+  bottom: clamp(1.2rem, 3vw, 2rem);
+  left: clamp(1.2rem, 3vw, 2rem);
+  border-bottom: 2px solid var(--sirat-gold);
+  border-left: 2px solid var(--sirat-gold);
+}
+
+.loader-corner--br {
+  bottom: clamp(1.2rem, 3vw, 2rem);
+  right: clamp(1.2rem, 3vw, 2rem);
+  border-bottom: 2px solid var(--sirat-gold);
+  border-right: 2px solid var(--sirat-gold);
+}
+
+/* Close Button */
 .loader-close-btn {
   position: absolute;
   top: clamp(1.5rem, 4vw, 2.5rem);
   right: clamp(1.5rem, 4vw, 2.5rem);
   background: transparent;
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 99px;
   color: var(--sirat-gold);
-  width: 44px;
-  height: 44px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   transition: all 250ms ease;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
 }
 
 .loader-close-btn:hover {
   background: rgba(212, 175, 55, 0.08);
   border-color: var(--sirat-gold-soft);
-  transform: rotate(90deg);
+  transform: scale(1.05);
 }
 
+.loader-close-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Center Content */
 .loader-center-content {
   text-align: center;
-  display: grid;
-  gap: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   user-select: none;
+  perspective: 600px;
 }
 
+/* Diamond Icon */
+.loader-diamond {
+  color: var(--sirat-gold);
+  margin-bottom: 0.25rem;
+  opacity: 0;
+}
+
+.loader-diamond svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--sirat-gold);
+}
+
+/* Gold Line Separator */
+.loader-line {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sirat-gold), transparent);
+  transform-origin: center;
+  transform: scaleX(0);
+}
+
+/* Title */
 .loader-title {
   margin: 0;
-  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  font-size: clamp(3.5rem, 8vw, 7.5rem);
-  font-weight: 900;
+  font-family: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-weight: 800;
   color: var(--sirat-gold);
-  letter-spacing: 0.16em;
-  line-height: 1.1;
+  letter-spacing: 0.2em;
+  line-height: 1;
   text-transform: uppercase;
   overflow: hidden;
+  text-shadow: 0 0 60px rgba(212, 175, 55, 0.15);
 }
 
+/* Thin Separator */
+.loader-thin-sep {
+  width: 40px;
+  height: 1px;
+  background: rgba(212, 175, 55, 0.3);
+  margin: 0.15rem 0;
+}
+
+/* Tagline */
+.loader-tagline {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(0.7rem, 1.8vw, 0.82rem);
+  font-weight: 600;
+  color: rgba(250, 250, 250, 0.4);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+/* Subtitle */
 .loader-subtitle {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  font-size: clamp(0.72rem, 2vw, 0.85rem);
-  font-weight: 700;
-  color: rgba(250, 250, 250, 0.6);
-  letter-spacing: 0.22em;
+  font-size: clamp(0.65rem, 1.6vw, 0.75rem);
+  font-weight: 500;
+  color: rgba(250, 250, 250, 0.3);
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   opacity: 0;
+}
+
+/* Progress Bar */
+.loader-progress-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.loader-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--sirat-gold), var(--sirat-gold-soft));
+  transform-origin: left;
+  transform: scaleX(0);
 }
 
 /* skeleton loading shimmer */
