@@ -5290,6 +5290,13 @@ section:not(.page-section) {
   flex-shrink: 0;
 }
 
+.review-star-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .review-card__body {
   margin: 0;
   font-size: 0.9rem;
