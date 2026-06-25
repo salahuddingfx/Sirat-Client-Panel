@@ -7,6 +7,15 @@ import { useAuth } from "@app/providers/AuthContext";
 import { useSettings } from "@app/providers/settings";
 import track from "@lib/tracker";
 
+function NavAvatar({ src, name }) {
+  const [imgError, setImgError] = useState(false);
+  const hasValidSrc = src && typeof src === "string" && src.startsWith("http") && !imgError;
+  if (hasValidSrc) {
+    return <img src={src} alt={name || "avatar"} onError={() => setImgError(true)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />;
+  }
+  return name?.charAt(0)?.toUpperCase() || "U";
+}
+
 export default function Navbar({ navItems, brandNote, onCartToggle }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
