@@ -3,6 +3,20 @@ import { User, Lock, Camera, Trash2, Shield, Bell } from "lucide-react";
 import { useAuth } from "../../../app/providers/AuthContext";
 import { changePassword as changePasswordApi } from "../../../api/queries";
 
+function Avatar({ src, name, size = 72 }) {
+  const [imgError, setImgError] = useState(false);
+  const hasValidSrc = src && typeof src === "string" && src.startsWith("http") && !imgError;
+  return (
+    <div style={{ width: size, height: size, borderRadius: "50%", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, var(--sirat-gold) 0%, var(--sirat-gold-soft) 100%)", color: "#FFFDFB", fontSize: size * 0.4, fontWeight: 800, flexShrink: 0, border: "3px solid var(--sirat-border)" }}>
+      {hasValidSrc ? (
+        <img src={src} alt={name || "Avatar"} onError={() => setImgError(true)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      ) : (
+        name?.charAt(0)?.toUpperCase() || "U"
+      )}
+    </div>
+  );
+}
+
 export default function SettingsTab() {
   const { user, updateProfile, logout } = useAuth();
 
@@ -79,13 +93,7 @@ export default function SettingsTab() {
           </div>
 
           <div className="settings-avatar-section">
-            <div className="settings-avatar">
-              {avatarPreview || user?.avatar ? (
-                <img src={avatarPreview || user?.avatar} alt="avatar" />
-              ) : (
-                user?.name?.charAt(0) || "U"
-              )}
-            </div>
+            <Avatar src={avatarPreview || user?.avatar} name={user?.name} size={72} />
             <div className="settings-avatar-upload">
               <label>
                 <Camera size={14} /> Change Photo

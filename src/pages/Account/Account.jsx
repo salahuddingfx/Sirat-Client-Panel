@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { LayoutDashboard, Package, Heart, MapPin, Tag, Settings, LogOut, User } from "lucide-react";
+import { LayoutDashboard, Package, Heart, MapPin, Tag, Settings, LogOut } from "lucide-react";
 import PageFrame from "../../components/layout/PageFrame";
 import SEO from "../../components/layout/SEO";
 import { useAuth } from "../../app/providers/AuthContext";
@@ -26,6 +26,20 @@ const TABS = [
   { key: "coupons", label: "Coupons", icon: Tag },
   { key: "settings", label: "Settings", icon: Settings },
 ];
+
+function Avatar({ src, name, size = 44, className = "" }) {
+  const [imgError, setImgError] = useState(false);
+  const hasValidSrc = src && typeof src === "string" && src.startsWith("http") && !imgError;
+  return (
+    <div className={className} style={{ width: size, height: size, borderRadius: "50%", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, var(--sirat-gold) 0%, var(--sirat-gold-soft) 100%)", color: "#FFFDFB", fontSize: size * 0.4, fontWeight: 800, flexShrink: 0 }}>
+      {hasValidSrc ? (
+        <img src={src} alt={name || "Avatar"} onError={() => setImgError(true)} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      ) : (
+        name?.charAt(0)?.toUpperCase() || "U"
+      )}
+    </div>
+  );
+}
 
 export default function AccountPage() {
   const { isLoggedIn, user, login, register, logout } = useAuth();
@@ -90,13 +104,7 @@ export default function AccountPage() {
             {/* Sidebar */}
             <aside className="dash-sidebar">
               <div className="dash-sidebar__user">
-                <div className="dash-sidebar__avatar">
-                  {user?.avatar ? (
-                    <img src={user.avatar} alt={user.name} />
-                  ) : (
-                    user?.name?.charAt(0) || "U"
-                  )}
-                </div>
+                <Avatar src={user?.avatar} name={user?.name} size={44} />
                 <div className="dash-sidebar__user-info">
                   <div className="dash-sidebar__user-name">{user?.name}</div>
                   <div className="dash-sidebar__user-email">@{user?.username}</div>
