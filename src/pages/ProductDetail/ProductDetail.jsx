@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { m } from "framer-motion";
-import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, Send, PenLine, MessageSquare } from "lucide-react";
+import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, Send, PenLine, MessageSquare, Clock, RefreshCw } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
 import { useAuth } from "@app/providers/AuthContext";
 import { products } from "@data/mockData";
@@ -777,6 +777,52 @@ export default function ProductDetailPage() {
                 </button>
               </div>
             </form>
+          </div>
+
+          {/* Delivery Info Card */}
+          <div className="review-delivery-card">
+            <div className="review-delivery-card__header">
+              <Truck size={18} />
+              <span>Order & Delivery</span>
+            </div>
+            <div className="review-delivery-card__items">
+              <div className="review-delivery-card__item">
+                <div className="review-delivery-card__icon">
+                  <Clock size={16} />
+                </div>
+                <div>
+                  <strong>Estimated Delivery</strong>
+                  <span>Dhaka: 1–2 days · Outside: 2–4 days</span>
+                </div>
+              </div>
+              <div className="review-delivery-card__item">
+                <div className="review-delivery-card__icon">
+                  <Truck size={16} />
+                </div>
+                <div>
+                  <strong>Free Shipping</strong>
+                  <span>On all orders above ৳1,500</span>
+                </div>
+              </div>
+              <div className="review-delivery-card__item">
+                <div className="review-delivery-card__icon">
+                  <RefreshCw size={16} />
+                </div>
+                <div>
+                  <strong>Easy Returns</strong>
+                  <span>3-day return for unused items</span>
+                </div>
+              </div>
+              <div className="review-delivery-card__item">
+                <div className="review-delivery-card__icon">
+                  <ShieldCheck size={16} />
+                </div>
+                <div>
+                  <strong>Quality Assured</strong>
+                  <span>Premium cotton, pre-shrunk & color-fast</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
