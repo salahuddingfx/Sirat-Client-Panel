@@ -4390,6 +4390,45 @@ section:not(.page-section) {
   opacity: 1;
 }
 
+.footer-developer-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-studio-link {
+  color: var(--sirat-gold) !important;
+  font-weight: 700;
+  border-color: rgba(197, 160, 89, 0.3) !important;
+}
+
+.footer-studio-socials {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.footer-studio-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--sirat-border);
+  background: var(--sirat-surface);
+  color: var(--sirat-muted);
+  transition: all 0.2s ease;
+}
+
+.footer-studio-socials a:hover {
+  color: var(--sirat-gold);
+  border-color: var(--sirat-gold);
+  background: rgba(197, 160, 89, 0.08);
+  transform: translateY(-1px);
+}
+
 /* Policy Pages Layout */
 .policy-layout {
   max-width: 800px;
