@@ -415,7 +415,7 @@ export default function ProductDetailPage() {
                       key={color}
                       type="button"
                       className={["color-swatch-dot", selectedColor === color ? "active" : ""].filter(Boolean).join(" ")}
-                      style={{ backgroundColor: color, width: "20px", height: "20px" }}
+                      style={{ backgroundColor: color }}
                       onClick={() => setSelectedColor(color)}
                       aria-label={`Select color ${color}`}
                     />
@@ -458,7 +458,7 @@ export default function ProductDetailPage() {
                     }
                   }}
                 >
-                  <Minus size={12} />
+                  <Minus size={14} />
                 </button>
                 <span>{cartItem ? cartItem.quantity : quantity}</span>
                 <button 
@@ -471,12 +471,13 @@ export default function ProductDetailPage() {
                     }
                   }}
                 >
-                  <Plus size={12} />
+                  <Plus size={14} />
                 </button>
               </div>
 
               <Button
                 variant="outline"
+                className="detail-add-to-cart-btn"
                 style={{ flex: 1, minHeight: "48px" }}
                 onClick={handleAddToCart}
                 disabled={activeVariant && (!activeVariant.stock || activeVariant.stock < 1)}
@@ -485,6 +486,7 @@ export default function ProductDetailPage() {
               </Button>
 
               <Button
+                className="detail-order-now-btn"
                 style={{ flex: 1, minHeight: "48px", display: "flex", alignItems: "center", justifyContent: "center" }}
                 onClick={handleBuyNow}
                 disabled={activeVariant && (!activeVariant.stock || activeVariant.stock < 1)}
