@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { m } from "framer-motion";
-import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, Send } from "lucide-react";
+import { Star, Heart, ShoppingCart, Plus, Minus, ArrowLeft, ShieldCheck, Truck, Sparkles, Send, PenLine, MessageSquare } from "lucide-react";
 import { useCart } from "@app/providers/CartContext";
 import { useAuth } from "@app/providers/AuthContext";
 import { products } from "@data/mockData";
@@ -655,75 +655,78 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="reviews-grid">
-          {/* Rating Summary column */}
-          <Panel className="review-summary-panel">
-            <h3 style={{ margin: "0 0 1rem" }}>Product Summary</h3>
-            <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "1.5rem" }}>
-              <strong style={{ fontSize: "3.5rem", fontWeight: "850", color: "var(--sirat-gold-soft)", lineHeight: "1" }}>
-                {averageRating.toFixed(1)}
-              </strong>
-              <div>
-                <div style={{ color: "var(--sirat-star)", display: "flex", gap: "0.2rem", marginBottom: "0.25rem" }}>
+          {/* Rating Summary Panel */}
+          <div className="review-summary-panel">
+            <div className="review-summary__rating-hero">
+              <span className="review-summary__big-num">{averageRating.toFixed(1)}</span>
+              <div className="review-summary__meta">
+                <div className="review-summary__stars">
                   {[...Array(5)].map((_, i) => {
                     const isFull = averageRating >= i + 1;
                     const isHalf = averageRating >= i + 0.5 && averageRating < i + 1;
                     return (
-                      <div key={i} style={{ position: "relative", display: "inline-block", width: "18px", height: "18px" }}>
+                      <div key={i} className="review-star-wrap" style={{ width: "20px", height: "20px" }}>
                         {isFull ? (
-                          <Star size={18} fill="currentColor" />
+                          <Star size={20} fill="currentColor" />
                         ) : isHalf ? (
                           <div style={{ position: "relative" }}>
-                            <Star size={18} fill="none" stroke="currentColor" />
+                            <Star size={20} fill="none" stroke="currentColor" />
                             <div style={{ position: "absolute", inset: 0, width: "50%", overflow: "hidden", color: "currentColor" }}>
-                              <Star size={18} fill="currentColor" stroke="currentColor" />
+                              <Star size={20} fill="currentColor" stroke="currentColor" />
                             </div>
                           </div>
                         ) : (
-                          <Star size={18} fill="none" stroke="currentColor" />
+                          <Star size={20} fill="none" stroke="currentColor" />
                         )}
                       </div>
                     );
                   })}
                 </div>
-                <span style={{ fontSize: "0.85rem", color: "var(--sirat-muted)" }}>Based on {reviews.length} reviews</span>
+                <span className="review-summary__count">{reviews.length} review{reviews.length !== 1 ? "s" : ""}</span>
               </div>
             </div>
 
-            {/* Stars distributions bars */}
-            <div style={{ display: "grid", gap: "0.5rem" }}>
+            <div className="review-summary__bars">
               {[5, 4, 3, 2, 1].map((stars) => {
                 const count = reviews.filter((r) => Math.round(r.rating) === stars).length;
-                const percentage = reviews.length > 0 ? (count / reviews.length) * 100 : 0;
+                const pct = reviews.length > 0 ? (count / reviews.length) * 100 : 0;
                 return (
-                  <div key={stars} style={{ display: "flex", alignItems: "center", gap: "1rem", fontSize: "0.85rem" }}>
-                    <span style={{ width: "50px", textAlign: "right" }}>{stars} Star</span>
-                    <div style={{ flex: 1, height: "8px", background: "var(--sirat-bg)", borderRadius: "4px", overflow: "hidden" }}>
-                      <div style={{ width: `${percentage}%`, height: "100%", background: "var(--sirat-gold)", borderRadius: "4px" }} />
+                  <div key={stars} className="review-bar-row">
+                    <span className="review-bar-label">{stars}</span>
+                    <div className="review-bar-track">
+                      <div className="review-bar-fill" style={{ width: `${pct}%` }} />
                     </div>
-                    <span style={{ width: "35px", color: "var(--sirat-muted)" }}>{Math.round(percentage)}%</span>
+                    <span className="review-bar-pct">{Math.round(pct)}%</span>
                   </div>
                 );
               })}
             </div>
-          </Panel>
 
-          {/* Review submission form column */}
-          <Panel className="review-form-panel">
-            <div className="review-form-panel__header">
-              <h3>Write a Review</h3>
-              <p>Share your honest experience to help other buyers.</p>
+            <div className="review-summary__cta">
+              <MessageSquare size={16} />
+              <span>Verified Reviews Only</span>
             </div>
+          </div>
+
+          {/* Review Form Panel */}
+          <div className="review-form-panel">
+            <div className="review-form-panel__eyebrow">
+              <PenLine size={14} />
+              <span>Leave a Review</span>
+            </div>
+            <h3 className="review-form-panel__title">Share Your Experience</h3>
+            <p className="review-form-panel__subtitle">Your feedback helps others make better decisions.</p>
+
             <form onSubmit={handleSubmitReview} className="review-form">
+              {/* Rating */}
               <div className="review-form__field">
-                <span className="review-form__label">
-                  Your Rating <span className="review-form__required">*</span>
-                </span>
+                <span className="review-form__label">Your Rating <span className="review-form__required">*</span></span>
                 <div className="review-form__rating-row">
                   <StarRatingSelector rating={newReviewRating} onChange={setNewReviewRating} />
-                  <span className="review-form__rating-hint">Click left/right of a star for half-ratings</span>
                 </div>
               </div>
 
+              {/* Name */}
               <div className="review-form__field">
                 <label htmlFor="rev-name" className="review-form__label">
                   Your Name <span className="review-form__required">*</span>
@@ -739,16 +742,17 @@ export default function ProductDetailPage() {
                 />
               </div>
 
+              {/* Comment */}
               <div className="review-form__field">
                 <label htmlFor="rev-comment" className="review-form__label">
-                  Review Comments <span className="review-form__required">*</span>
+                  Review <span className="review-form__required">*</span>
                 </label>
                 <textarea
                   id="rev-comment"
                   required
                   rows={4}
                   className="review-form__textarea"
-                  placeholder="What did you like or dislike? How's the fit, fabric, and print quality?"
+                  placeholder="How's the fit, fabric, and print quality?"
                   value={newReviewComment}
                   onChange={(e) => setNewReviewComment(e.target.value)}
                 />
@@ -756,30 +760,43 @@ export default function ProductDetailPage() {
 
               <div className="review-form__footer">
                 <span className="review-form__note">
-                  Your review will be visible after admin approval.
+                  Visible after admin approval
                 </span>
                 <button type="submit" className="review-form__submit" disabled={isReviewSubmitting}>
-                  <Send size={15} className="review-form__submit-icon" />
-                  {isReviewSubmitting ? "Submitting..." : "Submit Review"}
+                  {isReviewSubmitting ? (
+                    <>
+                      <span className="review-form__spinner" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={15} />
+                      Submit Review
+                    </>
+                  )}
                 </button>
               </div>
             </form>
-          </Panel>
+          </div>
         </div>
 
         {/* Reviews List */}
-        <h3 style={{ margin: "2rem 0 1rem" }}>Customer Reviews ({reviews.length})</h3>
+        <div className="reviews-list-header">
+          <h3>Customer Reviews</h3>
+          <span className="reviews-list-count">{reviews.length}</span>
+        </div>
         <div className="reviews-list">
           {reviews.map((rev) => (
-            <Panel key={rev._id} style={{ padding: "clamp(0.85rem, 3vw, 1.25rem)" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                <div>
-                  <strong style={{ display: "block", fontSize: "0.95rem" }}>{rev.name}</strong>
-                  <span style={{ fontSize: "0.78rem", color: "var(--sirat-muted)" }}>{new Date(rev.createdAt).toLocaleDateString()}</span>
+            <div key={rev._id} className="review-card">
+              <div className="review-card__header">
+                <div className="review-card__avatar">
+                  {rev.name?.charAt(0)?.toUpperCase()}
                 </div>
-                
-                {/* Review Star Icons */}
-                <div style={{ color: "var(--sirat-star)", display: "flex", gap: "0.15rem" }}>
+                <div className="review-card__author">
+                  <strong>{rev.name}</strong>
+                  <span>{new Date(rev.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                </div>
+                <div className="review-card__stars">
                   {[...Array(5)].map((_, i) => {
                     const isFull = rev.rating >= i + 1;
                     const isHalf = rev.rating >= i + 0.5 && rev.rating < i + 1;
@@ -802,10 +819,8 @@ export default function ProductDetailPage() {
                   })}
                 </div>
               </div>
-              <p style={{ margin: "0", fontSize: "0.9rem", color: "var(--sirat-muted)", lineHeight: "1.5" }}>
-                {rev.comment}
-              </p>
-            </Panel>
+              <p className="review-card__body">{rev.comment}</p>
+            </div>
           ))}
         </div>
       </section>
