@@ -145,12 +145,8 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
             <div className="hide-on-mobile">
               {isLoggedIn ? (
                 <div className="navbar-profile-dropdown-container">
-                  <Link to="/account" className="navbar-profile-trigger-btn" aria-label="User Profile Menu" style={{ padding: 0, overflow: "hidden", display: "flex" }}>
-                    {user?.avatar ? (
-                        <img src={user.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    ) : (
-                        user?.name?.charAt(0) || "U"
-                    )}
+                  <Link to="/account" className="navbar-profile-trigger-btn" aria-label="User Profile Menu">
+                    <NavAvatar src={user?.avatar} name={user?.name} />
                   </Link>
                   <div className="navbar-profile-dropdown-menu">
                     <div className="dropdown-user-info">
@@ -201,11 +197,7 @@ export default function Navbar({ navItems, brandNote, onCartToggle }) {
               <div className="mobile-nav-user-section" style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid var(--sirat-border)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
                   <div className="navbar-profile-trigger-btn" style={{ padding: 0, overflow: "hidden" }}>
-                    {user?.avatar ? (
-                        <img src={user.avatar} alt="avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    ) : (
-                        user?.name?.charAt(0) || "U"
-                    )}
+                    <NavAvatar src={user?.avatar} name={user?.name} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <strong style={{ fontSize: "0.9rem" }}>{user?.name}</strong>
