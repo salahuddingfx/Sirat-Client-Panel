@@ -6725,46 +6725,6 @@ section:not(.page-section) {
   pointer-events: none;
 }
 
-/* Decorative Corners */
-.loader-corner {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  opacity: 0;
-}
-
-.loader-corner--tl {
-  top: clamp(1.2rem, 3vw, 2rem);
-  left: clamp(1.2rem, 3vw, 2rem);
-  border-top: 2px solid var(--sirat-gold);
-  border-left: 2px solid var(--sirat-gold);
-  filter: drop-shadow(0 0 4px rgba(197, 160, 89, 0.3));
-}
-
-.loader-corner--tr {
-  top: clamp(1.2rem, 3vw, 2rem);
-  right: clamp(1.2rem, 3vw, 2rem);
-  border-top: 2px solid var(--sirat-gold);
-  border-right: 2px solid var(--sirat-gold);
-  filter: drop-shadow(0 0 4px rgba(197, 160, 89, 0.3));
-}
-
-.loader-corner--bl {
-  bottom: clamp(1.2rem, 3vw, 2rem);
-  left: clamp(1.2rem, 3vw, 2rem);
-  border-bottom: 2px solid var(--sirat-gold);
-  border-left: 2px solid var(--sirat-gold);
-  filter: drop-shadow(0 0 4px rgba(197, 160, 89, 0.3));
-}
-
-.loader-corner--br {
-  bottom: clamp(1.2rem, 3vw, 2rem);
-  right: clamp(1.2rem, 3vw, 2rem);
-  border-bottom: 2px solid var(--sirat-gold);
-  border-right: 2px solid var(--sirat-gold);
-  filter: drop-shadow(0 0 4px rgba(197, 160, 89, 0.3));
-}
-
 /* Close Button */
 .loader-close-btn {
   position: absolute;

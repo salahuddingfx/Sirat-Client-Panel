@@ -9,10 +9,6 @@ export default function IntroLoader({ onComplete }) {
   const closeBtnRef = useRef(null);
   const lineRef = useRef(null);
   const taglineRef = useRef(null);
-  const cornerTL = useRef(null);
-  const cornerTR = useRef(null);
-  const cornerBL = useRef(null);
-  const cornerBR = useRef(null);
   const progressBar = useRef(null);
 
   const handleDismiss = () => {
@@ -24,7 +20,6 @@ export default function IntroLoader({ onComplete }) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
-    // Split title into characters
     const titleEl = titleRef.current;
     if (titleEl) {
       const text = titleEl.innerText;
@@ -38,17 +33,10 @@ export default function IntroLoader({ onComplete }) {
       onComplete: () => setTimeout(handleDismiss, 600)
     });
 
-    // Corners slide in
-    tl.fromTo([cornerTL.current, cornerTR.current, cornerBL.current, cornerBR.current],
-      { opacity: 0, scale: 0.5 },
-      { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.4)", stagger: 0.08 }
-    );
-
     // Line expand
     tl.fromTo(lineRef.current,
       { scaleX: 0 },
-      { scaleX: 1, duration: 0.8, ease: "power3.out" },
-      "-=0.2"
+      { scaleX: 1, duration: 0.8, ease: "power3.out" }
     );
 
     // Character entrance
@@ -91,12 +79,6 @@ export default function IntroLoader({ onComplete }) {
 
   return (
     <div className="sirat-intro-loader" ref={containerRef}>
-      {/* Decorative Corners */}
-      <div className="loader-corner loader-corner--tl" ref={cornerTL} />
-      <div className="loader-corner loader-corner--tr" ref={cornerTR} />
-      <div className="loader-corner loader-corner--bl" ref={cornerBL} />
-      <div className="loader-corner loader-corner--br" ref={cornerBR} />
-
       <button
         type="button"
         className="loader-close-btn"
