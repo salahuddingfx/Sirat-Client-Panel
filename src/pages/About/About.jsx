@@ -162,9 +162,11 @@ export default function AboutPage() {
         {/* 3. Team Profiles */}
         <section className="about-team-section" style={{ marginTop: "4rem" }}>
           <div className="section-header" style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <p className="section-header__eyebrow">The Collective</p>
-            <h2>Meet the Team</h2>
-            <p style={{ margin: "0.5rem auto 0" }}>The creators, textile engineers, and print specialists behind Sirat's custom drops.</p>
+            <p className="section-header__eyebrow">The People</p>
+            <h2>Behind Sirat</h2>
+            <p style={{ margin: "0.5rem auto 0", maxWidth: "480px" }}>
+              A small, intentional team obsessed with fabric, print, and the details most brands skip.
+            </p>
           </div>
 
           <div className="team-grid">
