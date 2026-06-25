@@ -242,6 +242,36 @@ export default function DeveloperPage() {
           </Panel>
         </section>
 
+        {/* Nextora Studio Section */}
+        <section className="developer-studio-section">
+          <div className="developer-studio-card">
+            <div className="developer-studio-card__eyebrow">
+              <Sparkles size={14} />
+              <span>The Agency</span>
+            </div>
+            <h3 className="developer-studio-card__title">Nextora Studio</h3>
+            <p className="developer-studio-card__desc">
+              A digital studio crafting premium web experiences, brand identities, and e-commerce platforms. Built with precision, delivered with care.
+            </p>
+            <div className="developer-studio-card__links">
+              <a href="https://nextorastudio.tech" target="_blank" rel="noopener noreferrer" className="developer-studio-btn">
+                <Globe size={15} /> Visit Website
+              </a>
+              <div className="developer-studio-socials">
+                <a href="https://facebook.com/nextorastudio.bd" target="_blank" rel="noopener noreferrer" aria-label="Nextora Studio on Facebook" title="Facebook">
+                  <Facebook size={16} />
+                </a>
+                <a href="https://instagram.com/nextorastudio.bd" target="_blank" rel="noopener noreferrer" aria-label="Nextora Studio on Instagram" title="Instagram">
+                  <Instagram size={16} />
+                </a>
+                <a href="https://x.com/nextorastudio.bd" target="_blank" rel="noopener noreferrer" aria-label="Nextora Studio on X" title="X / Twitter">
+                  <Twitter size={16} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {loading && (
           <p style={{ textAlign: "center", marginTop: "1.5rem", color: "var(--sirat-muted)" }}>
             Loading developer info…
