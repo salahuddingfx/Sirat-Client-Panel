@@ -116,7 +116,9 @@ export default function AboutPage() {
           <div className="section-header" style={{ textAlign: "center", marginBottom: "3rem" }}>
             <p className="section-header__eyebrow">Our Path</p>
             <h2>Journey Timeline</h2>
-            <p style={{ margin: "0.5rem auto 0" }}>How we scaled from a small printing table in Cox's Bazar to an active custom streetwear label.</p>
+            <p style={{ margin: "0.5rem auto 0", maxWidth: "480px" }}>
+              From a single printing table in Cox's Bazar to a fully operational custom streetwear label.
+            </p>
           </div>
 
           <div className="timeline-container" ref={containerRef}>
