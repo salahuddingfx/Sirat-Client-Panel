@@ -85,7 +85,7 @@ export default function AboutPage() {
               </div>
               <h3 className="page-section__title" style={{ fontSize: "1.35rem", marginBottom: "0.5rem" }}>Purity of Craft</h3>
               <p className="page-section__text" style={{ fontSize: "0.95rem" }}>
-                To engineer street garments of absolute fabric quality. We reject cheap fast-fashion shortcuts, offering heavily weighted, long-lasting custom items instead.
+                Build garments worth keeping. Heavyweight combed cotton, durable puff inks, and zero fast-fashion shortcuts.
               </p>
             </Panel>
 
@@ -95,7 +95,7 @@ export default function AboutPage() {
               </div>
               <h3 className="page-section__title" style={{ fontSize: "1.35rem", marginBottom: "0.5rem" }}>Authentic Standard</h3>
               <p className="page-section__text" style={{ fontSize: "0.95rem" }}>
-                To set the benchmark for luxury custom streetwear in Bangladesh, demonstrating that fabric weight transparency and custom graphics are key.
+                Prove that transparency — fabric weight, print method, sourcing — is what separates real quality from marketing.
               </p>
             </Panel>
 
@@ -105,7 +105,7 @@ export default function AboutPage() {
               </div>
               <h3 className="page-section__title" style={{ fontSize: "1.35rem", marginBottom: "0.5rem" }}>Committed to Honesty</h3>
               <p className="page-section__text" style={{ fontSize: "0.95rem" }}>
-                100% combed cotton, durable puff inks, and next-day shipping. We focus entirely on delivery speed and product feel before checkout.
+                What you see is what you get. Real fabric specs, real print quality, next-day delivery across Bangladesh.
               </p>
             </Panel>
           </div>
